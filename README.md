@@ -3,8 +3,10 @@ This is a two player game. There are two paddles and a puck. The left-paddle (Pl
 
 #Installing Pygame
 ```
-sudo apt-get install python-pygame
+pip install pygame
 ```
+
+For more info, visit [Pygame download page](http://www.pygame.org/download.shtml)
 
 #Run
 ```
