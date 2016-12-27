@@ -17,6 +17,6 @@ For more info, visit [Pygame download page](http://www.pygame.org/download.shtml
 
 #Run
 ```
-python3 Air_hockey.py
+python Air_hockey.py
 ```
 
