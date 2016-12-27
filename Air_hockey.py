@@ -9,7 +9,7 @@ screen= pygame.display.set_mode((800,600))
 paddle1= pygame.Rect(20,0,10,80)
 paddle2= pygame.Rect(screen.get_width()-20,0,10,80)
 paddleVelocity= 10
-puck= pygame.Rect(screen.get_width()/2,screen.get_height()/2,15,15)
+puck= pygame.Rect(screen.get_width()/2,screen.get_height()/2,20,20)
 divider= pygame.Rect(screen.get_width()/2,0,3,screen.get_height())
 puckVelocity= [8,4]
 
@@ -98,7 +98,7 @@ while True:
 
     pygame.draw.rect(screen, (255,0, 0), paddle1)
     pygame.draw.rect(screen, (255,255,0), paddle2)        
-    pygame.draw.rect(screen, (200,200,200), puck)
+    pygame.draw.circle(screen, (255,255,255), (puck.x, puck.y), (puck.width/2))
     pygame.draw.rect(screen, (255,255,255), divider)
 
     pygame.display.flip()
