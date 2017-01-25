@@ -5,7 +5,7 @@ This is a two player game. There are two paddles and a puck. The left-paddle (Pl
 
 #Prerequisite
 
-Python2 is needed as default for this,to check which version you have:
+Python2 is needed as default for this,to check which version you have:   
 ```
 python --version
 ```
