@@ -33,13 +33,13 @@ For more info, visit [Pygame download page](http://www.pygame.org/download.shtml
 
 2. Create the branch on your local machine and switch in this branch :
 ```
-git checkout -b [name_of_your_new_branch]
+git branch [name_of_your_new_branch]
 ```
 ```
 git checkout [name_of_your_branch]
 ```
 3. open the directory and run the file :
 ```
-python Air_hockey.py
+python2 Air_hockey.py
 ```
 
