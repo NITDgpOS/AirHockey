@@ -98,7 +98,7 @@ while True:
 
     pygame.draw.rect(screen, (255,0, 0), paddle1)
     pygame.draw.rect(screen, (255,255,0), paddle2)        
-    pygame.draw.circle(screen, (255,255,255), (puck.x, puck.y), (puck.width/2))
+    pygame.draw.circle(screen, (255,255,255), (puck.x, puck.y), int(puck.width/2))
     pygame.draw.rect(screen, (255,255,255), divider)
 
     pygame.display.flip()
