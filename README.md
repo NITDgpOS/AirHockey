@@ -37,6 +37,6 @@ git checkout [name_of_your_branch]
 ```
 3. open the directory and run the file :
 ```
-python2 Air_hockey.py
+python2 main.py
 ```
 
