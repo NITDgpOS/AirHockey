@@ -1,28 +1,25 @@
 import pygame, sys
 from pygame.locals import *
+from gameObjects import *
 
 pygame.init()
 clock= pygame.time.Clock()
 screen= pygame.display.set_mode((800,600))
 
 #Create Game Objects
-paddle1= pygame.Rect(20,0,10,80)
-paddle2= pygame.Rect(screen.get_width()-20,0,10,80)
+
 paddleVelocity= 10
-puck= pygame.Rect(screen.get_width()/2,screen.get_height()/2,20,20)
-divider= pygame.Rect(screen.get_width()/2,0,3,screen.get_height())
+paddle1= Paddle(10, screen.get_height()/2 -40 , 10, 80, paddleVelocity)
+paddle2= Paddle(screen.get_width()-20, screen.get_height()/2 -40, 10, 80, paddleVelocity)
+
 puckVelocity= [8,4]
+puck= Puck(screen.get_width()/2, screen.get_height()/2, 20, 20, puckVelocity)
+
+divider= pygame.Rect(screen.get_width()/2,0,3,screen.get_height())
+
 
 #Score
 score1,score2=0,0
-serveDirection=1
-
-def resetPuck():
-    puckVelocity[0]=10*serveDirection
-    puckVelocity[1]=4*serveDirection
-    print(score1,score2)
-    puck.x= screen.get_width()/2
-    puck.y= screen.get_height()/2
 
 
 #Game Loop
@@ -77,27 +74,27 @@ while True:
         paddle2.x= screen.get_width()/2
 
     #Update Puck
-    puck.x+=puckVelocity[0]
-    puck.y+=puckVelocity[1]
+    puck.x+=puck.velocity[0]
+    puck.y+=puck.velocity[1]
     if puck.x<0:
         score2+=1
-        serveDirection=-1
-        resetPuck()
+        puck.serveDirection=-1
+        puck.reset()
     elif puck.x>screen.get_width()-puck.width:
         score1+=1
-        serveDirection=1
-        resetPuck()
+        puck.serveDirection=1
+        puck.reset()
     if puck.y<0 or puck.y>screen.get_height()-puck.height:
-        puckVelocity[1]*=-1
-    if puck.colliderect(paddle1) or puck.colliderect(paddle2):
-        puckVelocity[0]*=-1
+        puck.velocity[1]*=-1
+    if puck.getPuck().colliderect(paddle1.getPaddle()) or puck.getPuck().colliderect(paddle2.getPaddle()):
+        puck.velocity[0]*=-1
 
 
     #Render Logic
     screen.fill((0,40,40))
 
-    pygame.draw.rect(screen, (255,0, 0), paddle1)
-    pygame.draw.rect(screen, (255,255,0), paddle2)        
+    pygame.draw.rect(screen, (255,0, 0), paddle1.getPaddle())
+    pygame.draw.rect(screen, (255,255,0), paddle2.getPaddle())        
     pygame.draw.circle(screen, (255,255,255), (puck.x, puck.y), int(puck.width/2))
     pygame.draw.rect(screen, (255,255,255), divider)
 
