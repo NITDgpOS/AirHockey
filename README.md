@@ -3,15 +3,15 @@
 ## About Air Hockey
 This is a two player game. There are two paddles and a puck. The left-paddle (Player 1) can be moved using WASD keys and the right-paddle (Player 2) can be moved by the arrow keys. The puck hits the upper and lower boundaries and gets reflected and if it goes past the paddle, it is point for the other one.
 
-![Screenshot](https://lh3.googleusercontent.com/cj5NepC-x5K9Njl0GplspYW_Edb08J6hzZHRhaqr3TvvGasFuKUYeNREtbkDHl_0_yclAruAQRwl0ck=w1321-h676)
-
+## Screenshots
+![Gmaeplay](/img/Shot1.png)
 ## Prerequisite
 
 Python2 is the default language needed for playing this game,to check which version of Python you have, type the following in terminal: 
 ```
 python --version
 ```
-#Installing Pygame
+## Installing Pygame
 
 ```
 sudo apt-get install python-pip
