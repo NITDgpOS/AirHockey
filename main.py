@@ -93,26 +93,20 @@ while True:
     #Render Logic
     screen.fill((0,40,40))
 
+    pygame.draw.circle(screen,(255,255,255), (screen.get_width()/2,screen.get_height()/2) ,70 ,5)        # center circle
+    pygame.draw.rect(screen,(255,255,255), (0,0,screen.get_width(),screen.get_height()) ,5)        # borders
+    pygame.draw.rect(screen,(255,255,255), (0,screen.get_height()/2-150,150,300) ,5)        # D-box
+    pygame.draw.rect(screen,(255,255,255), (screen.get_width()-150,screen.get_height()/2-150,150,300) ,5)        # D-box
+
+
+    pygame.draw.rect(screen,(0,0,0), (0,screen.get_height()/2-90,5,180) )        # goals
+    pygame.draw.rect(screen,(0,0,0), (screen.get_width()-5,screen.get_height()/2-90,5,180) )        # goals
+
+
     pygame.draw.rect(screen, (255,0, 0), paddle1.getPaddle())
-    pygame.draw.rect(screen, (255,255,0), paddle2.getPaddle())        
+    pygame.draw.rect(screen, (255,255,0), paddle2.getPaddle())
     pygame.draw.circle(screen, (255,255,255), (puck.x, puck.y), int(puck.width/2))
     pygame.draw.rect(screen, (255,255,255), divider)
 
     pygame.display.flip()
     clock.tick(60)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
