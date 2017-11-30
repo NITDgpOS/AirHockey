@@ -1,4 +1,5 @@
-import pygame, sys
+import pygame
+import sys
 from pygame.locals import *
 from gameObjects import *
 
@@ -7,7 +8,6 @@ clock = pygame.time.Clock()
 screen = pygame.display.set_mode((800, 600))
 
 # Create Game Objects
-
 paddleVelocity = 10
 paddle1 = Paddle(10, screen.get_height() / 2 - 40, 10, 80, paddleVelocity)
 paddle2 = Paddle(screen.get_width() - 20, screen.get_height() / 2 - 40, 10, 80, paddleVelocity)
@@ -27,49 +27,31 @@ while True:
             sys.exit()
 
     w, s, up, down, d, a, right, left = 0, 0, 0, 0, 0, 0, 0, 0
-    # Process Player Input
-    if pygame.key.get_pressed()[pygame.K_w] != 0:
-        w = 1
-    if pygame.key.get_pressed()[pygame.K_s] != 0:
-        s = 1
-    if pygame.key.get_pressed()[pygame.K_UP] != 0:
-        up = 1
-    if pygame.key.get_pressed()[pygame.K_DOWN] != 0:
-        down = 1
-    if pygame.key.get_pressed()[pygame.K_d] != 0:
-        d = 1
-    if pygame.key.get_pressed()[pygame.K_a] != 0:
-        a = 1
-    if pygame.key.get_pressed()[pygame.K_RIGHT] != 0:
-        right = 1
-    if pygame.key.get_pressed()[pygame.K_LEFT] != 0:
-        left = 1
+    # Process Player 1 Input
+    w = pygame.key.get_pressed()[pygame.K_w]
+    s = pygame.key.get_pressed()[pygame.K_s]
+    d = pygame.key.get_pressed()[pygame.K_d]
+    a = pygame.key.get_pressed()[pygame.K_a]
+
+    # Process Player 2 Input
+    up = pygame.key.get_pressed()[pygame.K_UP]
+    down = pygame.key.get_pressed()[pygame.K_DOWN]
+    right = pygame.key.get_pressed()[pygame.K_RIGHT]
+    left = pygame.key.get_pressed()[pygame.K_LEFT]
 
     # Update Logic
 
     # Update Paddle1
     paddle1.y += (s - w) * paddleVelocity
     paddle1.x += (d - a) * paddleVelocity
-    if paddle1.y < 0:
-        paddle1.y = 0
-    elif paddle1.y > screen.get_height() - paddle1.height:
-        paddle1.y = screen.get_height() - paddle1.height
-    if paddle1.x < 0:
-        paddle1.x = 0
-    elif paddle1.x > screen.get_width() / 2 - paddle1.width:
-        paddle1.x = screen.get_width() / 2 - paddle1.width
+    paddle1.checkTopBottomBounds(screen.get_height())
+    paddle1.checkLeftBoundary(screen.get_width())
 
     # Update Paddle2
     paddle2.y += (down - up) * paddleVelocity
     paddle2.x += (right - left) * paddleVelocity
-    if paddle2.y < 0:
-        paddle2.y = 0
-    elif paddle2.y > screen.get_height() - paddle2.height:
-        paddle2.y = screen.get_height() - paddle2.height
-    if paddle2.x > screen.get_width() - paddle1.width:
-        paddle2.x = screen.get_width() - paddle1.width
-    elif paddle2.x < screen.get_width() / 2:
-        paddle2.x = screen.get_width() / 2
+    paddle2.checkTopBottomBounds(screen.get_height())
+    paddle2.checkRightBoundary(screen.get_width())
 
     # Update Puck
     puck.x += puck.velocity[0]
@@ -78,13 +60,19 @@ while True:
         score2 += 1
         puck.serveDirection = -1
         puck.reset()
-    elif puck.x > screen.get_width() - puck.width:
+    elif puck.x > screen.get_width():
         score1 += 1
         puck.serveDirection = 1
         puck.reset()
     if puck.y < 0 or puck.y > screen.get_height() - puck.height:
         puck.velocity[1] *= -1
-    if puck.getPuck().colliderect(paddle1.getPaddle()) or puck.getPuck().colliderect(paddle2.getPaddle()):
+    if puck.getPuck().colliderect(paddle1.getPaddle()):
+        # offset to prevent repeated collision.
+        puck.x = paddle1.x + paddle1.width + int(puck.width / 2)
+        puck.velocity[0] *= -1
+    if puck.getPuck().colliderect(paddle2.getPaddle()):
+        # offset to prevent repeated collision.
+        puck.x = paddle2.x - int(puck.width / 2) - 1
         puck.velocity[0] *= -1
 
     # Render Logic

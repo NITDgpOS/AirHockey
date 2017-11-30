@@ -1,5 +1,6 @@
 import pygame
 
+
 class Paddle():
     def __init__(self, x, y, width, height, velocity):
         self.x = x
@@ -10,6 +11,24 @@ class Paddle():
 
     def getPaddle(self):
         return pygame.Rect(self.x, self.y, self.width, self.height)
+
+    def checkTopBottomBounds(self, height):
+        if self.y < 0:
+            self.y = 0
+        elif self.y > height - self.height:
+            self.y = height - self.height
+
+    def checkLeftBoundary(self, width):
+        if self.x < 0:
+            self.x = 0
+        elif self.x > width / 2 - self.width:
+            self.x = width / 2 - self.width
+
+    def checkRightBoundary(self, width):
+        if self.x > width - self.width:
+            self.x = width - self.width
+        elif self.x < width / 2:
+            self.x = width / 2
 
 
 class Puck():
@@ -24,7 +43,7 @@ class Puck():
         self.serveDirection = 1
 
     def getPuck(self):
-        return pygame.Rect(self.x, self.y, self.width, self.height)
+        return pygame.Rect(self.x - int(self.width) / 2, self.y - int(self.height / 2), self.width, self.height)
 
     def reset(self):
         self.velocity[0] = 10 * self.serveDirection
