@@ -11,6 +11,7 @@ gamelogo = pygame.image.load('img/logo.png')
 pygame.display.set_icon(gamelogo)
 
 
+
 # Create Game Objects
 
 paddleVelocity = 10
