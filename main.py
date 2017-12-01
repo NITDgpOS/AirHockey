@@ -1,3 +1,6 @@
+#Adding line to make the program executable
+#! /usr/bin/env python
+
 import pygame
 import sys
 from pygame.locals import *
