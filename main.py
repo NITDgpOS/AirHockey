@@ -138,8 +138,8 @@ while True:
     #Render Logic
     screen.fill((0,40,40))
 
-    pygame.draw.rect(screen, (255,67, 222), paddle1.getPaddle())
-    pygame.draw.rect(screen, (255,255,125), paddle2.getPaddle())        
+    pygame.draw.rect(screen, (255,0, 0), paddle1.getPaddle())
+    pygame.draw.rect(screen, (255,255,0), paddle2.getPaddle())        
     pygame.draw.circle(screen, (255,255,255), (int(puck.x), int(puck.y)), int(puck.width/2))
     pygame.draw.rect(screen, (255,255,255), divider)
     if powerup1.active==True:
