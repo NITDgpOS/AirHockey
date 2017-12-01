@@ -78,7 +78,7 @@ while True:
         puck.velocity[0] *= -1
 
    #Render Logic
-    screen.fill((0,40,40))
+    screen.fill(screenColor)
 
     pygame.draw.circle(screen,(255,255,255), (screen.get_width()/2,screen.get_height()/2) ,70 ,5)        # center circle
     pygame.draw.rect(screen,(255,255,255), (0,0,screen.get_width(),screen.get_height()) ,5)        # borders
