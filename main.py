@@ -16,6 +16,7 @@ puckVelocity = [8, 4]
 puck = Puck(screen.get_width() / 2, screen.get_height() / 2, 20, 20, puckVelocity)
 
 divider = pygame.Rect(screen.get_width() / 2, 0, 3, screen.get_height())
+screenColor=(224,214,141)
 
 # Score
 score1, score2 = 0, 0
@@ -25,6 +26,7 @@ while True:
     for event in pygame.event.get():
         if event.type == QUIT:
             sys.exit()
+
 
     w, s, up, down, d, a, right, left = 0, 0, 0, 0, 0, 0, 0, 0
     # Process Player Input
@@ -88,11 +90,11 @@ while True:
         puck.velocity[0] *= -1
 
     # Render Logic
-    screen.fill((0, 40, 40))
+    screen.fill(screenColor)
 
-    pygame.draw.rect(screen, (255, 0, 0), paddle1.getPaddle())
-    pygame.draw.rect(screen, (255, 255, 0), paddle2.getPaddle())
-    pygame.draw.circle(screen, (255, 255, 255), (puck.x, puck.y), int(puck.width / 2))
+    pygame.draw.rect(screen, (135,33,33), paddle1.getPaddle())
+    pygame.draw.rect(screen, (20, 20, 255), paddle2.getPaddle())
+    pygame.draw.circle(screen, (224,20,20), (puck.x, puck.y), int(puck.width / 2))
     pygame.draw.rect(screen, (255, 255, 255), divider)
 
     pygame.display.flip()
