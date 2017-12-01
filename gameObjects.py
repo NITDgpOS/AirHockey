@@ -13,22 +13,22 @@ class Paddle():
         return pygame.Rect(self.x, self.y, self.width, self.height)
 
     def checkTopBottomBounds(self, height):
-        if self.y < 0:
-            self.y = 0
+        if self.y < 22:
+            self.y = 22
         elif self.y > height - self.height:
             self.y = height - self.height
 
     def checkLeftBoundary(self, width):
-        if self.x < 0:
-            self.x = 0
+        if self.x < 22:
+            self.x = 22
         elif self.x > width / 2 - self.width:
             self.x = width / 2 - self.width
 
     def checkRightBoundary(self, width):
         if self.x > width - self.width:
             self.x = width - self.width
-        elif self.x < width / 2:
-            self.x = width / 2
+        elif self.x < width / 2+22:
+            self.x = width / 2+22
 
 
 class Puck():

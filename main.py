@@ -16,11 +16,11 @@ pygame.display.set_caption('Air Hockey')
 
 # Create Game Objects
 paddleVelocity = 10
-paddle1 = Paddle(10, screen.get_height() / 2 - 40, 10, 80, paddleVelocity)
-paddle2 = Paddle(screen.get_width() - 20, screen.get_height() / 2 - 40, 10, 80, paddleVelocity)
+paddle1 = Paddle(22, screen.get_height() / 2 , 24, 24, paddleVelocity)
+paddle2 = Paddle(screen.get_width() - 20, screen.get_height() / 2 , 24, 24, paddleVelocity)
 
 puckVelocity = [8, 4]
-puck = Puck(screen.get_width() / 2, screen.get_height() / 2, 20, 20, puckVelocity)
+puck = Puck(screen.get_width() / 2, screen.get_height() / 2, 17, 17, puckVelocity)
 
 divider = pygame.Rect(screen.get_width() / 2, 0, 3, screen.get_height())
 screenColor=(224,214,141)
@@ -87,19 +87,38 @@ while True:
    #Render Logic
     screen.fill(screenColor)
 
-    pygame.draw.circle(screen,(255,255,255), (screen.get_width()/2,screen.get_height()/2) ,70 ,5)        # center circle
-    pygame.draw.rect(screen,(255,255,255), (0,0,screen.get_width(),screen.get_height()) ,5)        # borders
-    pygame.draw.rect(screen,(255,255,255), (0,screen.get_height()/2-150,150,300) ,5)        # D-box
-    pygame.draw.rect(screen,(255,255,255), (screen.get_width()-150,screen.get_height()/2-150,150,300) ,5)        # D-box
+    # center circle
+    pygame.draw.circle(screen,(255,255,255), (screen.get_width()/2,screen.get_height()/2) ,70 ,5)        
+    
+    # borders
+    pygame.draw.rect(screen,(255,255,255), (0,0,screen.get_width(),screen.get_height()) ,5)       
+    
+    # D-box
+    pygame.draw.rect(screen,(255,255,255), (0,screen.get_height()/2-150,150,300) ,5)        
+    pygame.draw.rect(screen,(255,255,255), (screen.get_width()-150,screen.get_height()/2-150,150,300) ,5)        
 
 
     pygame.draw.rect(screen,(0,0,0), (0,screen.get_height()/2-90,5,180) )        # goals
     pygame.draw.rect(screen,(0,0,0), (screen.get_width()-5,screen.get_height()/2-90,5,180) )        # goals
 
 
-    pygame.draw.rect(screen, (255,0, 0), paddle1.getPaddle())
-    pygame.draw.rect(screen, (255,255,0), paddle2.getPaddle())
-    pygame.draw.circle(screen, (255,255,255), (puck.x, puck.y), int(puck.width/2))
+
+    #drawing the paddle with concentric circle
+    
+    #left paddle
+    pygame.draw.circle(screen, (255,0,0), (paddle1.x, paddle1.y) , paddle1.width, 0)
+    pygame.draw.circle(screen, (0,0,0), (paddle1.x, paddle1.y) , paddle1.width, 2)
+    pygame.draw.circle(screen, (0,0,0), (paddle1.x, paddle1.y) , paddle1.width-5, 2)
+    pygame.draw.circle(screen, (0,0,0), (paddle1.x, paddle1.y) , paddle1.width-10, 2)
+
+    #right paddle
+    pygame.draw.circle(screen, (255,255,0), (paddle2.x, paddle2.y) , paddle2.width,0)
+    pygame.draw.circle(screen, (0,0,0), (paddle2.x, paddle2.y) , paddle2.width, 2)
+    pygame.draw.circle(screen, (0,0,0), (paddle2.x, paddle2.y) , paddle2.width-5, 2)
+    pygame.draw.circle(screen, (0,0,0), (paddle2.x, paddle2.y) , paddle2.width-10, 2)
+
+    #drawing the puck
+    pygame.draw.circle(screen, (255,255,255), (puck.x, puck.y), puck.width)
     pygame.draw.rect(screen, (255,255,255), divider)
 
     pygame.display.flip()
