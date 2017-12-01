@@ -8,7 +8,7 @@ screen = pygame.display.set_mode((800, 600))
 
 #Adding the code for logo display -thealphadollar
 gamelogo = pygame.image.load('img/logo.png')
-pygame.display.set_icon(logo)
+pygame.display.set_icon(gamelogo)
 
 
 # Create Game Objects
