@@ -11,6 +11,9 @@ screen = pygame.display.set_mode((800, 600))
 gamelogo = pygame.image.load('img/logo.png')
 pygame.display.set_icon(gamelogo)
 
+#Window title and Caption
+pygame.display.set_caption('Air Hockey')
+
 # Create Game Objects
 paddleVelocity = 10
 paddle1 = Paddle(10, screen.get_height() / 2 - 40, 10, 80, paddleVelocity)
