@@ -16,11 +16,13 @@ pygame.display.set_caption('Air Hockey')
 
 # Create Game Objects
 paddleVelocity = 10
-paddle1 = Paddle(22, screen.get_height() / 2 , 24, 24, paddleVelocity)
-paddle2 = Paddle(screen.get_width() - 20, screen.get_height() / 2 , 24, 24, paddleVelocity)
+paddleSize = 26
+puckSize = 20
+paddle1 = Paddle(22, screen.get_height() / 2 , paddleSize, paddleSize, paddleVelocity)
+paddle2 = Paddle(screen.get_width() - 20, screen.get_height() / 2 , paddleSize, paddleSize, paddleVelocity)
 
 puckVelocity = [8, 4]
-puck = Puck(screen.get_width() / 2, screen.get_height() / 2, 17, 17, puckVelocity)
+puck = Puck(screen.get_width() / 2, screen.get_height() / 2, puckSize, puckSize, puckVelocity)
 
 divider = pygame.Rect(screen.get_width() / 2, 0, 3, screen.get_height())
 screenColor=(224,214,141)
@@ -97,9 +99,9 @@ while True:
     pygame.draw.rect(screen,(255,255,255), (0,screen.get_height()/2-150,150,300) ,5)        
     pygame.draw.rect(screen,(255,255,255), (screen.get_width()-150,screen.get_height()/2-150,150,300) ,5)        
 
-
-    pygame.draw.rect(screen,(0,0,0), (0,screen.get_height()/2-90,5,180) )        # goals
-    pygame.draw.rect(screen,(0,0,0), (screen.get_width()-5,screen.get_height()/2-90,5,180) )        # goals
+    # goals
+    pygame.draw.rect(screen,(0,0,0), (0,screen.get_height()/2-90,5,180) )       
+    pygame.draw.rect(screen,(0,0,0), (screen.get_width()-5,screen.get_height()/2-90,5,180) )       
 
 
 
