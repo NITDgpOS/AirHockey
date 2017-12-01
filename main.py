@@ -6,6 +6,11 @@ pygame.init()
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((800, 600))
 
+#Adding the code for logo display -thealphadollar
+gamelogo = pygame.image.load('images/logo.png')
+pygame.display.set_icon(logo)
+
+
 # Create Game Objects
 
 paddleVelocity = 10
