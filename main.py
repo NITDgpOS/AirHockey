@@ -1,3 +1,6 @@
+#Adding line to make the program executable
+#! /usr/bin/env python
+
 import pygame
 import sys
 from pygame.locals import *
@@ -10,6 +13,9 @@ screen = pygame.display.set_mode((800, 600))
 #setting logo
 gamelogo = pygame.image.load('img/logo.png')
 pygame.display.set_icon(gamelogo)
+
+#Window title and Caption
+pygame.display.set_caption('Air Hockey')
 
 # Create Game Objects
 paddleVelocity = 10
