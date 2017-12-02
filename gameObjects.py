@@ -32,10 +32,10 @@ class Paddle():
     def draw(self, screen, color):
         position = (self.x, self.y)
 
-        pygame.draw.circle(screen, color, position, self.radius, 0)
-        pygame.draw.circle(screen, (0, 0, 0), position, self.radius, 2)
-        pygame.draw.circle(screen, (0, 0, 0), position, self.radius - 5, 2)
-        pygame.draw.circle(screen, (0, 0, 0), position, self.radius - 10, 2)
+        pygame.draw.circle(screen, color, (int(self.x), int(self.y)), int(self.radius), 0)
+        pygame.draw.circle(screen, (0, 0, 0), (int(self.x), int(self.y)), self.radius, 2)
+        pygame.draw.circle(screen, (0, 0, 0), (int(self.x), int(self.y)), self.radius - 5, 2)
+        pygame.draw.circle(screen, (0, 0, 0), (int(self.x), int(self.y)), self.radius - 10, 2)
 
 
 class Puck():
@@ -74,4 +74,4 @@ class Puck():
         self.y = self.init_y
 
     def draw(self, screen):
-        pygame.draw.circle(screen, (255, 255, 255), (self.x, self.y), self.radius)
+        pygame.draw.circle(screen, (255, 255, 255), (int(self.x), int(self.y)), self.radius)

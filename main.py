@@ -26,7 +26,7 @@ puckSize = 20
 paddle1 = Paddle(22, height / 2, paddleSize, paddleVelocity)
 paddle2 = Paddle(width - 20, height / 2, paddleSize, paddleVelocity)
 
-puckVelocity = [8, 4]
+puckVelocity = [4, 4]
 puck = Puck(width / 2, height / 2, puckSize, puckVelocity)
 
 divider = pygame.Rect(width / 2, 0, 3, height)
@@ -43,7 +43,7 @@ def renderPlayingArea():
 
     # center circle
     pygame.draw.circle(screen, (255, 255, 255),
-                       (width / 2, height / 2), 70, 5)
+                       (int(width / 2), int(height / 2)), 70, 5)
 
     # borders
     pygame.draw.rect(screen, (255, 255, 255), (0, 0, width, height), 5)
