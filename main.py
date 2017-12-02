@@ -3,13 +3,14 @@ import sys
 from pygame.locals import *
 from gameObjects import *
 
+# setting logo, should be before setting display, some OS prevent
+# setting icon after the display has been set.
+gamelogo = pygame.image.load('img/logo.png')
+pygame.display.set_icon(gamelogo)
+
 pygame.init()
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((800, 600))
-
-# setting logo
-gamelogo = pygame.image.load('img/logo.png')
-pygame.display.set_icon(gamelogo)
 
 # Window title and Caption
 pygame.display.set_caption('Air Hockey')
@@ -105,6 +106,7 @@ while True:
         score1 += 1
         puck.serveDirection = 1
         puck.reset()
+
     if puck.collidesTopBottom(height):
         puck.velocity[1] *= -1
     if puck.collidesWithPaddle(paddle1):
