@@ -10,18 +10,6 @@ pygame.init()
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((800, 600))
 
-<<<<<<< HEAD
-#setting logo
-gamelogo = pygame.image.load('./img/logo.png')
-=======
-<<<<<<< HEAD
-#Adding the code for logo display -thealphadollar
-gamelogo = pygame.image.load('img/logo.png')
->>>>>>> temp
-pygame.display.set_icon(gamelogo)
-
-
-
 # Create Game Objects
 
 paddleVelocity = 10
@@ -32,12 +20,12 @@ puckVelocity = [8, 4]
 puck = Puck(screen.get_width() / 2, screen.get_height() / 2, 20, 20, puckVelocity)
 
 divider = pygame.Rect(screen.get_width() / 2, 0, 3, screen.get_height())
-=======
+
 # setting logo
 gamelogo = pygame.image.load('img/logo.png')
 pygame.display.set_icon(gamelogo)
 
-# Window title and Caption
+# window title and caption
 pygame.display.set_caption('Air Hockey')
 
 # screen height and width
