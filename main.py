@@ -3,13 +3,14 @@ import sys
 from pygame.locals import *
 from gameObjects import *
 
+# setting logo should take place before setting the display on some OS
+gamelogo = pygame.image.load('img/logo.png')
+pygame.display.set_icon(gamelogo)
+
 pygame.init()
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((800, 600))
 
-# setting logo
-gamelogo = pygame.image.load('img/logo.png')
-pygame.display.set_icon(gamelogo)
 
 # Window title and Caption
 pygame.display.set_caption('Air Hockey')
