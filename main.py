@@ -6,10 +6,15 @@ import sys
 from pygame.locals import *
 from gameObjects import *
 
+# setting logo should take place before setting the display on some OS
+gamelogo = pygame.image.load('img/logo.png')
+pygame.display.set_icon(gamelogo)
+
 pygame.init()
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((800, 600))
 
+<<<<<<< HEAD
 # Create Game Objects
 
 paddleVelocity = 10
@@ -24,6 +29,8 @@ divider = pygame.Rect(screen.get_width() / 2, 0, 3, screen.get_height())
 # setting logo
 gamelogo = pygame.image.load('img/logo.png')
 pygame.display.set_icon(gamelogo)
+=======
+>>>>>>> 2acffb1b51728023288c781df8326cc7a5c091bd
 
 # window title and caption
 pygame.display.set_caption('Air Hockey')
