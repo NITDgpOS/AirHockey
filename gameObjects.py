@@ -8,28 +8,28 @@ class Paddle():
         self.width = width
         self.height = height
         self.velocity = velocity
+        self.size = width
 
     def getPaddle(self):
         return pygame.Rect(self.x, self.y, self.width, self.height)
 
     def checkTopBottomBounds(self, height):
-        if self.y < 0:
-            self.y = 0
+        if self.y < self.size:
+            self.y = self.size
         elif self.y > height - self.height:
             self.y = height - self.height
 
     def checkLeftBoundary(self, width):
-        if self.x < 0:
-            self.x = 0
+        if self.x < self.size:
+            self.x = self.size
         elif self.x > width / 2 - self.width:
             self.x = width / 2 - self.width
 
     def checkRightBoundary(self, width):
         if self.x > width - self.width:
             self.x = width - self.width
-        elif self.x < width / 2:
-            self.x = width / 2
-
+        elif self.x < width / 2 + self.size:
+            self.x = width / 2 + self.size
 
 class Puck():
     def __init__(self, x, y, width, height, velocity):
