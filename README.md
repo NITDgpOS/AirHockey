@@ -40,4 +40,7 @@ git checkout [name_of_your_branch]
 ```
 python2 main.py
 ```
-
+or
+```
+python main.py
+```
