@@ -10,7 +10,7 @@ pygame.display.set_icon(gamelogo)
 
 pygame.init()
 clock = pygame.time.Clock()
-screen = pygame.display.set_mode((800, 600))
+screen = pygame.display.set_mode((1200, 600))
 
 
 # Window title and Caption
@@ -22,13 +22,13 @@ width = screen.get_width()
 
 # Create Game Objects
 paddleVelocity = 10
-paddleSize = 26
-puckSize = 20
+paddleSize = 40
+puckSize = 35
 
 paddle1 = Paddle(22, height / 2, paddleSize, paddleVelocity)
 paddle2 = Paddle(width - 20, height / 2, paddleSize, paddleVelocity)
 
-puckVelocity = [8, 4]
+puckVelocity = [5, 5]
 puck = Puck(width / 2, height / 2, puckSize, puckVelocity)
 
 divider = pygame.Rect(width / 2, 0, 3, height)
