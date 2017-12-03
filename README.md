@@ -36,8 +36,7 @@ For more info, visit [Pygame download page](http://www.pygame.org/download.shtml
 git branch [name_of_your_new_branch]
 git checkout [name_of_your_branch]
 ```
-3. Open the directory and run the file :
-```
-python2 main.py
+3. Open the directory, right click run.desktop, toggle "Allow executing file as program" and click Play. After the first run, you'll get the logo on the launch icon.
+NOTE: The administrative permission is required to place the AHlogo.png file into the usr/share/icons directory.
 ```
 

@@ -1,9 +1,0 @@
-[Desktop Entry]
-Version=1.1
-Type=Application
-Terminal=true
-Exec=cd "$(dirname %k)" 
-Name=Air Hockey
-Comment=This runs Air Hockey in one click
-Icon="./img/logo.png"
-Name[en_IN]=Play AH

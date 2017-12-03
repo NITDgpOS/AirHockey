@@ -1,10 +1,13 @@
+#!/usr/bin/env python2
+
 import pygame
 import sys
+import os
 from pygame.locals import *
 from gameObjects import *
 
 # setting logo should take place before setting the display on some OS
-gamelogo = pygame.image.load('img/logo.png')
+gamelogo = pygame.image.load(os.path.join(os.path.dirname(__file__),'img/AHlogo.png'))
 pygame.display.set_icon(gamelogo)
 
 pygame.init()
