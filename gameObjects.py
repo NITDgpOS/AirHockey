@@ -60,7 +60,6 @@ class Puck():
         """
         Checks collision between circles using the distance formula:
         dist = sqrt((x2 - x1)**2 + (y2 - y1)**2)
-
         returns true if the distance is less than or equal to sum of
         radius of the puck and the paddle
         """
