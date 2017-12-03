@@ -1,5 +1,4 @@
 import pygame
-<<<<<<< ec071eec2f5a66501c460a682f37c2c627d4d83a
 import math
 
 
@@ -41,28 +40,10 @@ class Paddle():
 
 class Puck():
     def __init__(self, x, y, radius, velocity):
-=======
-
-class Paddle():
-    def __init__(self, x, y, width, height, velocity):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.velocity = velocity
-
-    def getPaddle(self):
-        return pygame.Rect(self.x, self.y, self.width, self.height)
-
-
-class Puck():
-    def __init__(self, x, y, width, height, velocity):
->>>>>>> Fixed PEP8 Issues
         self.x = x
         self.y = y
         self.init_x = x
         self.init_y = y
-<<<<<<< ec071eec2f5a66501c460a682f37c2c627d4d83a
         self.radius = radius
         self.velocity = velocity
         self.serveDirection = 1
@@ -79,7 +60,6 @@ class Puck():
         """
         Checks collision between circles using the distance formula:
         dist = sqrt((x2 - x1)**2 + (y2 - y1)**2)
-
         returns true if the distance is less than or equal to sum of
         radius of the puck and the paddle
         """
@@ -99,18 +79,3 @@ class Puck():
 
     def draw(self, screen):
         pygame.draw.circle(screen, (255, 255, 255), (self.x, self.y), self.radius)
-=======
-        self.width = width
-        self.height = height
-        self.velocity = velocity
-        self.serveDirection = 1
-
-    def getPuck(self):
-        return pygame.Rect(self.x, self.y, self.width, self.height)
-
-    def reset(self):
-        self.velocity[0] = 10 * self.serveDirection
-        self.velocity[1] = 4 * self.serveDirection
-        self.x = self.init_x
-        self.y = self.init_y
->>>>>>> Fixed PEP8 Issues
