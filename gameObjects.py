@@ -51,6 +51,11 @@ class Puck():
     def collidesTopBottom(self, height):
         return self.y - self.radius < 0 or self.y + self.radius > height
 
+    def collidesLeftRight(self,width):
+        return self.x - self.radius < 0 or self.x + self.radius > width
+
+
+
     def collidesWithPaddle(self, paddle):
         """
         Checks collision between circles using the distance formula:

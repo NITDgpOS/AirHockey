@@ -37,6 +37,15 @@ screenColor = (224, 214, 141)
 # Score
 score1, score2 = 0, 0
 
+smallfont=pygame.font.SysFont("comicsansms",35)
+black =(0,0,0)
+def score(score1,score2):
+    text1 =smallfont.render("Score1: "+str(score1), True ,black)
+    text2 =smallfont.render("Score2: "+str(score2), True ,black)
+
+    screen.blit(text1, [40,0])
+    screen.blit(text2,[ width-150,0])
+
 
 def renderPlayingArea():
     # Render Logic
@@ -57,8 +66,7 @@ def renderPlayingArea():
 
     # goals
     pygame.draw.rect(screen, (0, 0, 0), (0, height / 2 - 90, 5, 180))
-    pygame.draw.rect(screen, (0, 0, 0), (width -
-                                         5, height / 2 - 90, 5, 180))
+    pygame.draw.rect(screen, (0, 0, 0), (width-5, height / 2 - 90, 5, 180))
 
     pygame.draw.rect(screen, (255, 255, 255), divider)
 
@@ -69,9 +77,16 @@ def gameLoop():
         for event in pygame.event.get():
             if event.type == QUIT:
                 sys.exit()
-        
+
         global score1, score2
         w, s, up, down, d, a, right, left = 0, 0, 0, 0, 0, 0, 0, 0
+
+
+
+
+
+        print ("score1: "+str(score1))
+        print ("score2: "+str(score2))
         # Process Player 1 Input
         w = pygame.key.get_pressed()[pygame.K_w]
         s = pygame.key.get_pressed()[pygame.K_s]
@@ -111,6 +126,12 @@ def gameLoop():
             puck.reset()
         if puck.collidesTopBottom(height):
             puck.velocity[1] *= -1
+        if puck.collidesLeftRight(width):
+            if(puck.y<((height / 2) - 90) or puck.y>((height / 2) + 90) ):
+                print ("true")
+                puck.velocity[0] *= -1
+
+
         if puck.collidesWithPaddle(paddle1):
             puck.x = paddle1.x + paddle1.radius + puck.radius
             puck.velocity[0] *= -1
@@ -125,6 +146,7 @@ def gameLoop():
         paddle1.draw(screen, (255, 0, 0))
         paddle2.draw(screen, (255, 255, 0))
         puck.draw(screen)
+        score(score1,score2)
 
         pygame.display.flip()
         clock.tick(60)
@@ -136,6 +158,3 @@ if __name__ == "__main__":
             gameLoop()
         elif choice == 0:
             sys.exit()
-
-
-
