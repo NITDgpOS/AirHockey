@@ -12,7 +12,7 @@ import constants as const
 setting logo, should be before setting display, some OS prevent
 setting icon after the display has been set.
 """
-gamelogo = pygame.image.load(os.path.join(os.path.dirname(__file__),'img/AHlogo.png'))
+gamelogo = pygame.image.load(os.path.join(os.path.dirname(__file__), 'img/AHlogo.png'))
 pygame.display.set_icon(gamelogo)
 
 pygame.init()
@@ -20,7 +20,6 @@ clock = pygame.time.Clock()
 
 width, height = const.WIDTH, const.HEIGHT
 screen = pygame.display.set_mode((width, height))
-
 
 # Window title and Caption
 pygame.display.set_caption('Air Hockey')
@@ -37,12 +36,14 @@ score1, score2 = 0, 0
 
 smallfont = pygame.font.SysFont("comicsans", 35)
 
-def score(score1,score2):
-    text1 = smallfont.render("Score 1: " + str(score1), True , const.BLACK)
-    text2 = smallfont.render("Score 2: " + str(score2), True , const.BLACK)
+
+def score(score1, score2):
+    text1 = smallfont.render("Score 1: " + str(score1), True, const.BLACK)
+    text2 = smallfont.render("Score 2: " + str(score2), True, const.BLACK)
 
     screen.blit(text1, [40, 0])
     screen.blit(text2, [width - 150, 0])
+
 
 def rounds(rounds_p1, rounds_p2):
     if rounds_p1 == const.ROUNDLIMIT:
@@ -53,10 +54,11 @@ def rounds(rounds_p1, rounds_p2):
         sys.exit()
     else:
         text = smallfont.render("Rounds", True, const.BLACK)
-        screen.blit(text,[width / 2 - 40, 0])
+        screen.blit(text, [width / 2 - 40, 0])
 
-        text = smallfont.render(str(rounds_p1)+ " : " + str(rounds_p2), True, const.BLACK)
-        screen.blit(text,[width / 2 - 16, 20])
+        text = smallfont.render(str(rounds_p1) + " : " + str(rounds_p2), True, const.BLACK)
+        screen.blit(text, [width / 2 - 16, 20])
+
 
 def renderPlayingArea():
     # Render Logic
@@ -75,10 +77,11 @@ def renderPlayingArea():
     pygame.draw.rect(screen, const.WHITE, (width / 2, 0, 3, height))
 
 
-def resetGame(speed):
-    puck.reset(speed)
+def resetGame(speed, player):
+    puck.reset(speed, player)
     paddle1.reset(22, height / 2)
     paddle2.reset(width - 20, height / 2)
+
 
 def insideGoal(side):
     """ Returns true if puck is within goal boundary"""
@@ -87,6 +90,7 @@ def insideGoal(side):
 
     if side == 1:
         return puck.x + puck.radius >= width and puck.y >= const.GOALY1 and puck.y <= const.GOALY2
+
 
 # Game Loop
 def gameLoop(speed):
@@ -132,13 +136,13 @@ def gameLoop(speed):
             # TODO: add goal sound.
 
             score1 += 1
-            resetGame(speed)
+            resetGame(speed, 1)
 
         if insideGoal(1):
             # TODO: add goal sound.
 
             score2 += 1
-            resetGame(speed)
+            resetGame(speed, 2)
 
         puck.checkBoundary(width, height)
 
@@ -162,8 +166,8 @@ def gameLoop(speed):
         renderPlayingArea()
 
         # show score
-        score(score1,score2)
-        rounds(rounds_p1,rounds_p2)
+        score(score1, score2)
+        rounds(rounds_p1, rounds_p2)
 
         # drawing the paddle and the puck
         paddle1.draw(screen, (255, 0, 0))
@@ -172,14 +176,15 @@ def gameLoop(speed):
 
         pygame.display.flip()
         clock.tick(const.FPS)
-        
+
+
 if __name__ == "__main__":
-        choice = airHockeyStart(screen, clock, width, height)
-        if choice == 1:
-            puck.speed = const.EASY
-            gameLoop(const.EASY)
-        elif choice == 2:
-            puck.speed = const.HARD
-            gameLoop(const.HARD)
-        elif choice == 0:
-            sys.exit()
+    choice = airHockeyStart(screen, clock, width, height)
+    if choice == 1:
+        puck.speed = const.EASY
+        gameLoop(const.EASY)
+    elif choice == 2:
+        puck.speed = const.HARD
+        gameLoop(const.HARD)
+    elif choice == 0:
+        sys.exit()
