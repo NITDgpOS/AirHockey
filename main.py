@@ -31,8 +31,6 @@ puckSize = 35
 paddle1 = Paddle(22, height / 2, paddleSize, paddleVelocity)
 paddle2 = Paddle(width - 20, height / 2, paddleSize, paddleVelocity)
 
-puckVelocity = [5, 5]
-puck = Puck(width / 2, height / 2, puckSize, puckVelocity)
 
 divider = pygame.Rect(width / 2, 0, 3, height)
 screenColor = (224, 214, 141)
@@ -75,7 +73,9 @@ def renderPlayingArea():
 
 
 # Game Loop
-def gameLoop():
+def gameLoop(vel):
+    puckVelocity = [vel, vel]
+    puck = Puck(width / 2, height / 2, puckSize, puckVelocity)
     while True:
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -158,6 +158,8 @@ def gameLoop():
 if __name__ == "__main__":
         choice = airHockeyStart(screen, clock, width, height)
         if choice == 1:
-            gameLoop()
+            gameLoop(7)
+        elif choice == 2:
+            gameLoop(12)
         elif choice == 0:
             sys.exit()
