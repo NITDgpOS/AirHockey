@@ -8,7 +8,9 @@ class Paddle():
         self.y = y
         self.radius = radius
         self.velocity = velocity
-
+    def reset(self,x,y):
+        self.x=x
+        self.y=y
     def checkTopBottomBounds(self, height):
         # top
         if self.y - self.radius <= 0:
@@ -52,10 +54,7 @@ class Puck():
         return self.y - self.radius < 0 or self.y + self.radius > height
 
     def collidesLeftRight(self,width):
-        return self.x - self.radius < 0 or self.x + self.radius > width
-
-
-
+        return self.x - self.radius <= 0 or self.x + self.radius >= width
     def collidesWithPaddle(self, paddle):
         """
         Checks collision between circles using the distance formula:
@@ -78,4 +77,4 @@ class Puck():
         self.y = self.init_y
 
     def draw(self, screen):
-        pygame.draw.circle(screen, (255, 255, 255), (self.x, self.y), self.radius)
+        pygame.draw.circle(screen, (255, 255, 255), (int(self.x), int(self.y)), self.radius)
