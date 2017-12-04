@@ -1,11 +1,13 @@
-import pygame
 import sys
+import pygame
 from pygame.locals import *
-from gameObjects import *
+from paddle import *
+from puck import *
 
 pygame.init()
 clock = pygame.time.Clock()
-screen = pygame.display.set_mode((800, 600))
+width, height = 800, 600
+screen = pygame.display.set_mode((width, height))
 
 # setting logo
 gamelogo = pygame.image.load('img/logo.png')
@@ -14,22 +16,18 @@ pygame.display.set_icon(gamelogo)
 # Window title and Caption
 pygame.display.set_caption('Air Hockey')
 
-# screen height and width
-height = screen.get_height()
-width = screen.get_width()
-
 # Create Game Objects
-paddleVelocity = 10
-paddleSize = 26
-puckSize = 20
+paddleSpeed = 380
+puckSpeed = 450
 
-paddle1 = Paddle(22, height / 2, paddleSize, paddleVelocity)
-paddle2 = Paddle(width - 20, height / 2, paddleSize, paddleVelocity)
+paddleSize = 25
+puckSize = 15
 
-puckVelocity = [8, 4]
-puck = Puck(width / 2, height / 2, puckSize, puckVelocity)
+paddle1 = Paddle(22, height / 2, paddleSize, paddleSpeed)
+paddle2 = Paddle(width - 20, height / 2, paddleSize, paddleSpeed)
 
-divider = pygame.Rect(width / 2, 0, 3, height)
+puck = Puck(width / 2, height / 2, puckSize, puckSpeed)
+
 screenColor = (224, 214, 141)
 
 # Score
@@ -42,22 +40,20 @@ def renderPlayingArea():
     screen.fill(screenColor)
 
     # center circle
-    pygame.draw.circle(screen, (255, 255, 255),
-                       (width / 2, height / 2), 70, 5)
+    pygame.draw.circle(screen, (255, 255, 255), (width / 2, height / 2), 70, 5)
 
     # borders
     pygame.draw.rect(screen, (255, 255, 255), (0, 0, width, height), 5)
 
     # D-box
     pygame.draw.rect(screen, (255, 255, 255), (0, height / 2 - 150, 150, 300), 5)
-    pygame.draw.rect(screen, (255, 255, 255), (width -
-                                               150, height / 2 - 150, 150, 300), 5)
+    pygame.draw.rect(screen, (255, 255, 255), (width - 150, height / 2 - 150, 150, 300), 5)
 
     # goals
     pygame.draw.rect(screen, (0, 0, 0), (0, height / 2 - 90, 5, 180))
-    pygame.draw.rect(screen, (0, 0, 0), (width -
-                                         5, height / 2 - 90, 5, 180))
+    pygame.draw.rect(screen, (0, 0, 0), (width - 5, height / 2 - 90, 5, 180))
 
+    divider = pygame.Rect(width / 2, 0, 3, height)
     pygame.draw.rect(screen, (255, 255, 255), divider)
 
 
@@ -67,7 +63,6 @@ while True:
         if event.type == QUIT:
             sys.exit()
 
-    w, s, up, down, d, a, right, left = 0, 0, 0, 0, 0, 0, 0, 0
     # Process Player 1 Input
     w = pygame.key.get_pressed()[pygame.K_w]
     s = pygame.key.get_pressed()[pygame.K_s]
@@ -80,39 +75,31 @@ while True:
     right = pygame.key.get_pressed()[pygame.K_RIGHT]
     left = pygame.key.get_pressed()[pygame.K_LEFT]
 
-    # Update Logic
+    # time period between two consecutive frames.
+    time_delta = clock.get_time() / 1000.0
 
     # Update Paddle1
-    paddle1.y += (s - w) * paddleVelocity
-    paddle1.x += (d - a) * paddleVelocity
+    paddle1.move(w, s, a, d, time_delta)
     paddle1.checkTopBottomBounds(height)
     paddle1.checkLeftBoundary(width)
 
     # Update Paddle2
-    paddle2.y += (down - up) * paddleVelocity
-    paddle2.x += (right - left) * paddleVelocity
+    paddle2.move(up, down, left, right, time_delta)
     paddle2.checkTopBottomBounds(height)
     paddle2.checkRightBoundary(width)
 
-    # Update Puck
-    puck.x += puck.velocity[0]
-    puck.y += puck.velocity[1]
-    if puck.x + puck.radius < 0:
-        score2 += 1
-        puck.serveDirection = -1
-        puck.reset()
-    elif puck.x - puck.radius > width:
-        score1 += 1
-        puck.serveDirection = 1
-        puck.reset()
-    if puck.collidesTopBottom(height):
-        puck.velocity[1] *= -1
+    puck.move(time_delta, 1)
+    # TODO: puck is within the goal boundary.
+
+    puck.checkBoundary(width, height)
+
     if puck.collidesWithPaddle(paddle1):
-        puck.x = paddle1.x + paddle1.radius + puck.radius
-        puck.velocity[0] *= -1
+        # play sound
+        pass
+
     if puck.collidesWithPaddle(paddle2):
-        puck.x = paddle2.x - paddle2.radius - puck.radius
-        puck.velocity[0] *= -1
+        # play sound
+        pass
 
     # playing area should be drawn first
     renderPlayingArea()
