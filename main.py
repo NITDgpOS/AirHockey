@@ -4,17 +4,24 @@ from pygame.locals import *
 from paddle import *
 from puck import *
 
+"""
+setting logo, should be before setting display, some OS prevent
+setting icon after the display has been set.
+"""
+gamelogo = pygame.image.load('img/logo.png')
+pygame.display.set_icon(gamelogo)
+
 pygame.init()
 clock = pygame.time.Clock()
 width, height = 800, 600
 screen = pygame.display.set_mode((width, height))
 
-# setting logo
-gamelogo = pygame.image.load('img/logo.png')
-pygame.display.set_icon(gamelogo)
-
 # Window title and Caption
 pygame.display.set_caption('Air Hockey')
+
+# screen height and width
+height = screen.get_height()
+width = screen.get_width()
 
 # Create Game Objects
 paddleSpeed = 380
@@ -63,6 +70,7 @@ while True:
         if event.type == QUIT:
             sys.exit()
 
+    w, s, up, down, d, a, right, left = 0, 0, 0, 0, 0, 0, 0, 0
     # Process Player 1 Input
     w = pygame.key.get_pressed()[pygame.K_w]
     s = pygame.key.get_pressed()[pygame.K_s]
