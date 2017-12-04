@@ -1,5 +1,6 @@
 import pygame
 import math
+<<<<<<< HEAD
 import constants as const
 
 class Puck():
@@ -16,6 +17,25 @@ class Puck():
         self.y -= math.cos(self.angle) * self.speed * time_delta
 
         self.speed *= const.FRICTION
+=======
+
+
+class Puck():
+    def __init__(self, x, y, radius, speed):
+        self.x = x
+        self.y = y
+        self.radius = radius
+        self.speed = speed
+        self.angle = 0
+        self.init_x = x
+        self.init_y = y
+
+    def move(self, time_delta, friction=1):
+        self.x += math.sin(self.angle) * self.speed * time_delta
+        self.y -= math.cos(self.angle) * self.speed * time_delta
+
+        self.speed *= friction
+>>>>>>> upstream/master
 
     def checkBoundary(self, width, height):
         # right side
@@ -38,6 +58,7 @@ class Puck():
             self.y = 2 * self.radius - self.y
             self.angle = math.pi - self.angle
 
+<<<<<<< HEAD
     def addVectors(self, (angle1, length1), (angle2, length2)):
         x  = math.sin(angle1) * length1 + math.sin(angle2) * length2
         y  = math.cos(angle1) * length1 + math.cos(angle2) * length2
@@ -45,6 +66,8 @@ class Puck():
         length = math.hypot(x, y)
         angle = math.pi / 2 - math.atan2(y, x)
         return (angle, length)
+=======
+>>>>>>> upstream/master
 
     def collidesWithPaddle(self, paddle):
         """
@@ -64,6 +87,7 @@ class Puck():
 
         # calculates angle of projection.
         tangent = math.atan2(dy, dx)
+<<<<<<< HEAD
         temp_angle = math.pi / 2 + tangent
         total_mass = self.mass + paddle.mass
 
@@ -91,14 +115,33 @@ class Puck():
         self.y -= math.cos(temp_angle) * offset
         paddle.x -= math.sin(temp_angle) * offset
         paddle.y += math.cos(temp_angle) * offset
+=======
+        self.angle = 2 * tangent - self.angle
+
+        temp_angle = math.pi / 2 + tangent
+
+        # experimental value to prevent the puck from sticking.
+        offset = 10
+
+        self.x += math.sin(temp_angle) * offset
+        self.y -= math.cos(temp_angle) * offset
+>>>>>>> upstream/master
 
         return True
 
     def reset(self, speed):
         self.angle = 0
         self.speed = speed
+<<<<<<< HEAD
         self.x = const.WIDTH / 2
         self.y = const.HEIGHT / 2
 
     def draw(self, screen):
         pygame.draw.circle(screen, const.WHITE, (int(self.x), int(self.y)), self.radius)
+=======
+        self.x = self.init_x
+        self.y = self.init_y
+
+    def draw(self, screen):
+        pygame.draw.circle(screen, (255, 255, 255), (int(self.x), int(self.y)), self.radius)
+>>>>>>> upstream/master

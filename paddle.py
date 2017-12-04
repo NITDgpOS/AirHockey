@@ -1,4 +1,5 @@
 import pygame
+<<<<<<< HEAD
 import math
 import constants as const
 
@@ -11,6 +12,16 @@ class Paddle():
         self.speed = const.PADDLESPEED
         self.mass = const.PADDLEMASS
         self.angle = 0
+=======
+
+
+class Paddle():
+    def __init__(self, x, y, radius, speed):
+        self.x = x
+        self.y = y
+        self.radius = radius
+        self.speed = speed
+>>>>>>> upstream/master
 
     def checkTopBottomBounds(self, height):
         # top
@@ -32,6 +43,7 @@ class Paddle():
         elif self.x - self.radius < int(width / 2):
             self.x = int(width / 2) + self.radius
 
+<<<<<<< HEAD
     def move(self, up, down, left, right, time_delta):
         dx, dy = self.x, self.y
         self.x += (right - left) * self.speed * time_delta
@@ -41,6 +53,12 @@ class Paddle():
         dy = self.y - dy
 
         self.angle = math.atan2(dy, dx)
+=======
+
+    def move(self, up, down, left, right, time_delta):
+        self.x += (right - left) * self.speed * time_delta
+        self.y += (down - up) * self.speed * time_delta
+>>>>>>> upstream/master
 
     def draw(self, screen, color):
         position = (int(self.x), int(self.y))

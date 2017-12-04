@@ -131,13 +131,13 @@ def gameLoop(speed):
         if insideGoal(0):
             # TODO: add goal sound.
 
-            score2 += 1
+            score1 += 1
             resetGame(speed)
 
         if insideGoal(1):
             # TODO: add goal sound.
 
-            score1 += 1
+            score2 += 1
             resetGame(speed)
 
         puck.checkBoundary(width, height)
