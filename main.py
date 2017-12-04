@@ -1,4 +1,4 @@
-import pygame
+import pygame 
 import sys
 from pygame.locals import *
 from gameObjects import *
@@ -28,8 +28,8 @@ puckSize = 35
 paddle1 = Paddle(22, height / 2, paddleSize, paddleVelocity)
 paddle2 = Paddle(width - 20, height / 2, paddleSize, paddleVelocity)
 
-puckVelocity = [5, 5]
-puck = Puck(width / 2, height / 2, puckSize, puckVelocity)
+'''puckVelocity = [5, 5]
+puck = Puck(width / 2, height / 2, puckSize, puckVelocity)'''
 
 divider = pygame.Rect(width / 2, 0, 3, height)
 screenColor = (224, 214, 141)
@@ -72,11 +72,15 @@ def renderPlayingArea():
 
 
 # Game Loop
-def gameLoop():
+def gameLoop(vel):
+    puckVelocity = [vel, vel]
+    puck = Puck(width / 2, height / 2, puckSize, puckVelocity)
     while True:
         for event in pygame.event.get():
             if event.type == QUIT:
                 sys.exit()
+
+        
 
         global score1, score2
         w, s, up, down, d, a, right, left = 0, 0, 0, 0, 0, 0, 0, 0
@@ -119,11 +123,11 @@ def gameLoop():
         if puck.x + puck.radius < 0:
             score2 += 1
             puck.serveDirection = -1
-            puck.reset()
+            puck.reset(vel)
         elif puck.x - puck.radius > width:
             score1 += 1
             puck.serveDirection = 1
-            puck.reset()
+            puck.reset(vel)
         if puck.collidesTopBottom(height):
             puck.velocity[1] *= -1
         if puck.collidesLeftRight(width):
@@ -155,6 +159,8 @@ def gameLoop():
 if __name__ == "__main__":
         choice = airHockeyStart(screen, clock, width, height)
         if choice == 1:
-            gameLoop()
+            gameLoop(7)
+        elif choice == 2:
+            gameLoop(12)
         elif choice == 0:
             sys.exit()

@@ -1,5 +1,6 @@
 import pygame
 import sys
+import gameObjects
 
 dimgreen = (46, 120, 50)
 green = (56, 142, 60)
@@ -41,16 +42,28 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
 
-        # play button
+       
+        # difficulty button 'Hard'
         if abs(mouse[0] - 200) < buttonRadius and abs(mouse[1] - 470) < buttonRadius:
-            buttonCircle(screen, green, (200, 470), "Play", largeText, (255, 255, 255),
-                         (Scrwidth / 2 - 400, Scrheight / 2 + 170))
+            buttonCircle(screen, green, (200, 470), "Hard", largeText, (255, 255, 255),
+                         (Scrwidth / 2 -400 , Scrheight / 2 + 170))
+            if click[0] == 1:
+                return 2
+
+        else:
+            buttonCircle(screen, dimgreen, (200, 470), "Hard", smallText, (255, 255, 255),
+                         (Scrwidth / 2 -400, Scrheight / 2 + 170))
+
+        # difficulty button 'Easy'
+        if abs(mouse[0] - 600) < buttonRadius and abs(mouse[1] - 470) < buttonRadius:
+            buttonCircle(screen, green, (600, 470), "Easy", largeText, (255, 255, 255),
+                         (Scrwidth / 2 , Scrheight / 2 + 170))
             if click[0] == 1:
                 return 1
 
         else:
-            buttonCircle(screen, dimgreen, (200, 470), "Play", smallText, (255, 255, 255),
-                         (Scrwidth / 2 - 400, Scrheight / 2 + 170))
+            buttonCircle(screen, dimgreen, (600, 470), "Easy", smallText, (255, 255, 255),
+                         (Scrwidth / 2, Scrheight / 2 + 170))
 
         # quit button
         if abs(mouse[0] - 1000) < buttonRadius and abs(mouse[1] - 470) < buttonRadius:

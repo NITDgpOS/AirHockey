@@ -72,9 +72,9 @@ class Puck():
 
         return False
 
-    def reset(self):
-        self.velocity[0] = 5 * self.serveDirection
-        self.velocity[1] = 5 * self.serveDirection
+    def reset(self,vel):
+        self.velocity[0] = vel * self.serveDirection
+        self.velocity[1] = vel * self.serveDirection
         self.x = self.init_x
         self.y = self.init_y
 
