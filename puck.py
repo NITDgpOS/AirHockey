@@ -1,22 +1,21 @@
 import pygame
 import math
-
+import constants as const
 
 class Puck():
-    def __init__(self, x, y, radius, speed):
+    def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.radius = radius
-        self.speed = speed
+        self.radius = const.PUCKSIZE
+        self.speed = const.PUCKSPEED
+        self.mass = const.PUCKMASS
         self.angle = 0
-        self.init_x = x
-        self.init_y = y
 
-    def move(self, time_delta, friction=1):
+    def move(self, time_delta):
         self.x += math.sin(self.angle) * self.speed * time_delta
         self.y -= math.cos(self.angle) * self.speed * time_delta
 
-        self.speed *= friction
+        self.speed *= const.FRICTION
 
     def checkBoundary(self, width, height):
         # right side
@@ -39,6 +38,13 @@ class Puck():
             self.y = 2 * self.radius - self.y
             self.angle = math.pi - self.angle
 
+    def addVectors(self, (angle1, length1), (angle2, length2)):
+        x  = math.sin(angle1) * length1 + math.sin(angle2) * length2
+        y  = math.cos(angle1) * length1 + math.cos(angle2) * length2
+
+        length = math.hypot(x, y)
+        angle = math.pi / 2 - math.atan2(y, x)
+        return (angle, length)
 
     def collidesWithPaddle(self, paddle):
         """
@@ -58,23 +64,40 @@ class Puck():
 
         # calculates angle of projection.
         tangent = math.atan2(dy, dx)
-        self.angle = 2 * tangent - self.angle
-
         temp_angle = math.pi / 2 + tangent
+        total_mass = self.mass + paddle.mass
 
-        # experimental value to prevent the puck from sticking.
-        offset = 10
+        # The new vector for puck formed after collision.
+        vecA = (self.angle, self.speed * (self.mass - paddle.mass) / total_mass)
+        vecB = (temp_angle, 2 * paddle.speed * paddle.mass / total_mass)
 
+        (self.angle, self.speed) = self.addVectors(vecA, vecB)
+
+        # speed should never exceed a certain limit.
+        if self.speed > const.MAXSPEED:
+            self.speed = const.MAXSPEED
+
+        # new vector for paddle without changing the speed.
+        vecA = (paddle.angle, paddle.speed * (paddle.mass - self.mass) / total_mass)
+        vecB = (temp_angle + math.pi, 2 * self.speed * self.mass / total_mass)
+
+        temp_speed = paddle.speed
+        (paddle.angle, paddle.speed) = self.addVectors(vecA, vecB)
+        paddle.speed = temp_speed
+
+        # To prevent puck and paddle from sticking.
+        offset = 0.5 * (self.radius + paddle.radius - distance + 1)
         self.x += math.sin(temp_angle) * offset
         self.y -= math.cos(temp_angle) * offset
-
+        paddle.x -= math.sin(temp_angle) * offset
+        paddle.y += math.cos(temp_angle) * offset
         return True
 
     def reset(self, speed):
         self.angle = 0
         self.speed = speed
-        self.x = self.init_x
-        self.y = self.init_y
+        self.x = const.WIDTH / 2
+        self.y = const.HEIGHT / 2
 
     def draw(self, screen):
-        pygame.draw.circle(screen, (255, 255, 255), (int(self.x), int(self.y)), self.radius)
+        pygame.draw.circle(screen, const.WHITE, (int(self.x), int(self.y)), self.radius)
