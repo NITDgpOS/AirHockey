@@ -35,13 +35,12 @@ For more info, visit [Pygame download page](http://www.pygame.org/download.shtml
 
 ## Run
 
-<<<<<<< HEAD
-=======
+
 ### Linux
 
-Run the AirHockey executable present in linux-build/dist/AirHockey/AirHockey
+Run the AirHockey executable present in `linux-build/dist/AirHockey/AirHockey`
+or `python2 main.py` while you are in the AirHockey directory
 
->>>>>>> upstream/master
 ### Clone the repository.
 
 1. Create the branch on your local machine and switch in this branch :
@@ -53,10 +52,7 @@ git checkout [name_of_your_branch]
 
 NOTE: The administrative permission is required to place the AHlogo.png file into the usr/share/icons directory.
 
-<<<<<<< HEAD
-3. Open properties for run.desktop, toggle "Allow executing file as program" and click Play.
-=======
 4. Open properties for run.desktop, toggle "Allow executing file as program" and click Play.
 
 ## Enjoy The Game
->>>>>>> upstream/master
+
