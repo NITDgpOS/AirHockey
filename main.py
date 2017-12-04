@@ -172,7 +172,7 @@ def gameLoop(speed):
 
         pygame.display.flip()
         clock.tick(const.FPS)
-
+        
 if __name__ == "__main__":
         choice = airHockeyStart(screen, clock, width, height)
         if choice == 1:
