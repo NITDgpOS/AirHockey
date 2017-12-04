@@ -28,8 +28,8 @@ pygame.display.set_caption('Air Hockey')
 paddleSpeed = 400
 puckSpeed = 450
 
-paddleSize = 25
-puckSize = 15
+paddleSize = 35
+puckSize =25
 
 paddle1 = Paddle(22, height / 2, paddleSize, paddleSpeed)
 paddle2 = Paddle(width - 20, height / 2, paddleSize, paddleSpeed)
@@ -102,7 +102,6 @@ def gameLoop(speed):
 
     while True:
         global score1, score2
-
         for event in pygame.event.get():
             if event.type == QUIT:
                 sys.exit()
@@ -120,7 +119,6 @@ def gameLoop(speed):
         down = keyPresses[pygame.K_DOWN]
         right = keyPresses[pygame.K_RIGHT]
         left = keyPresses[pygame.K_LEFT]
-
         # time period between two consecutive frames.
         time_delta = clock.get_time() / 1000.0
 
@@ -178,7 +176,8 @@ def gameLoop(speed):
         paddle1.draw(screen, (255, 0, 0))
         paddle2.draw(screen, (255, 255, 0))
         puck.draw(screen)
-
+        rounds(rounds_p1,rounds_p2)
+        score(score1,score2)
         pygame.display.flip()
         clock.tick(60)
 
