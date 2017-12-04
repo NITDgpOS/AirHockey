@@ -40,3 +40,7 @@ class Paddle():
         pygame.draw.circle(screen, (0, 0, 0), position, self.radius, 2)
         pygame.draw.circle(screen, (0, 0, 0), position, self.radius - 5, 2)
         pygame.draw.circle(screen, (0, 0, 0), position, self.radius - 10, 2)
+
+    def reset(self, startX, startY):
+        self.x = startX
+        self.y = startY

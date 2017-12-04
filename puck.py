@@ -70,9 +70,9 @@ class Puck():
 
         return True
 
-    def reset(self):
+    def reset(self, speed):
         self.angle = 0
-        self.speed = 250
+        self.speed = speed
         self.x = self.init_x
         self.y = self.init_y
 
