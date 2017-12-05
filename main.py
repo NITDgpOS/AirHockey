@@ -12,11 +12,11 @@ import constants as const
 setting logo, should be before setting display, some OS prevent
 setting icon after the display has been set.
 """
-gamelogo = pygame.image.load(os.path.join(os.path.dirname(__file__), 'img/AHlogo.png'))
+gamelogo = pygame.image.load(os.path.join(os.path.dirname(__file__), 'aux/AHlogo.png'))
 pygame.display.set_icon(gamelogo)
 
 pygame.init()
-paddle_hit=pygame.mixer.Sound('1.wav')
+paddle_hit=pygame.mixer.Sound('aux/1.wav')
 clock = pygame.time.Clock()
 
 width, height = const.WIDTH, const.HEIGHT
