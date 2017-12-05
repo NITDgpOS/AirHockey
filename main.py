@@ -17,9 +17,6 @@ pygame.display.set_icon(gamelogo)
 
 pygame.init()
 
-# Below is the code for playing sound after round change.
-#round_change = pygame.mixer.Sound('round.wav')
-
 paddle_hit=pygame.mixer.Sound('aux/hit.wav')
 goal_whistle = pygame.mixer.Sound('aux/goal.wav')
 
@@ -162,11 +159,9 @@ def gameLoop(speed):
         # Update round points
         if score1 == const.SCORELIMIT:
             rounds_p1 += 1
-#            pygame.mixer.Sound.play(round_change)  # Added sound for round change
             score1, score2 = 0, 0
         if score2 == const.SCORELIMIT:
             rounds_p2 += 1
-#            pygame.mixer.Sound.play(round_change)  # Added sound for round change
             score1, score2 = 0, 0
 
         # playing area should be drawn first
