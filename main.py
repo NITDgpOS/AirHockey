@@ -16,6 +16,8 @@ gamelogo = pygame.image.load(os.path.join(os.path.dirname(__file__), 'img/AHlogo
 pygame.display.set_icon(gamelogo)
 
 pygame.init()
+paddle_hit = pygame.mixer.Sound('1.wav')
+goal_whistle = pygame.mixer.Sound('goal.wav')
 clock = pygame.time.Clock()
 
 width, height = const.WIDTH, const.HEIGHT
@@ -133,25 +135,23 @@ def gameLoop(speed):
         puck.move(time_delta)
 
         if insideGoal(0):
-            # TODO: add goal sound.
-
+            pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
             score1 += 1
             resetGame(speed, 1)
 
         if insideGoal(1):
-            # TODO: add goal sound.
-
+            pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
             score2 += 1
             resetGame(speed, 2)
 
         puck.checkBoundary(width, height)
 
         if puck.collidesWithPaddle(paddle1):
-            # play collision sound
+            pygame.mixer.Sound.play(paddle_hit)  # Added sound for paddle hit
             pass
 
         if puck.collidesWithPaddle(paddle2):
-            # play collision sound
+            pygame.mixer.Sound.play(paddle_hit)
             pass
 
         # Update round points
