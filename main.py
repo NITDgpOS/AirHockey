@@ -16,8 +16,8 @@ gamelogo = pygame.image.load(os.path.join(os.path.dirname(__file__), 'img/AHlogo
 pygame.display.set_icon(gamelogo)
 
 pygame.init()
-paddle_hit = pygame.mixer.Sound('1.wav')
-goal_whistle = pygame.mixer.Sound('goal.wav')
+paddle_hit = pygame.mixer.Sound('sound/hit.wav')
+goal_whistle = pygame.mixer.Sound('sound/goal.wav')
 # Below is the code for playing sound after round change.
 #round_change = pygame.mixer.Sound('round.wav')
 
