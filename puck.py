@@ -1,4 +1,5 @@
 import pygame
+import random as rand
 import math
 import constants as const
 class Puck():
@@ -93,8 +94,11 @@ class Puck():
         paddle.y += math.cos(temp_angle) * offset
         return True
 
-    def reset(self, speed):
-        self.angle = 0
+    def reset(self, speed, player):
+        if player == 1:
+            self.angle = rand.uniform(-math.pi,0)
+        else:
+            self.angle = rand.uniform(0,math.pi)
         self.speed = speed
         self.x = const.WIDTH / 2
         self.y = const.HEIGHT / 2

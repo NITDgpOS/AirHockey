@@ -1,5 +1,4 @@
 """ All sizes in pixels and speeds in pixels per second """
-
 FPS = 60
 
 # Screen size
