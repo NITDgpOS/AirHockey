@@ -21,7 +21,6 @@ paddle_hit=pygame.mixer.Sound('aux/hit.wav')
 goal_whistle = pygame.mixer.Sound('aux/goal.wav')
 background_music=pygame.mixer.Sound('aux/back.wav')
 clock = pygame.time.Clock()
-
 width, height = const.WIDTH, const.HEIGHT
 screen = pygame.display.set_mode((width, height))
 
@@ -65,7 +64,7 @@ def pause(pause_flag):
         print "PAUSE"
     else:
         print "UNPAUSE"
-def renderPlayingArea():
+def renderPlayingArea(space_pause):
     # Render Logic
     screen.fill(screenColor)
     # center circle
@@ -87,7 +86,10 @@ def renderPlayingArea():
     screen.blit(text1,[width/2-7,height-44])
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
-    if((mouse[1]<(height-30+20) and mouse[1]>(height-30-20)) and (mouse[0]<(width/2+20) and mouse[0]>(width/2-20)) and click[0]==1):
+
+    # Pause using spacebar and click
+
+    if((mouse[1]<(height-30+20) and mouse[1]>(height-30-20)) and (mouse[0]<(width/2+20) and mouse[0]>(width/2-20)) and click[0]==1) or (space_pause == 1):
         if(const.pause_flag==False):
             const.pause_flag=True
             time.sleep(0.1)
@@ -97,9 +99,9 @@ def renderPlayingArea():
                 text1 = smallfont.render("Go", True, const.WHITE)
                 screen.blit(text1,[width/2-15,height-42])
                 text_pause = smallfont.render("Paused", True, const.BLACK)
-                screen.blit(text_pause,[width/2-40,height/2-30])
-                text_cont = smallfont.render("Click Anywhere to Continue", True, const.BLACK)
-                screen.blit(text_cont,[width/2-150,height/2])
+                screen.blit(text_pause,[width/2-43,height/2-30])
+                text_cont = smallfont.render("Click Anywhere Or Press Space To Continue", True, const.BLACK)
+                screen.blit(text_cont,[width/2-250,height/2])
                 paddle1.draw(screen, (255, 0, 0))
                 paddle2.draw(screen, (255, 255, 0))
                 puck.draw(screen)
@@ -118,6 +120,13 @@ def renderPlayingArea():
                             const.pause_flag=False
                         else:
                             count=1
+                    elif event.type == pygame.KEYDOWN:
+                        if(event.key == pygame.K_SPACE):
+                            time.sleep(0.1)
+                            pygame.draw.circle(screen, red, (width / 2, height - 30), 20, 0)
+                            text1 = smallfont.render("||", True, const.WHITE)
+                            screen.blit(text1, [width / 2 - 7, height - 44])
+                            const.pause_flag = False
                     if event.type == QUIT:
                         sys.exit()
             time.sleep(0.1)
@@ -145,10 +154,15 @@ def gameLoop(speed):
     pygame.mixer.Sound.set_volume(background_music,0.2) 
     while True:
         global score1, score2
+        space_pause = 0
 
         for event in pygame.event.get():
-            if event.type == QUIT:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    space_pause = 1
+            elif event.type == QUIT:
                 sys.exit()
+
 
         keyPresses = pygame.key.get_pressed()
 
@@ -209,7 +223,7 @@ def gameLoop(speed):
             pygame.mixer.Sound.play(background_music,-1)
             score1, score2 = 0, 0
         # playing area should be drawn first
-        renderPlayingArea()
+        renderPlayingArea(space_pause)
 
         # show score
         score(score1, score2)
