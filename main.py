@@ -5,9 +5,9 @@ import pygame
 from pygame.locals import *
 from paddle import *
 from puck import *
-from startScreen import airHockeyStart
+from startScreen import airHockeyStart,buttonCircle
 import constants as const
-
+import time
 """
 setting logo, should be before setting display, some OS prevent
 setting icon after the display has been set.
@@ -16,7 +16,6 @@ gamelogo = pygame.image.load(os.path.join(os.path.dirname(__file__), 'aux/AHlogo
 pygame.display.set_icon(gamelogo)
 
 pygame.init()
-
 paddle_hit=pygame.mixer.Sound('aux/hit.wav')
 goal_whistle = pygame.mixer.Sound('aux/goal.wav')
 
@@ -39,8 +38,6 @@ screenColor = (224, 214, 141)
 score1, score2 = 0, 0
 
 smallfont = pygame.font.SysFont("comicsans", 35)
-
-
 def score(score1, score2):
     text1 = smallfont.render("Score 1: " + str(score1), True, const.BLACK)
     text2 = smallfont.render("Score 2: " + str(score2), True, const.BLACK)
@@ -62,8 +59,11 @@ def rounds(rounds_p1, rounds_p2):
 
         text = smallfont.render(str(rounds_p1) + " : " + str(rounds_p2), True, const.BLACK)
         screen.blit(text, [width / 2 - 16, 20])
-
-
+def pause(pause_flag):
+    if(pause_flag==True):
+        print "PAUSE"
+    else:
+        print "UNPAUSE"
 def renderPlayingArea():
     # Render Logic
     screen.fill(screenColor)
@@ -78,8 +78,48 @@ def renderPlayingArea():
     pygame.draw.rect(screen, const.BLACK, (0, const.GOALY1, 5, const.GOALWIDTH))
     pygame.draw.rect(screen, const.BLACK, (width - 5, const.GOALY1, 5, const.GOALWIDTH))
     # Divider
+    red = (255, 82, 82)
     pygame.draw.rect(screen, const.WHITE, (width / 2, 0, 3, height))
-
+    # PAUSE
+    pygame.draw.circle(screen,red,(width/2,height-30),20,0)
+    text1 = smallfont.render("||", True, const.WHITE)
+    screen.blit(text1,[width/2-7,height-44])
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+    if((mouse[1]<(height-30+20) and mouse[1]>(height-30-20)) and (mouse[0]<(width/2+20) and mouse[0]>(width/2-20)) and click[0]==1):
+        if(const.pause_flag==False):
+            const.pause_flag=True
+            time.sleep(0.1)
+            count=0
+            while(const.pause_flag!=False):
+                pygame.draw.circle(screen,(0,255,0),(width/2,height-30),20,0)
+                text1 = smallfont.render("Go", True, const.WHITE)
+                screen.blit(text1,[width/2-15,height-42])
+                text_pause = smallfont.render("Paused", True, const.BLACK)
+                screen.blit(text_pause,[width/2-40,height/2-30])
+                text_cont = smallfont.render("Click Anywhere to Continue", True, const.BLACK)
+                screen.blit(text_cont,[width/2-150,height/2])
+                paddle1.draw(screen, (255, 0, 0))
+                paddle2.draw(screen, (255, 255, 0))
+                puck.draw(screen)
+                score(score1, score2)
+                rounds(rounds_p1, rounds_p2)
+                pygame.display.flip()
+                ev=pygame.event.get()
+                clock.tick(const.FPS)
+                for event in ev:
+                    if event.type == pygame.MOUSEBUTTONUP:
+                        if(count!=0):
+                            time.sleep(0.1)
+                            pygame.draw.circle(screen,red,(width/2,height-30),20,0)
+                            text1 = smallfont.render("||", True, const.WHITE)
+                            screen.blit(text1,[width/2-7,height-44])
+                            const.pause_flag=False
+                        else:
+                            count=1
+                    if event.type == QUIT:
+                        sys.exit()
+            time.sleep(0.1)
 
 def resetGame(speed, player):
     puck.reset(speed, player)
@@ -98,6 +138,7 @@ def insideGoal(side):
 
 # Game Loop
 def gameLoop(speed):
+    global rounds_p1,rounds_p2
     rounds_p1, rounds_p2 = 0, 0
 
     while True:
@@ -122,8 +163,8 @@ def gameLoop(speed):
         left = keyPresses[pygame.K_LEFT]
 
         # time period between two consecutive frames.
+        global time_delta
         time_delta = clock.get_time() / 1000.0
-
         # Update Paddle1
         paddle1.move(w, s, a, d, time_delta)
         paddle1.checkTopBottomBounds(height)
@@ -175,7 +216,6 @@ def gameLoop(speed):
         paddle1.draw(screen, (255, 0, 0))
         paddle2.draw(screen, (255, 255, 0))
         puck.draw(screen)
-
         pygame.display.flip()
         clock.tick(const.FPS)
 
