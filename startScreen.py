@@ -59,7 +59,7 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
                 (Scrwidth / 2 , Scrheight / 2 + 170))
             if click[0] == 1:
                 return 1
-
+        
         else:
             buttonCircle(screen, dimgreen, (600, 470), "Easy", smallText, (255, 255, 255),
                 (Scrwidth / 2, Scrheight / 2 + 170))

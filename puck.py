@@ -1,7 +1,7 @@
 import pygame
+import random as rand
 import math
 import constants as const
-
 class Puck():
     def __init__(self, x, y):
         self.x = x
@@ -51,7 +51,8 @@ class Puck():
         Checks collision between circles using the distance formula:
         distance = sqrt(dx**2 + dy**2)
         """
-
+        while pygame.mixer.music.get_busy():
+            pygame.time.Clock().tick(10)
         dx = self.x - paddle.x
         dy = self.y - paddle.y
 
@@ -93,11 +94,16 @@ class Puck():
         paddle.y += math.cos(temp_angle) * offset
         return True
 
-    def reset(self, speed):
-        self.angle = 0
+    def reset(self, speed, player):
+        if player == 1:
+            self.angle = rand.uniform(-math.pi,0)
+        else:
+            self.angle = rand.uniform(0,math.pi)
         self.speed = speed
         self.x = const.WIDTH / 2
         self.y = const.HEIGHT / 2
 
     def draw(self, screen):
         pygame.draw.circle(screen, const.WHITE, (int(self.x), int(self.y)), self.radius)
+    def get_pos(self):
+        print self.x,self.y

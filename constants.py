@@ -1,5 +1,4 @@
 """ All sizes in pixels and speeds in pixels per second """
-
 FPS = 60
 
 # Screen size
@@ -7,7 +6,7 @@ HEIGHT = 600
 WIDTH = 1200
 
 # Paddle
-PADDLESIZE = 26
+PADDLESIZE = 40
 PADDLESPEED = 400
 PADDLEMASS = 2000
 
@@ -20,7 +19,7 @@ PADDLE2X = WIDTH - 20
 PADDLE2Y = HEIGHT / 2
 
 # Puck
-PUCKSIZE = 20
+PUCKSIZE = 30
 PUCKSPEED = 450
 PUCKMASS = 500
 
@@ -45,3 +44,6 @@ ROUNDLIMIT = 2
 # Environment
 FRICTION = 0.998
 MAXSPEED = 1500
+
+#Pause
+pause_flag=False
