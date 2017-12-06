@@ -9,10 +9,8 @@ from startScreen import airHockeyStart, buttonCircle
 import constants as const
 import time
 
-
 # Globals, initialized in method `init()`
-# TODO: Maybe introduce a class Global to keep track of all the global variables.
-
+# TODO: introduce a class `Global` to keep track of all the global variables.
 smallfont = None
 score1, score2 = 0, 0
 
@@ -37,8 +35,9 @@ puck = Puck(width / 2, height / 2)
 
 def init():
     global paddleHit, goalWhistle, backgroundMusic, clock, screen, smallfont
-    pygame.init()
+    pygame.mixer.pre_init(44100, -16, 2, 2048)
     pygame.mixer.init()
+    pygame.init()
 
     auxDirectory = os.path.join(os.path.dirname(__file__), 'aux')
 
@@ -66,10 +65,10 @@ def score(score1, score2):
 
 def rounds(rounds_p1, rounds_p2):
     if rounds_p1 == const.ROUNDLIMIT:
-        print "Player 1 Wins"
+        print "Player 1 Wins"  # Player one denotes left player
         sys.exit()
     elif rounds_p2 == const.ROUNDLIMIT:
-        print "Player 2 Wins"
+        print "Player 2 Wins"  # Player two denotes right player
         sys.exit()
     else:
         text = smallfont.render("Rounds", True, const.BLACK)
@@ -219,14 +218,14 @@ def gameLoop(speed):
 
         # Hits the left goal!
         if insideGoal(0):
-            pygame.mixer.Sound.play(goalWhistle)  # Added sound for goal
-            score1 += 1
+            pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
+            score2 += 1
             resetGame(speed, 1)
 
         # Hits the right goal!
         if insideGoal(1):
-            pygame.mixer.Sound.play(goalWhistle)  # Added sound for goal
-            score2 += 1
+            pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
+            score1 += 1
             resetGame(speed, 2)
 
         # check puck collisions and update if necessary.
