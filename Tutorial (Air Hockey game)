@@ -1,0 +1,124 @@
+In this tutorial series, you'll learn how to create an Air Hockey game. 
+The objective of the game is to hit the puck using the paddles to raise the score. Read on!
+
+Also available in this series:
+Build an Air Hockey Game - Interface Creation
+Build an Air Hockey Game - Adding Interaction
+Step 1: Application Overview 
+
+ Using pre-made graphics, we will code an entertaining game using Lua and the Corona SDK APIs.
+
+ The player will be able to hit a puck by dragging the paddle on the screen. 
+ You can modify the parameters in the code to customize the game.
+ 
+ Step 2: Target Device
+
+The first thing we have to do is select the platform we want to run our app within, 
+this way we'll be able to choose the size for the images we will use.
+
+The iOS platform has these characteristics:
+
+iPad: 1024x768px, 132 ppi
+iPhone/iPod Touch: 320x480px, 163 ppi
+iPhone 4: 960x640px, 326 ppi
+Because Android is an open platform, there are many different devices and resolutions.
+A few of the more common screen characteristics are:
+
+Google Nexus One: 480x800px, 254 ppi
+Motorola Droid X: 854x480px, 228 ppi
+HTC Evo: 480x800px, 217 ppi
+In this tutorial we'll be focusing on the iOS platform with the graphic design,
+specifically developing for distribution to an iPhone/iPod touch, but the code presented 
+here should apply to Android development with the Corona SDK as well.
+
+Step 3: Interface
+
+A simple and friendly interface will be used, this involves multiple shapes, buttons, bitmaps and more.
+
+The interface graphic resources necessary for this tutorial can be found in the attached download.
+
+Step 4: Export Graphics
+
+Depending on the device you have selected, you may need to export the graphics in the recommended ppi,
+you can do that in your favorite image editor.
+
+I used the Adjust Size... function in the Preview app on Mac OS X.
+
+Remember to give the images a descriptive name and save them in your project folder.
+
+Step 5: Sound
+
+We'll use Sound Effects to enhance the feeling of the game, you can find the sounds used 
+in this example in Soungle.com using the keywords bell and buzz.
+
+Step 6: App Configuration
+
+An external file will be used to make the application go fullscreen across devices, the config.lua file. 
+This file shows the original screen size and the method used to scale that content in case the app is run
+in a different screen resolution.
+
+
+application =
+{
+    content =
+    {
+        width = 320,
+        height = 480,
+        scale = "letterbox"
+    },
+ }   
+
+Step 7: Main.lua
+
+Let's write the application!
+
+Open your preferred Lua editor (any Text Editor will work, but you won't have syntax highlighting)
+and prepare to write your awesome app. Remember to save the file as main.lua in your project folder.
+
+Step 8: Code Structure
+
+We'll structure our code as if it were a Class. If you know ActionScript or Java, you should find the structure familiar.
+
+
+Necessary Classes
+ 
+Variables and Constants
+ 
+Declare Functions
+ 
+    contructor (Main function)
+     
+    class methods (other functions)
+ 
+call Main function
+
+Step 9: Hide Status Bar
+
+display.setStatusBar(display.HiddenStatusBar)
+This code hides the status bar. The status bar is the bar on top of the device screen that shows the time,
+signal, and other indicators.
+
+Step 10: Import Physics
+
+We'll use the Physics library to handle collisions. Use this code to import it:
+
+local physics = require('physics')
+physics.start()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
