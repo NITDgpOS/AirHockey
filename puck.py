@@ -105,3 +105,5 @@ class Puck():
 
     def draw(self, screen):
         pygame.draw.circle(screen, const.WHITE, (int(self.x), int(self.y)), self.radius)
+    def get_pos(self):
+        print self.x,self.y
