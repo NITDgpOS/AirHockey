@@ -100,8 +100,8 @@ def renderPlayingArea():
                 screen.blit(text_pause,[width/2-40,height/2-30])
                 text_cont = smallfont.render("Click Anywhere to Continue", True, const.BLACK)
                 screen.blit(text_cont,[width/2-150,height/2])
-                paddle1.draw(screen, (255, 0, 0))
-                paddle2.draw(screen, (255, 255, 0))
+                paddle1.draw(screen, c1)
+                paddle2.draw(screen, c2)
                 puck.draw(screen)
                 score(score1, score2)
                 rounds(rounds_p1, rounds_p2)
@@ -202,11 +202,11 @@ def gameLoop(speed):
         # Update round points
         if score1 == const.SCORELIMIT:
             rounds_p1 += 1
-            pygame.mixer.Sound.play(background_music,-1)
+            # pygame.mixer.Sound.play(background_music,-1)
             score1, score2 = 0, 0
         if score2 == const.SCORELIMIT:
             rounds_p2 += 1
-            pygame.mixer.Sound.play(background_music,-1)
+            # pygame.mixer.Sound.play(background_music,-1)
             score1, score2 = 0, 0
         # playing area should be drawn first
         renderPlayingArea()
@@ -215,15 +215,15 @@ def gameLoop(speed):
         score(score1, score2)
         rounds(rounds_p1, rounds_p2)
         # drawing the paddle and the puck
-        paddle1.draw(screen, (255, 0, 0))
-        paddle2.draw(screen, (255, 255, 0))
+        paddle1.draw(screen, c1)
+        paddle2.draw(screen, c2)
         puck.draw(screen)
         pygame.display.flip()
         clock.tick(const.FPS)
 
 
 if __name__ == "__main__":
-    choice = airHockeyStart(screen, clock, width, height)
+    choice,c1,c2 = airHockeyStart(screen, clock, width, height)
     if choice == 1:
         puck.speed = const.EASY
         gameLoop(const.EASY)
