@@ -14,11 +14,11 @@ setting icon after the display has been set.
 """
 gamelogo = pygame.image.load(os.path.join(os.path.dirname(__file__), 'aux/AHlogo.png'))
 pygame.display.set_icon(gamelogo)
-
 pygame.init()
+pygame.mixer.init()
 paddle_hit=pygame.mixer.Sound('aux/hit.wav')
 goal_whistle = pygame.mixer.Sound('aux/goal.wav')
-
+background_music=pygame.mixer.Sound('aux/back.wav')
 clock = pygame.time.Clock()
 
 width, height = const.WIDTH, const.HEIGHT
@@ -140,7 +140,8 @@ def insideGoal(side):
 def gameLoop(speed):
     global rounds_p1,rounds_p2
     rounds_p1, rounds_p2 = 0, 0
-
+    pygame.mixer.Sound.play(background_music,-1)
+    pygame.mixer.Sound.set_volume(background_music,0.2) 
     while True:
         global score1, score2
 
@@ -200,18 +201,18 @@ def gameLoop(speed):
         # Update round points
         if score1 == const.SCORELIMIT:
             rounds_p1 += 1
+            pygame.mixer.Sound.play(background_music,-1)
             score1, score2 = 0, 0
         if score2 == const.SCORELIMIT:
             rounds_p2 += 1
+            pygame.mixer.Sound.play(background_music,-1)
             score1, score2 = 0, 0
-
         # playing area should be drawn first
         renderPlayingArea()
 
         # show score
         score(score1, score2)
         rounds(rounds_p1, rounds_p2)
-
         # drawing the paddle and the puck
         paddle1.draw(screen, (255, 0, 0))
         paddle2.draw(screen, (255, 255, 0))
