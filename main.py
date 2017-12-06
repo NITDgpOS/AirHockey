@@ -14,8 +14,9 @@ setting icon after the display has been set.
 """
 gamelogo = pygame.image.load(os.path.join(os.path.dirname(__file__), 'aux/AHlogo.png'))
 pygame.display.set_icon(gamelogo)
-pygame.init()
+pygame.mixer.pre_init(44100, -16, 2, 2048)
 pygame.mixer.init()
+pygame.init()
 paddle_hit=pygame.mixer.Sound('aux/hit.wav')
 goal_whistle = pygame.mixer.Sound('aux/goal.wav')
 background_music=pygame.mixer.Sound('aux/back.wav')
