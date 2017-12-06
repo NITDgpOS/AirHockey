@@ -180,12 +180,12 @@ def gameLoop(speed):
         puck.move(time_delta)
 
         if insideGoal(0):
-            pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
+            # pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
             score2 += 1
             resetGame(speed, 1)
 
         if insideGoal(1):
-            pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
+            # pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
             score1 += 1
             resetGame(speed, 2)
 
