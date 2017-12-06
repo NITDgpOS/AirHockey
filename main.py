@@ -180,12 +180,12 @@ def gameLoop(speed):
         puck.move(time_delta)
 
         if insideGoal(0):
-            # pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
+            pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
             score2 += 1
             resetGame(speed, 1)
 
         if insideGoal(1):
-            # pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
+            pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
             score1 += 1
             resetGame(speed, 2)
 
@@ -202,11 +202,11 @@ def gameLoop(speed):
         # Update round points
         if score1 == const.SCORELIMIT:
             rounds_p1 += 1
-            pygame.mixer.Sound.play(background_music,-1)
+            # pygame.mixer.Sound.play(background_music,-1)
             score1, score2 = 0, 0
         if score2 == const.SCORELIMIT:
             rounds_p2 += 1
-            pygame.mixer.Sound.play(background_music,-1)
+            # pygame.mixer.Sound.play(background_music,-1)
             score1, score2 = 0, 0
         # playing area should be drawn first
         renderPlayingArea()
