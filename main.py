@@ -184,7 +184,7 @@ def gameLoop(speed):
             if event.type == pygame.MOUSEBUTTONUP:
                 mouseXY = pygame.mouse.get_pos()
 
-                # check if the mouse is clicked withing the pause area.
+                # check if the mouse is clicked within the pause area.
                 if hitsPauseArea(mouseXY):
                     showPauseScreen()
 
@@ -195,6 +195,7 @@ def gameLoop(speed):
         s = keyPresses[pygame.K_s]
         d = keyPresses[pygame.K_d]
         a = keyPresses[pygame.K_a]
+        
         # Process Player 2 Input
         up = keyPresses[pygame.K_UP]
         down = keyPresses[pygame.K_DOWN]
@@ -268,6 +269,7 @@ def gameLoop(speed):
 
 if __name__ == "__main__":
     init()
+    
     choice = airHockeyStart(screen, clock, width, height)
     if choice == 1:
         puck.speed = const.EASY
