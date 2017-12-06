@@ -44,3 +44,6 @@ ROUNDLIMIT = 2
 # Environment
 FRICTION = 0.998
 MAXSPEED = 1500
+
+#Pause
+pause_flag=False
