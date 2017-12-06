@@ -49,10 +49,10 @@ def score(score1, score2):
 
 def rounds(rounds_p1, rounds_p2):
     if rounds_p1 == const.ROUNDLIMIT:
-        print "Player 1 Wins"
+        print "Player 1 Wins"  # Player one denotes left player
         sys.exit()
     elif rounds_p2 == const.ROUNDLIMIT:
-        print "Player 2 Wins"
+        print "Player 2 Wins"  # Player two denotes right player
         sys.exit()
     else:
         text = smallfont.render("Rounds", True, const.BLACK)
@@ -181,12 +181,12 @@ def gameLoop(speed):
 
         if insideGoal(0):
             pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
-            score1 += 1
+            score2 += 1
             resetGame(speed, 1)
 
         if insideGoal(1):
             pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
-            score2 += 1
+            score1 += 1
             resetGame(speed, 2)
 
         puck.checkBoundary(width, height)
