@@ -5,39 +5,55 @@ import pygame
 from pygame.locals import *
 from paddle import *
 from puck import *
-from startScreen import airHockeyStart,buttonCircle
+from startScreen import airHockeyStart, buttonCircle
 import constants as const
 import time
-"""
-setting logo, should be before setting display, some OS prevent
-setting icon after the display has been set.
-"""
-gamelogo = pygame.image.load(os.path.join(os.path.dirname(__file__), 'aux/AHlogo.png'))
-pygame.display.set_icon(gamelogo)
-pygame.init()
-pygame.mixer.init()
-paddle_hit=pygame.mixer.Sound('aux/hit.wav')
-goal_whistle = pygame.mixer.Sound('aux/goal.wav')
-background_music=pygame.mixer.Sound('aux/back.wav')
-clock = pygame.time.Clock()
 
+# Globals, initialized in method `init()`
+smallfont = None
+score1, score2 = 0, 0
+
+# Sound globals.
+paddleHit = None
+goal_whistle = None
+backgroundMusic = None
+
+# game globals.
+clock = None
+screen = None
+screenColor = (224, 214, 141)
+
+# width and height of the screen.
 width, height = const.WIDTH, const.HEIGHT
-screen = pygame.display.set_mode((width, height))
 
-# Window title and Caption
-pygame.display.set_caption('Air Hockey')
-
-# Create Game Objects
+# Create game objects.
 paddle1 = Paddle(const.PADDLE1X, const.PADDLE1Y)
 paddle2 = Paddle(const.PADDLE2X, const.PADDLE2Y)
 puck = Puck(width / 2, height / 2)
 
-screenColor = (224, 214, 141)
 
-# Score
-score1, score2 = 0, 0
+def init():
+    global paddleHit, goal_whistle, backgroundMusic, clock, screen, smallfont
+    pygame.mixer.pre_init(44100, -16, 2, 2048)
+    pygame.mixer.init()
+    pygame.init()
 
-smallfont = pygame.font.SysFont("comicsans", 35)
+    auxDirectory = os.path.join(os.path.dirname(__file__), 'aux')
+
+    gamelogo = pygame.image.load(os.path.join(auxDirectory, 'AHlogo.png'))
+    pygame.display.set_icon(gamelogo)
+    pygame.display.set_caption('Air Hockey')
+    screen = pygame.display.set_mode((width, height))
+
+    paddleHit = pygame.mixer.Sound(os.path.join(auxDirectory, 'hit.wav'))
+    goal_whistle = pygame.mixer.Sound(os.path.join(auxDirectory, 'goal.wav'))
+    backgroundMusic = pygame.mixer.Sound(os.path.join(auxDirectory, 'back.wav'))
+
+    smallfont = pygame.font.SysFont("comicsans", 35)
+
+    clock = pygame.time.Clock()
+
+
 def score(score1, score2):
     text1 = smallfont.render("Score 1: " + str(score1), True, const.BLACK)
     text2 = smallfont.render("Score 2: " + str(score2), True, const.BLACK)
@@ -48,10 +64,10 @@ def score(score1, score2):
 
 def rounds(rounds_p1, rounds_p2):
     if rounds_p1 == const.ROUNDLIMIT:
-        print "Player 1 Wins"
+        print "Player 1 Wins"  # Player one denotes left player
         sys.exit()
     elif rounds_p2 == const.ROUNDLIMIT:
-        print "Player 2 Wins"
+        print "Player 2 Wins"  # Player two denotes right player
         sys.exit()
     else:
         text = smallfont.render("Rounds", True, const.BLACK)
@@ -59,11 +75,62 @@ def rounds(rounds_p1, rounds_p2):
 
         text = smallfont.render(str(rounds_p1) + " : " + str(rounds_p2), True, const.BLACK)
         screen.blit(text, [width / 2 - 16, 20])
-def pause(pause_flag):
-    if(pause_flag==True):
-        print "PAUSE"
-    else:
-        print "UNPAUSE"
+
+
+def showPauseScreen():
+    """ Shows the pause screen till the user un-pauses"""
+
+    paused = True
+
+    while paused:
+        paddle1.draw(screen, (255, 0, 0))
+        paddle2.draw(screen, (255, 255, 0))
+        puck.draw(screen)
+
+        score(score1, score2)
+        rounds(rounds_p1, rounds_p2)
+
+        pygame.draw.circle(screen, (0, 255, 0), (width / 2, height - 30), 20, 0)
+
+        text1 = smallfont.render("Go", True, const.WHITE)
+        screen.blit(text1, [width / 2 - 15, height - 42])
+
+        text_pause = smallfont.render("Paused", True, const.BLACK)
+        screen.blit(text_pause, [width / 2 - 44, height / 2 - 30])
+
+        text_cont = smallfont.render("Click Anywhere Or Press Space To Continue", True, const.BLACK)
+        screen.blit(text_cont, [width / 2 - 250, height / 2])
+
+        # Look for mouse press events.
+        events = pygame.event.get()
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONUP:
+                pygame.draw.circle(screen, (255, 0, 0), (width / 2, height - 30), 20, 0)
+                text1 = smallfont.render("||", True, const.WHITE)
+                screen.blit(text1, [width / 2 - 7, height - 44])
+                paused = False
+
+            # removing pause using space
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    paused = False
+
+            if event.type == QUIT:
+                sys.exit()
+
+        pygame.display.flip()
+        clock.tick(const.FPS)
+
+
+def hitsPauseArea(mouseXY):
+    """ Returns True if the mouse is clicked within the pause area"""
+
+    return mouseXY[1] < (height - 30 + 20) \
+           and mouseXY[1] > (height - 30 - 20) \
+           and mouseXY[0] < (width / 2 + 20) \
+           and mouseXY[0] > (width / 2 - 20)
+
+
 def renderPlayingArea():
     # Render Logic
     screen.fill(screenColor)
@@ -78,48 +145,15 @@ def renderPlayingArea():
     pygame.draw.rect(screen, const.BLACK, (0, const.GOALY1, 5, const.GOALWIDTH))
     pygame.draw.rect(screen, const.BLACK, (width - 5, const.GOALY1, 5, const.GOALWIDTH))
     # Divider
-    red = (255, 82, 82)
     pygame.draw.rect(screen, const.WHITE, (width / 2, 0, 3, height))
+
     # PAUSE
-    pygame.draw.circle(screen,red,(width/2,height-30),20,0)
+    pygame.draw.circle(screen, const.LIGHTRED, (width / 2, height - 30), 20, 0)
     text1 = smallfont.render("||", True, const.WHITE)
-    screen.blit(text1,[width/2-7,height-44])
-    mouse = pygame.mouse.get_pos()
+    screen.blit(text1, [width / 2 - 7, height - 44])
+
     click = pygame.mouse.get_pressed()
-    if((mouse[1]<(height-30+20) and mouse[1]>(height-30-20)) and (mouse[0]<(width/2+20) and mouse[0]>(width/2-20)) and click[0]==1):
-        if(const.pause_flag==False):
-            const.pause_flag=True
-            time.sleep(0.1)
-            count=0
-            while(const.pause_flag!=False):
-                pygame.draw.circle(screen,(0,255,0),(width/2,height-30),20,0)
-                text1 = smallfont.render("Go", True, const.WHITE)
-                screen.blit(text1,[width/2-15,height-42])
-                text_pause = smallfont.render("Paused", True, const.BLACK)
-                screen.blit(text_pause,[width/2-40,height/2-30])
-                text_cont = smallfont.render("Click Anywhere to Continue", True, const.BLACK)
-                screen.blit(text_cont,[width/2-150,height/2])
-                paddle1.draw(screen, (255, 0, 0))
-                paddle2.draw(screen, (255, 255, 0))
-                puck.draw(screen)
-                score(score1, score2)
-                rounds(rounds_p1, rounds_p2)
-                pygame.display.flip()
-                ev=pygame.event.get()
-                clock.tick(const.FPS)
-                for event in ev:
-                    if event.type == pygame.MOUSEBUTTONUP:
-                        if(count!=0):
-                            time.sleep(0.1)
-                            pygame.draw.circle(screen,red,(width/2,height-30),20,0)
-                            text1 = smallfont.render("||", True, const.WHITE)
-                            screen.blit(text1,[width/2-7,height-44])
-                            const.pause_flag=False
-                        else:
-                            count=1
-                    if event.type == QUIT:
-                        sys.exit()
-            time.sleep(0.1)
+
 
 def resetGame(speed, player):
     puck.reset(speed, player)
@@ -138,16 +172,32 @@ def insideGoal(side):
 
 # Game Loop
 def gameLoop(speed):
-    global rounds_p1,rounds_p2
+    global rounds_p1, rounds_p2
     rounds_p1, rounds_p2 = 0, 0
-    pygame.mixer.Sound.play(background_music,-1)
-    pygame.mixer.Sound.set_volume(background_music,0.2) 
+
+    pygame.mixer.Sound.play(backgroundMusic, -1)
+    pygame.mixer.Sound.set_volume(backgroundMusic, 0.2)
+
     while True:
         global score1, score2
 
         for event in pygame.event.get():
+
+            # check for space bar
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    showPauseScreen()
+
             if event.type == QUIT:
                 sys.exit()
+
+            # check mouse click events
+            if event.type == pygame.MOUSEBUTTONUP:
+                mouseXY = pygame.mouse.get_pos()
+
+                # check if the mouse is clicked within the pause area.
+                if hitsPauseArea(mouseXY):
+                    showPauseScreen()
 
         keyPresses = pygame.key.get_pressed()
 
@@ -164,8 +214,8 @@ def gameLoop(speed):
         left = keyPresses[pygame.K_LEFT]
 
         # time period between two consecutive frames.
-        global time_delta
         time_delta = clock.get_time() / 1000.0
+
         # Update Paddle1
         paddle1.move(w, s, a, d, time_delta)
         paddle1.checkTopBottomBounds(height)
@@ -178,50 +228,59 @@ def gameLoop(speed):
 
         puck.move(time_delta)
 
+        # Hits the left goal!
         if insideGoal(0):
             pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
-            score1 += 1
+            score2 += 1
             resetGame(speed, 1)
 
+        # Hits the right goal!
         if insideGoal(1):
             pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
-            score2 += 1
+            score1 += 1
             resetGame(speed, 2)
 
+        # check puck collisions and update if necessary.
         puck.checkBoundary(width, height)
 
         if puck.collidesWithPaddle(paddle1):
-            pygame.mixer.Sound.play(paddle_hit)  # Added sound for paddle hit
+            pygame.mixer.Sound.play(paddleHit)  # Added sound for paddle hit
             pass
 
         if puck.collidesWithPaddle(paddle2):
-            pygame.mixer.Sound.play(paddle_hit)
+            pygame.mixer.Sound.play(paddleHit)
             pass
 
         # Update round points
         if score1 == const.SCORELIMIT:
             rounds_p1 += 1
-            pygame.mixer.Sound.play(background_music,-1)
+            pygame.mixer.Sound.play(backgroundMusic, -1)
             score1, score2 = 0, 0
         if score2 == const.SCORELIMIT:
             rounds_p2 += 1
-            pygame.mixer.Sound.play(background_music,-1)
+            pygame.mixer.Sound.play(backgroundMusic, -1)
             score1, score2 = 0, 0
+
         # playing area should be drawn first
         renderPlayingArea()
 
         # show score
         score(score1, score2)
         rounds(rounds_p1, rounds_p2)
+
         # drawing the paddle and the puck
         paddle1.draw(screen, (255, 0, 0))
         paddle2.draw(screen, (255, 255, 0))
         puck.draw(screen)
+
+        # refresh screen.
         pygame.display.flip()
         clock.tick(const.FPS)
 
 
 if __name__ == "__main__":
+    init()
+
     choice = airHockeyStart(screen, clock, width, height)
     if choice == 1:
         puck.speed = const.EASY
