@@ -36,6 +36,7 @@ HARD = 850
 # color
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+LIGHTRED = (255, 82, 82)
 
 # Scoring
 SCORELIMIT = 5
@@ -44,6 +45,3 @@ ROUNDLIMIT = 2
 # Environment
 FRICTION = 0.998
 MAXSPEED = 1500
-
-#Pause
-pause_flag=False
