@@ -54,7 +54,7 @@ NOTE: The administrative permission is required to place the AHlogo.png file int
 
 4. Open properties for run.desktop, toggle "Allow executing file as program" and click Play.
 
-##GamePlay Help
+## GamePlay Help
 
 1. Choose your difficulty level at the start menu and start hitting.
 
