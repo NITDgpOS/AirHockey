@@ -192,6 +192,7 @@ def gameLoop(speed):
                     showPauseScreen()
 
             if event.type == QUIT:
+                pygame.quit()
                 sys.exit()
 
             # check mouse click events
@@ -258,11 +259,9 @@ def gameLoop(speed):
         # Update round points
         if score1 == const.SCORELIMIT:
             rounds_p1 += 1
-            pygame.mixer.Sound.play(backgroundMusic, -1)
             score1, score2 = 0, 0
         if score2 == const.SCORELIMIT:
             rounds_p2 += 1
-            pygame.mixer.Sound.play(backgroundMusic, -1)
             score1, score2 = 0, 0
 
         # playing area should be drawn first
