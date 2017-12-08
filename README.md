@@ -54,5 +54,13 @@ NOTE: The administrative permission is required to place the AHlogo.png file int
 
 4. Open properties for run.desktop, toggle "Allow executing file as program" and click Play.
 
+##GamePlay Help
+
+1. Choose your difficulty level at the start menu and start hitting.
+
+2. Each game comprises of three rounds, and the player who wins two (or more) rounds is the winner.
+
+3. During playtime, game can be paused anytime by pressing spacebar or clicking the pause icon on the screen.
+
 ## Enjoy The Game
 

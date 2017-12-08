@@ -11,6 +11,7 @@ import time
 
 # Globals, initialized in method `init()`
 # TODO: introduce a class `Global` to keep track of all the global variables.
+
 smallfont = None
 score1, score2 = 0, 0
 
@@ -152,6 +153,7 @@ def renderPlayingArea():
     pygame.draw.circle(screen, const.LIGHTRED, (width / 2, height - 30), 20, 0)
     text1 = smallfont.render("||", True, const.WHITE)
     screen.blit(text1,[width/2-7,height-44])
+    screen.blit(text1, [width / 2 - 7, height - 44])
 
     click = pygame.mouse.get_pressed()
 
@@ -282,7 +284,6 @@ def gameLoop(speed):
 
 if __name__ == "__main__":
     init()
-    
     choice = airHockeyStart(screen, clock, width, height)
     if choice == 1:
         puck.speed = const.EASY
