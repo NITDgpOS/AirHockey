@@ -11,12 +11,13 @@ import time
 
 # Globals, initialized in method `init()`
 # TODO: introduce a class `Global` to keep track of all the global variables.
+
 smallfont = None
 score1, score2 = 0, 0
 
 # Sound globals.
 paddleHit = None
-goalWhistle = None
+goal_whistle = None
 backgroundMusic = None
 
 # game globals.
@@ -34,7 +35,7 @@ puck = Puck(width / 2, height / 2)
 
 
 def init():
-    global paddleHit, goalWhistle, backgroundMusic, clock, screen, smallfont
+    global paddleHit, goal_whistle, backgroundMusic, clock, screen, smallfont
     pygame.mixer.pre_init(44100, -16, 2, 2048)
     pygame.mixer.init()
     pygame.init()
@@ -47,7 +48,7 @@ def init():
     screen = pygame.display.set_mode((width, height))
 
     paddleHit = pygame.mixer.Sound(os.path.join(auxDirectory, 'hit.wav'))
-    goalWhistle = pygame.mixer.Sound(os.path.join(auxDirectory, 'goal.wav'))
+    goal_whistle = pygame.mixer.Sound(os.path.join(auxDirectory, 'goal.wav'))
     backgroundMusic = pygame.mixer.Sound(os.path.join(auxDirectory, 'back.wav'))
 
     smallfont = pygame.font.SysFont("comicsans", 35)
@@ -97,10 +98,10 @@ def showPauseScreen():
         screen.blit(text1, [width / 2 - 15, height - 42])
 
         text_pause = smallfont.render("Paused", True, const.BLACK)
-        screen.blit(text_pause, [width / 2 - 40, height / 2 - 30])
+        screen.blit(text_pause, [width / 2 - 44, height / 2 - 30])
 
-        text_cont = smallfont.render("Click Anywhere to Continue", True, const.BLACK)
-        screen.blit(text_cont, [width / 2 - 150, height / 2])
+        text_cont = smallfont.render("Click Anywhere Or Press Space To Continue", True, const.BLACK)
+        screen.blit(text_cont, [width / 2 - 250, height / 2])
 
         # Look for mouse press events.
         events = pygame.event.get()
@@ -110,6 +111,11 @@ def showPauseScreen():
                 text1 = smallfont.render("||", True, const.WHITE)
                 screen.blit(text1, [width / 2 - 7, height - 44])
                 paused = False
+
+            # removing pause using space
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    paused = False
 
             if event.type == QUIT:
                 sys.exit()
@@ -146,7 +152,10 @@ def renderPlayingArea():
     # PAUSE
     pygame.draw.circle(screen, const.LIGHTRED, (width / 2, height - 30), 20, 0)
     text1 = smallfont.render("||", True, const.WHITE)
+    screen.blit(text1,[width/2-7,height-44])
     screen.blit(text1, [width / 2 - 7, height - 44])
+
+    click = pygame.mouse.get_pressed()
 
 
 def resetGame(speed, player):
@@ -176,6 +185,12 @@ def gameLoop(speed):
         global score1, score2
 
         for event in pygame.event.get():
+
+            # check for space bar
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    showPauseScreen()
+
             if event.type == QUIT:
                 sys.exit()
 
@@ -186,6 +201,7 @@ def gameLoop(speed):
                 # check if the mouse is clicked within the pause area.
                 if hitsPauseArea(mouseXY):
                     showPauseScreen()
+
 
         keyPresses = pygame.key.get_pressed()
 
@@ -268,7 +284,6 @@ def gameLoop(speed):
 
 if __name__ == "__main__":
     init()
-    
     choice = airHockeyStart(screen, clock, width, height)
     if choice == 1:
         puck.speed = const.EASY
