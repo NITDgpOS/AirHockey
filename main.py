@@ -7,26 +7,10 @@ from paddle import *
 from puck import *
 from startScreen import airHockeyStart, buttonCircle
 import constants as const
+from globals import *
 import time
 
 # Globals, initialized in method `init()`
-# TODO: introduce a class `Global` to keep track of all the global variables.
-
-smallfont = None
-score1, score2 = 0, 0
-
-# Sound globals.
-paddleHit = None
-goal_whistle = None
-backgroundMusic = None
-
-# game globals.
-clock = None
-screen = None
-screenColor = (224, 214, 141)
-
-# width and height of the screen.
-width, height = const.WIDTH, const.HEIGHT
 
 # Create game objects.
 paddle1 = Paddle(const.PADDLE1X, const.PADDLE1Y)
