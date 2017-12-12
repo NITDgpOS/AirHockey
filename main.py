@@ -24,7 +24,7 @@ def init():
     pygame.mixer.init()
     pygame.init()
 
-    auxDirectory = os.path.join(os.path.dirname(__file__), 'aux')
+    auxDirectory = os.path.join(os.path.dirname(__file__), 'assets')
 
     gamelogo = pygame.image.load(os.path.join(auxDirectory, 'AHlogo.png'))
     pygame.display.set_icon(gamelogo)

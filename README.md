@@ -6,10 +6,10 @@ This is a two player game. There are two paddles and a puck. The left-paddle (Pl
 ## Screenshots
 
 >StartScreen
-![StartScreen](/aux/Shot1.png)
+![StartScreen](/assets/Shot1.png)
 
 >Gameplay
-![Gameplay](/aux/Shot2.png)
+![Gameplay](/assets/Shot2.png)
 
 ## Prerequisite
 
