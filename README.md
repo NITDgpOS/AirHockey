@@ -1,13 +1,19 @@
 # Air Hockey
 
 ## About Air Hockey
-This is a two player game. There are two paddles and a puck. The left-paddle (Player 1) can be moved using WASD keys and the right-paddle (Player 2) can be moved by the arrow keys. The puck hits the upper and lower boundaries and gets reflected and if it goes past the paddle, it is point for the other one.
+This is a two player game. There are two paddles and a puck. The left-paddle (Player 1) can be moved using WASD keys and the right-paddle (Player 2)can be moved by the arrow keys. The puck hits the upper and lower boundaries and gets reflected and if it goes past the paddle, it is point for the other one.
 
 ## Screenshots
-![Gmaeplay](/img/Shot1.png)
+
+>StartScreen
+![StartScreen](/aux/Shot1.png)
+
+>Gameplay
+![Gameplay](/aux/Shot2.png)
+
 ## Prerequisite
 
-Python2 is the default language needed for playing this game,to check which version of Python you have, type the following in terminal: 
+Python2 is the default language needed for playing this game,to check which version of Python you have, type the following in terminal:
 ```
 python --version
 ```
@@ -27,17 +33,34 @@ sudo -H pip install pygame
 
 For more info, visit [Pygame download page](http://www.pygame.org/download.shtml)
 
-## Clone and Run
+## Run
 
-1. Clone the repository.
 
-2. Create the branch on your local machine and switch in this branch :
+### Linux
+
+Run the AirHockey executable present in `linux-build/dist/AirHockey/AirHockey`
+or `python2 main.py` while you are in the AirHockey directory
+
+### Clone the repository.
+
+1. Create the branch on your local machine and switch in this branch :
 ```
 git branch [name_of_your_new_branch]
 git checkout [name_of_your_branch]
 ```
-3. Open the directory and run the file :
-```
-python2 main.py
-```
+2. Open the directory, open properties for "set_icon.desktop", toggle "Allow executing file as program" and launch it. This is only required for the first time launch.
+
+NOTE: The administrative permission is required to place the AHlogo.png file into the usr/share/icons directory.
+
+4. Open properties for run.desktop, toggle "Allow executing file as program" and click Play.
+
+## GamePlay Help
+
+1. Choose your difficulty level at the start menu and start hitting.
+
+2. Each game comprises of three rounds, and the player who wins two (or more) rounds is the winner.
+
+3. During playtime, game can be paused anytime by pressing spacebar or clicking the pause icon on the screen.
+
+## Enjoy The Game
 
