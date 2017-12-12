@@ -158,7 +158,7 @@ def insideGoal(side):
 
 
 # Game Loop
-def gameLoop(speed):
+def gameLoop(speed, player1Color, player2Color):
     global rounds_p1, rounds_p2
     rounds_p1, rounds_p2 = 0, 0
 
@@ -256,8 +256,8 @@ def gameLoop(speed):
         rounds(rounds_p1, rounds_p2)
 
         # drawing the paddle and the puck
-        paddle1.draw(screen, (255, 0, 0))
-        paddle2.draw(screen, (255, 255, 0))
+        paddle1.draw(screen, player1Color)
+        paddle2.draw(screen, player2Color)
         puck.draw(screen)
 
         # refresh screen.
@@ -267,12 +267,14 @@ def gameLoop(speed):
 
 if __name__ == "__main__":
     init()
-    choice = airHockeyStart(screen, clock, width, height)
-    if choice == 1:
+    
+    gameChoice, player1Color, player2Color = airHockeyStart(screen, clock, width, height)
+
+    if gameChoice == 1:
         puck.speed = const.EASY
-        gameLoop(const.EASY)
-    elif choice == 2:
+        gameLoop(const.EASY, player1Color, player2Color)
+    elif gameChoice == 2:
         puck.speed = const.HARD
-        gameLoop(const.HARD)
-    elif choice == 0:
+        gameLoop(const.HARD, player1Color, player2Color)
+    elif gameChoice == 0:
         sys.exit()
