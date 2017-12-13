@@ -56,11 +56,13 @@ NOTE: The administrative permission is required to place the AHlogo.png file int
 
 ## GamePlay Help
 
-1. Choose your difficulty level at the start menu and start hitting.
+1. Choose each player's paddle color at the title screen.
+
+1. To start playing, click on the difficulty level.
 
 2. Each game comprises of three rounds, and the player who wins two (or more) rounds is the winner.
 
-3. During playtime, game can be paused anytime by pressing spacebar or clicking the pause icon on the screen.
+3. During playtime, game can be paused anytime by pressing SpaceBar or clicking the pause icon on the screen.
 
 ## Enjoy The Game
 
