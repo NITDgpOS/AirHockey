@@ -78,10 +78,6 @@ def end(option, speed):
         sys.exit()
 
 
-
-
-
-
 def showPauseScreen():
     """ Shows the pause screen till the user un-pauses"""
 
