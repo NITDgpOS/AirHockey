@@ -1,16 +1,7 @@
 import pygame
 import sys
+from globals import *
 
-
-#colours
-#(dimgreen,green) , (dimred,red) , (dimblue,blue ) , (yellow,dimyellow), (orange, dimorange) 
-colors = [ [(46, 120, 50),(66, 152, 60)] , [(200, 72, 72),(255, 92, 92)] ,
-           [(0, 158, 239),(100, 189, 219)] , [(221, 229, 2),(252, 255, 59)],
-           [(232, 114, 46),(244, 133, 51)]]
-
-
-buttonRadius = 60
-squareSide = 80
 
 flagLeft = 0
 flagRight = 0
@@ -40,7 +31,9 @@ def dispText(screen, text, center, fontAndSize, color):
 # function for creating a start screen
 def airHockeyStart(screen, clock, Scrwidth, Scrheight):
 
-    # Player colors set to none initially
+    # Variables set to none initially
+    flagLeft = 0
+    flagRight = 0
     player1Color = None
     player2Color = None
     colorFlag1 = False
