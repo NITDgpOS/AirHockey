@@ -67,25 +67,21 @@ def showPauseScreen():
     """ Shows the pause screen till the user un-pauses"""
 
     paused = True
+    printpausetext = True  # Print text related to pause
 
     while paused:
-        paddle1.draw(screen, (255, 0, 0))
-        paddle2.draw(screen, (255, 255, 0))
-        puck.draw(screen)
 
-        score(score1, score2)
-        rounds(rounds_p1, rounds_p2)
+        if printpausetext:
+            pygame.draw.circle(screen, (0, 255, 0), (width / 2, height - 30), 20, 0)
 
-        pygame.draw.circle(screen, (0, 255, 0), (width / 2, height - 30), 20, 0)
+            text1 = smallfont.render("Go", True, const.WHITE)
+            screen.blit(text1, [width / 2 - 15, height - 42])
 
-        text1 = smallfont.render("Go", True, const.WHITE)
-        screen.blit(text1, [width / 2 - 15, height - 42])
+            text_pause = smallfont.render("Paused", True, const.BLACK)
+            screen.blit(text_pause, [width / 2 - 44, height / 2 - 30])
 
-        text_pause = smallfont.render("Paused", True, const.BLACK)
-        screen.blit(text_pause, [width / 2 - 44, height / 2 - 30])
-
-        text_cont = smallfont.render("Click Anywhere Or Press Space To Continue", True, const.BLACK)
-        screen.blit(text_cont, [width / 2 - 250, height / 2])
+            text_cont = smallfont.render("Click Anywhere Or Press Space To Continue", True, const.BLACK)
+            screen.blit(text_cont, [width / 2 - 250, height / 2])
 
         # Look for mouse press events.
         events = pygame.event.get()
@@ -97,13 +93,13 @@ def showPauseScreen():
                 paused = False
 
             # removing pause using space
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     paused = False
 
             if event.type == QUIT:
                 sys.exit()
 
+        printpausetext = False
         pygame.display.flip()
         clock.tick(const.FPS)
 
@@ -171,8 +167,7 @@ def gameLoop(speed, player1Color, player2Color):
         for event in pygame.event.get():
 
             # check for space bar
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     showPauseScreen()
 
             if event.type == QUIT:
