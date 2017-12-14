@@ -31,6 +31,7 @@ def dispText(screen, text, center, fontAndSize, color):
 # function for creating a start screen
 def airHockeyStart(screen, clock, Scrwidth, Scrheight):
 
+
     # Variables set to none initially
     flagLeft = 0
     flagRight = 0
