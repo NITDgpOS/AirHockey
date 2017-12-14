@@ -87,7 +87,6 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
             else:
                 pygame.draw.rect(screen, colors[x][1], (xposRectLeft, yposRectLeft, squareSide, squareSide))
             xposRectLeft  = xposRectLeft + squareSide + 30
-            x = x + 1
 
 
 
@@ -107,6 +106,8 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
             else:
                 pygame.draw.rect(screen, colors[x][1], (xposRectRight, yposRectRight, squareSide, squareSide))
             xposRectRight = xposRectRight + squareSide + 30
+
+        # displaying the color selected
         if flagLeft == 1:
             dispText(screen, "Color Selected", (Scrwidth / 4  , yposRectLeft + 120), smallText, player1Color)
         if flagRight == 2:

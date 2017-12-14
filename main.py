@@ -48,7 +48,7 @@ def score(score1, score2):
     screen.blit(text2, [width - 150, 0])
 
 
-def rounds(rounds_p1, rounds_p2):
+def rounds(rounds_p1, rounds_p2, round_no):
     if rounds_p1 == const.ROUNDLIMIT:
         print "Player 1 Wins"  # Player one denotes left player
         sys.exit()
@@ -56,7 +56,7 @@ def rounds(rounds_p1, rounds_p2):
         print "Player 2 Wins"  # Player two denotes right player
         sys.exit()
     else:
-        text = smallfont.render("Rounds", True, const.BLACK)
+        text = smallfont.render("Round "+str(round_no), True, const.BLACK)
         screen.blit(text, [width / 2 - 40, 0])
 
         text = smallfont.render(str(rounds_p1) + " : " + str(rounds_p2), True, const.BLACK)
@@ -159,8 +159,8 @@ def insideGoal(side):
 
 # Game Loop
 def gameLoop(speed, player1Color, player2Color):
-    global rounds_p1, rounds_p2
-    rounds_p1, rounds_p2 = 0, 0
+    global rounds_p1, rounds_p2, round_no
+    rounds_p1, rounds_p2, round_no = 0, 0, 1
 
     pygame.mixer.Sound.play(backgroundMusic, -1)
     pygame.mixer.Sound.set_volume(backgroundMusic, 0.2)
@@ -234,17 +234,17 @@ def gameLoop(speed, player1Color, player2Color):
 
         if puck.collidesWithPaddle(paddle1):
             pygame.mixer.Sound.play(paddleHit)  # Added sound for paddle hit
-            pass
 
         if puck.collidesWithPaddle(paddle2):
             pygame.mixer.Sound.play(paddleHit)
-            pass
 
         # Update round points
         if score1 == const.SCORELIMIT:
+            round_no += 1
             rounds_p1 += 1
             score1, score2 = 0, 0
         if score2 == const.SCORELIMIT:
+            round_no += 1
             rounds_p2 += 1
             score1, score2 = 0, 0
 
@@ -253,7 +253,7 @@ def gameLoop(speed, player1Color, player2Color):
 
         # show score
         score(score1, score2)
-        rounds(rounds_p1, rounds_p2)
+        rounds(rounds_p1, rounds_p2, round_no)
 
         # drawing the paddle and the puck
         paddle1.draw(screen, player1Color)
