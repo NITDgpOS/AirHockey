@@ -103,6 +103,12 @@ class Puck():
         self.x = const.WIDTH / 2
         self.y = const.HEIGHT / 2
 
+    def end_reset(self, speed):
+        self.angle = 0
+        self.speed = speed
+        self.x = const.WIDTH / 2
+        self.y = const.HEIGHT / 2
+
     def draw(self, screen):
         pygame.draw.circle(screen, const.WHITE, (int(self.x), int(self.y)), self.radius)
     def get_pos(self):

@@ -3,11 +3,12 @@ import sys
 import time
 import pygame
 from pygame.locals import *
-from paddle import *
-from puck import *
-from startScreen import airHockeyStart, buttonCircle
+from paddle import Paddle
+from puck import Puck
+from startScreen import airHockeyStart
 import constants as const
 from globals import *
+from endScreen import GameEnd
 import time
 
 # Globals, initialized in method `init()`
@@ -49,18 +50,32 @@ def score(score1, score2):
 
 
 def rounds(rounds_p1, rounds_p2, round_no):
-    if rounds_p1 == const.ROUNDLIMIT:
-        print "Player 1 Wins"  # Player one denotes left player
-        sys.exit()
-    elif rounds_p2 == const.ROUNDLIMIT:
-        print "Player 2 Wins"  # Player two denotes right player
-        sys.exit()
-    else:
-        text = smallfont.render("Round "+str(round_no), True, const.BLACK)
-        screen.blit(text, [width / 2 - 40, 0])
+    text = smallfont.render("Round "+str(round_no), True, const.BLACK)
+    screen.blit(text, [width / 2 - 40, 0])
+    text = smallfont.render(str(rounds_p1) + " : " + str(rounds_p2), True, const.BLACK)
+    screen.blit(text, [width / 2 - 16, 20])
 
-        text = smallfont.render(str(rounds_p1) + " : " + str(rounds_p2), True, const.BLACK)
-        screen.blit(text, [width / 2 - 16, 20])
+
+def end(option, speed):
+    global rounds_p1, rounds_p2, round_no, score1, score2
+
+    # reset game with everything else same
+    if option == 1:
+        puck.end_reset(speed)
+        paddle1.reset(22, height / 2)
+        paddle2.reset(width - 20, height / 2)
+        score1, score2 = 0, 0
+        rounds_p1, rounds_p2 = 0, 0
+        round_no = 1
+        return False  # Tells that game should continue with reset
+
+    # goes to menu
+    elif option == 2:
+        return True  # Game should restart at startScreen
+
+    # Quit game
+    else:
+        sys.exit()
 
 
 def showPauseScreen():
@@ -110,7 +125,7 @@ def hitsPauseArea(mouseXY):
     return mouseXY[1] < (height - 30 + 20) \
         and mouseXY[1] > (height - 30 - 20) \
         and mouseXY[0] < (width / 2 + 20) \
-        and mouseXY[0] > (width / 2 - 20)
+        and mouseXY[0] > (width / 2 - 20) \
 
 
 def renderPlayingArea():
@@ -248,12 +263,25 @@ def gameLoop(speed, player1Color, player2Color):
 
         # show score
         score(score1, score2)
-        rounds(rounds_p1, rounds_p2, round_no)
+
+        # display endscreen or rounds
+        if rounds_p1 == const.ROUNDLIMIT:  # Player one denotes left player
+            if end(GameEnd(screen, clock, 1), speed):
+                pygame.mixer.stop()
+                return
+        elif rounds_p2 == const.ROUNDLIMIT:  # Player two denotes right player
+            if end(GameEnd(screen, clock, 2), speed):
+                pygame.mixer.stop()
+                return
+
+        else:
+            rounds(rounds_p1, rounds_p2, round_no)
 
         # drawing the paddle and the puck
         paddle1.draw(screen, player1Color)
         paddle2.draw(screen, player2Color)
         puck.draw(screen)
+
 
         # refresh screen.
         pygame.display.flip()
@@ -261,15 +289,18 @@ def gameLoop(speed, player1Color, player2Color):
 
 
 if __name__ == "__main__":
-    init()
-    
-    gameChoice, player1Color, player2Color = airHockeyStart(screen, clock, width, height)
 
-    if gameChoice == 1:
-        puck.speed = const.EASY
-        gameLoop(const.EASY, player1Color, player2Color)
-    elif gameChoice == 2:
-        puck.speed = const.HARD
-        gameLoop(const.HARD, player1Color, player2Color)
-    elif gameChoice == 0:
-        sys.exit()
+
+    
+    while True:
+        init()
+        gameChoice, player1Color, player2Color = airHockeyStart(screen, clock, width, height)
+
+        if gameChoice == 1:
+            puck.speed = const.EASY
+            gameLoop(const.EASY, player1Color, player2Color)
+        elif gameChoice == 2:
+            puck.speed = const.HARD
+            gameLoop(const.HARD, player1Color, player2Color)
+        elif gameChoice == 0:
+            sys.exit()
