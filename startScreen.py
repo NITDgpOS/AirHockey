@@ -3,8 +3,8 @@ import sys
 from globals import *
 
 
-flagLeft = 0
-flagRight = 0
+gflagLeft = 0
+gflagRight = 0
 
 # funtion to render font
 def textObj(text, font, color):
@@ -41,6 +41,7 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
     colorFlag2 = False
 
     while True:
+        keyPress=pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -76,7 +77,6 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
                 pygame.draw.rect(screen, colors[x][0], (xposRectLeft, yposRectLeft, squareSide, squareSide))
                 if click[0] == 1:
                     player1Color = colors[x][1]
-                    global flagLeft
                     flagLeft = 1
             else:
                 pygame.draw.rect(screen, colors[x][1], (xposRectLeft, yposRectLeft, squareSide, squareSide))
@@ -95,7 +95,6 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
                 pygame.draw.rect(screen, colors[x][0], (xposRectRight, yposRectRight, squareSide, squareSide))
                 if click[0] == 1 :
                     player2Color = colors[x][1]
-                    global flagRight
                     flagRight = 2
             else:
                 pygame.draw.rect(screen, colors[x][1], (xposRectRight, yposRectRight, squareSide, squareSide))
@@ -121,7 +120,21 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
             else:
                 dispText(screen, "Color Not Selected!", (Scrwidth - Scrwidth / 4 - 20, yposRectLeft + 120), smallText, (255, 100, 0))
 
+        
         # difficulty button 'Easy'
+        
+        if(keyPress[pygame.K_e]):
+            print("Easy selected")
+            if player1Color == None or player2Color == None:
+                if player1Color == None:
+                        colorFlag1 = True
+                if player2Color == None:
+                        colorFlag2 = True
+            else:
+                return (1, player1Color, player2Color)
+
+
+
         if abs(mouse[0] - 200) < buttonRadius and abs(mouse[1] - 470) < buttonRadius:
             buttonCircle(screen, colors[0][0], (200, 470), "Easy", largeText, (255, 255, 255),
                          (Scrwidth / 2 -400 , Scrheight / 2 + 170))
@@ -139,6 +152,16 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
                          (Scrwidth / 2 -400, Scrheight / 2 + 170))
 
         # difficulty button 'Hard'
+        if(keyPress[pygame.K_h]):
+            print("Hard selected")
+            if player1Color == None or player2Color == None:
+                if player1Color == None:
+                        colorFlag1 = True
+                if player2Color == None:
+                        colorFlag2 = True
+            else:
+                return (2, player1Color, player2Color)
+
         if abs(mouse[0] - 600) < buttonRadius and abs(mouse[1] - 470) < buttonRadius:
             buttonCircle(screen, colors[4][1], (600, 470), "Hard", largeText, (255, 255, 255),
                          (Scrwidth / 2 , Scrheight / 2 + 170))
@@ -156,6 +179,10 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
                          (Scrwidth / 2, Scrheight / 2 + 170))
 
         # quit button
+        if(keyPress[pygame.K_q]):
+            print("Quit selected")
+            return(0,0,0)
+
         if abs(mouse[0] - 1000) < buttonRadius and abs(mouse[1] - 470) < buttonRadius:
             buttonCircle(screen, colors[1][1], (1000, 470), "Quit", largeText, (255, 255, 255),
                          (Scrwidth / 2 + 400, Scrheight / 2 + 170))

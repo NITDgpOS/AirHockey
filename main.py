@@ -132,7 +132,7 @@ def renderPlayingArea():
     # Render Logic
     screen.fill(screenColor)
     # center circle
-    pygame.draw.circle(screen, const.WHITE, (width / 2, height / 2), 70, 5)
+    pygame.draw.circle(screen, const.WHITE, (int(width / 2),int(height / 2)), 70, 5)
     # borders
     pygame.draw.rect(screen, const.WHITE, (0, 0, width, height), 5)
     # D-box
@@ -145,7 +145,7 @@ def renderPlayingArea():
     pygame.draw.rect(screen, const.WHITE, (width / 2, 0, 3, height))
 
     # PAUSE
-    pygame.draw.circle(screen, const.LIGHTRED, (width / 2, height - 30), 20, 0)
+    pygame.draw.circle(screen, const.LIGHTRED, (int(width / 2), height - 30), 20, 0)
     text1 = smallfont.render("||", True, const.WHITE)
     screen.blit(text1,[width/2-7,height-44])
     screen.blit(text1, [width / 2 - 7, height - 44])
