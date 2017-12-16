@@ -1,7 +1,7 @@
 import pygame
 import sys
 from globals import *
-
+import time 
 
 gflagLeft = 0
 gflagRight = 0
@@ -39,7 +39,14 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
     player2Color = None
     colorFlag1 = False
     colorFlag2 = False
-
+    selBoxXPos=0
+    selBoxYPos=0
+    selBoxXOffset=0
+    selBoxYOffset=0
+    y=1
+    z=1
+    play2Entry=False
+    play1Entry=True
     while True:
         keyPress=pygame.key.get_pressed()
         for event in pygame.event.get():
@@ -71,6 +78,43 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
         #white border line
         pygame.draw.rect(screen, (255,255,255),(xposRectLeft - 10, yposRectLeft -10, 320 , 100), 1)
 
+
+        if(player2Color==None):
+            #print("Player 1 color selection")
+            #Default position of selection box 
+            selBoxXPos=xposRectLeft+squareSide-85
+            #select default color
+            player1Color = colors[z][1]
+            colorFlag1=True
+            dispText(screen, "Color Selected", (Scrwidth / 4, yposRectLeft + 120), smallText, player1Color)
+
+
+            keyPress=pygame.key.get_pressed()
+            if(keyPress[pygame.K_d] and selBoxXOffset<220):
+                selBoxXOffset+=squareSide+30
+                if(z<4):
+                    z+=1
+                    player1Color = colors[z][1]
+                    flagLeft=0
+                    colorFlag1=False
+            elif(keyPress[pygame.K_a] and selBoxXOffset>0):
+                selBoxXOffset-=squareSide+30
+                if(z>0):
+                    z-=1
+                    player1Color = colors[z][1]
+                    flagLeft=0
+                    colorFlag1=False
+            elif(keyPress[pygame.K_RETURN]):
+                print("Enter is pressed")
+                flagLeft=1
+                colorFlag1=True
+                play2Entry=True
+            #elif(colorFlag1==False and player1Color==None):
+            #    dispText(screen, "Color Not Selected!", (Scrwidth/4, yposRectLeft + 120), smallText, (255, 100, 0))
+
+            pygame.draw.rect(screen,(255,255,255),(selBoxXPos+selBoxXOffset,yposRectRight-5,squareSide+10,squareSide+10))
+
+
         #using only three color options 
         for x in range(1,4):
             if mouse[0] > xposRectLeft and mouse[0] < (xposRectLeft + squareSide) and mouse[1] > yposRectLeft and mouse[1] < (yposRectLeft +squareSide) :
@@ -88,7 +132,52 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
 
         #white border Line
         pygame.draw.rect(screen, (255,255,255),(xposRectRight -10, yposRectRight -10,320 , 100),1)
+
+
+        keyPress=pygame.key.get_pressed()
+        if(flagLeft==1):
+            if(play2Entry==True):
+                xposRectLeft=480
+                selBoxXOffset=0
+                y=1
+
+                #print("Player 2 color selection")
+            
+            #Default position of selection box  
+            selBoxXPos=xposRectLeft+squareSide+165 
+            player2Color = colors[y][1]
+            dispText(screen, "Color selected", (Scrwidth - Scrwidth / 4 - 20, yposRectLeft + 120), smallText,
+                     player2Color)
+            
+            if(keyPress[pygame.K_d] and selBoxXOffset<220):
+                selBoxXOffset+=squareSide+30
+                if(y<4):
+                    y+=1
+                    player2Color = colors[y][1]
+                    colorFlag2=False
+                    #print(y)
+            elif(keyPress[pygame.K_a] and selBoxXOffset>0):
+                selBoxXOffset-=squareSide+30
+                if(y>0):
+                    y-=1
+                    player2Color = colors[y][1]
+                    flagRight=0
+                    colorFlag2=False
+                    #print(y)
+            elif(keyPress[pygame.K_RETURN]):
+                #print("Enter is pressed")
+                if(play2Entry==False):
+                    flagRight=2
+                    colorFlag2=True
+            #selection Box
+            pygame.draw.rect(screen,(255,255,255),(selBoxXPos+selBoxXOffset,yposRectRight-5,squareSide+10,squareSide+10))
+            play2Entry=False
+
         
+
+        
+
+
         #using only three color options
         for x in range(1,4):
             if mouse[0] > xposRectRight and mouse[0] < (xposRectRight + squareSide) and mouse[1] > yposRectRight and mouse[1] < (yposRectRight +squareSide) :

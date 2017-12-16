@@ -87,7 +87,7 @@ def showPauseScreen():
     while paused:
 
         if printpausetext:
-            pygame.draw.circle(screen, (0, 255, 0), (width / 2, height - 30), 20, 0)
+            pygame.draw.circle(screen, (0, 255, 0), (int(width / 2), height - 30), 20, 0)
 
             text1 = smallfont.render("Go", True, const.WHITE)
             screen.blit(text1, [width / 2 - 15, height - 42])
@@ -102,7 +102,7 @@ def showPauseScreen():
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.MOUSEBUTTONUP:
-                pygame.draw.circle(screen, (255, 0, 0), (width / 2, height - 30), 20, 0)
+                pygame.draw.circle(screen, (255, 0, 0), (int(width / 2), height - 30), 20, 0)
                 text1 = smallfont.render("||", True, const.WHITE)
                 screen.blit(text1, [width / 2 - 7, height - 44])
                 paused = False
