@@ -1,4 +1,7 @@
 import constants as const
+import os
+
+auxDirectory = os.path.join(os.path.dirname(__file__), 'assets')
 
 smallfont = None
 score1, score2 = 0, 0
