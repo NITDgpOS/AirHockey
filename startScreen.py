@@ -1,19 +1,6 @@
 import pygame
 import sys
-
-
-#colours
-#(dimgreen,green) , (dimred,red) , (dimblue,blue ) , (yellow,dimyellow), (orange, dimorange) 
-colors = [ [(46, 120, 50),(66, 152, 60)] , [(200, 72, 72),(255, 92, 92)] ,
-           [(0, 158, 239),(100, 189, 219)] , [(221, 229, 2),(252, 255, 59)],
-           [(232, 114, 46),(244, 133, 51)]]
-
-
-buttonRadius = 60
-squareSide = 80
-
-flagLeft = 0
-flagRight = 0
+from globals import *
 
 # funtion to render font
 def textObj(text, font, color):
@@ -40,7 +27,9 @@ def dispText(screen, text, center, fontAndSize, color):
 # function for creating a start screen
 def airHockeyStart(screen, clock, Scrwidth, Scrheight):
 
-    # Player colors set to none initially
+    # Variables set to none initially
+    flagLeft = 0
+    flagRight = 0
     player1Color = None
     player2Color = None
     colorFlag1 = False
@@ -82,7 +71,6 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
                 pygame.draw.rect(screen, colors[x][0], (xposRectLeft, yposRectLeft, squareSide, squareSide))
                 if click[0] == 1:
                     player1Color = colors[x][1]
-                    global flagLeft
                     flagLeft = 1
             else:
                 pygame.draw.rect(screen, colors[x][1], (xposRectLeft, yposRectLeft, squareSide, squareSide))
@@ -101,7 +89,6 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
                 pygame.draw.rect(screen, colors[x][0], (xposRectRight, yposRectRight, squareSide, squareSide))
                 if click[0] == 1 :
                     player2Color = colors[x][1]
-                    global flagRight
                     flagRight = 2
             else:
                 pygame.draw.rect(screen, colors[x][1], (xposRectRight, yposRectRight, squareSide, squareSide))
