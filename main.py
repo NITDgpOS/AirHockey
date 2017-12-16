@@ -218,7 +218,7 @@ def gameLoop(speed, player1Color, player2Color):
                         score2 = 0
                         rounds_p1 = 0
                         rounds_p2 = 0
-                        round_no = 0
+                        round_no = 1
                         resetGame(speed, 1)
                         resetGame(speed, 2)
 
