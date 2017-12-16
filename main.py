@@ -92,15 +92,15 @@ def showPauseScreen():
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
 
-        #RESTART       
+        #RESET       
         if mouse[0] > width / 4 and mouse[0] < width / 4 + 150 and mouse[1] > height - 200 and mouse[1] < height - 160:
             pygame.draw.rect(screen, colors[4][0], (width / 4, height - 200, 150, 40))
             if click[0] == 1:
                 return 2
         else:
             pygame.draw.rect(screen, colors[4][1], (width / 4, height - 200, 150, 40))
-        text_restart = smallfont.render("RESTART", True, const.WHITE)
-        screen.blit(text_restart, [width / 4 + 20, height - 195])
+        text_restart = smallfont.render("RESET", True, const.WHITE)
+        screen.blit(text_restart, [width / 4 + 30, height - 195])
 
         #CONTINUE
         if mouse[0] > width / 2 - 70 and mouse[0] < width / 2 + 80 and mouse[1] > height - 200 and mouse[1] < height - 160:
@@ -212,10 +212,15 @@ def gameLoop(speed, player1Color, player2Color):
                 # check if the mouse is clicked within the pause area.
                 if hitsPauseArea(mouseXY):
                     ch = showPauseScreen()
+                    #if the return value is 2 reset everything
                     if ch == 2:
-                        pygame.mixer.stop()
-                        return 
-
+                        score1 = 0
+                        score2 = 0
+                        rounds_p1 = 0
+                        rounds_p2 = 0
+                        round_no = 0
+                        resetGame(speed, 1)
+                        resetGame(speed, 2)
 
         keyPresses = pygame.key.get_pressed()
 
@@ -308,13 +313,10 @@ def gameLoop(speed, player1Color, player2Color):
 
 
 if __name__ == "__main__":
-
-
-    
+    init()
+    gameChoice, player1Color, player2Color = airHockeyStart(screen, clock, width, height)
     while True:
         init()
-        gameChoice, player1Color, player2Color = airHockeyStart(screen, clock, width, height)
-
         if gameChoice == 1:
             puck.speed = const.EASY
             gameLoop(const.EASY, player1Color, player2Color)
