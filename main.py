@@ -87,7 +87,7 @@ def showPauseScreen():
     while paused:
 
         if printpausetext:
-            pygame.draw.circle(screen, (0, 255, 0), (width / 2, height - 30), 20, 0)
+            pygame.draw.circle(screen, (0, 255, 0), (int(width / 2), height - 30), 20, 0)
 
             text1 = smallfont.render("Go", True, const.WHITE)
             screen.blit(text1, [width / 2 - 15, height - 42])
@@ -102,7 +102,7 @@ def showPauseScreen():
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.MOUSEBUTTONUP:
-                pygame.draw.circle(screen, (255, 0, 0), (width / 2, height - 30), 20, 0)
+                pygame.draw.circle(screen, (255, 0, 0), (int(width / 2), height - 30), 20, 0)
                 text1 = smallfont.render("||", True, const.WHITE)
                 screen.blit(text1, [width / 2 - 7, height - 44])
                 paused = False
@@ -132,7 +132,7 @@ def renderPlayingArea():
     # Render Logic
     screen.fill(screenColor)
     # center circle
-    pygame.draw.circle(screen, const.WHITE, (width / 2, height / 2), 70, 5)
+    pygame.draw.circle(screen, const.WHITE, (int(width / 2),int(height / 2)), 70, 5)
     # borders
     pygame.draw.rect(screen, const.WHITE, (0, 0, width, height), 5)
     # D-box
@@ -145,7 +145,7 @@ def renderPlayingArea():
     pygame.draw.rect(screen, const.WHITE, (width / 2, 0, 3, height))
 
     # PAUSE
-    pygame.draw.circle(screen, const.LIGHTRED, (width / 2, height - 30), 20, 0)
+    pygame.draw.circle(screen, const.LIGHTRED, (int(width / 2), height - 30), 20, 0)
     text1 = smallfont.render("||", True, const.WHITE)
     screen.blit(text1,[width/2-7,height-44])
     screen.blit(text1, [width / 2 - 7, height - 44])
@@ -205,7 +205,7 @@ def gameLoop(speed, player1Color, player2Color):
         s = keyPresses[pygame.K_s]
         d = keyPresses[pygame.K_d]
         a = keyPresses[pygame.K_a]
-        
+
         # Process Player 2 Input
         up = keyPresses[pygame.K_UP]
         down = keyPresses[pygame.K_DOWN]
@@ -291,7 +291,7 @@ def gameLoop(speed, player1Color, player2Color):
 if __name__ == "__main__":
 
 
-    
+
     while True:
         init()
         gameChoice, player1Color, player2Color = airHockeyStart(screen, clock, width, height)
