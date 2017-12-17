@@ -38,9 +38,7 @@ class Puck():
             self.y = 2 * self.radius - self.y
             self.angle = math.pi - self.angle
 
-    def addVectors(self, vec1, vec2):
-        angle1,length1=vec1
-        angle2,length2=vec2
+    def addVectors(self, (angle1, length1), (angle2, length2)):
         x  = math.sin(angle1) * length1 + math.sin(angle2) * length2
         y  = math.cos(angle1) * length1 + math.cos(angle2) * length2
 
@@ -114,4 +112,4 @@ class Puck():
     def draw(self, screen):
         pygame.draw.circle(screen, const.WHITE, (int(self.x), int(self.y)), self.radius)
     def get_pos(self):
-        print(self.x,self.y)
+        print self.x,self.y

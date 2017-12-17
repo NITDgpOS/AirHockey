@@ -205,7 +205,7 @@ def gameLoop(speed, player1Color, player2Color):
         s = keyPresses[pygame.K_s]
         d = keyPresses[pygame.K_d]
         a = keyPresses[pygame.K_a]
-        
+
         # Process Player 2 Input
         up = keyPresses[pygame.K_UP]
         down = keyPresses[pygame.K_DOWN]
@@ -291,7 +291,7 @@ def gameLoop(speed, player1Color, player2Color):
 if __name__ == "__main__":
 
 
-    
+
     while True:
         init()
         gameChoice, player1Color, player2Color = airHockeyStart(screen, clock, width, height)
