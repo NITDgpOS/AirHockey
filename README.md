@@ -1,15 +1,15 @@
 # Air Hockey
 
 ## About Air Hockey
-This is a two player game. There are two paddles and a puck. The left-paddle (Player 1) can be moved using WASD keys and the right-paddle (Player 2)can be moved by the arrow keys. The puck hits the upper and lower boundaries and gets reflected and if it goes past the paddle, it is point for the other one.
+This is a two player game. There are two paddles and a puck. The left-paddle (Player 1) can be moved using WASD keys and the right-paddle (Player 2)can be moved by the arrow keys. The puck hits the upper and lower boundaries and gets reflected and if it goes inside the goal, it is point for the other one.
 
 ## Screenshots
 
 >StartScreen
-![StartScreen](/aux/Shot1.png)
+![StartScreen](/assets/Shot1.png)
 
 >Gameplay
-![Gameplay](/aux/Shot2.png)
+![Gameplay](/assets/Shot2.png)
 
 ## Prerequisite
 
@@ -56,11 +56,13 @@ NOTE: The administrative permission is required to place the AHlogo.png file int
 
 ## GamePlay Help
 
-1. Choose your difficulty level at the start menu and start hitting.
+1. Choose each player's paddle color at the title screen.
+
+1. To start playing, click on the difficulty level.
 
 2. Each game comprises of three rounds, and the player who wins two (or more) rounds is the winner.
 
-3. During playtime, game can be paused anytime by pressing spacebar or clicking the pause icon on the screen.
+3. During playtime, game can be paused anytime by pressing SpaceBar or clicking the pause icon on the screen.
 
 ## Enjoy The Game
 

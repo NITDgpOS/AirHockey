@@ -1,16 +1,7 @@
 import pygame
 import sys
+from globals import *
 
-
-#colours
-#(dimgreen,green) , (dimred,red) , (dimblue,blue ) , (yellow,dimyellow), (orange, dimorange) 
-colors = [ [(46, 120, 50),(66, 152, 60)] , [(200, 72, 72),(255, 92, 92)] ,
-           [(0, 158, 239),(100, 189, 219)] , [(221, 229, 2),(252, 255, 59)],
-           [(232, 114, 46),(244, 133, 51)]] 
-
-
-buttonRadius = 60
-squareSide = 80
 
 flagLeft = 0
 flagRight = 0
@@ -39,6 +30,16 @@ def dispText(screen, text, center, fontAndSize, color):
 
 # function for creating a start screen
 def airHockeyStart(screen, clock, Scrwidth, Scrheight):
+
+
+    # Variables set to none initially
+    flagLeft = 0
+    flagRight = 0
+    player1Color = None
+    player2Color = None
+    colorFlag1 = False
+    colorFlag2 = False
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -80,7 +81,6 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
             else:
                 pygame.draw.rect(screen, colors[x][1], (xposRectLeft, yposRectLeft, squareSide, squareSide))
             xposRectLeft  = xposRectLeft + squareSide + 30
-            x = x + 1
 
 
 
@@ -100,31 +100,59 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
             else:
                 pygame.draw.rect(screen, colors[x][1], (xposRectRight, yposRectRight, squareSide, squareSide))
             xposRectRight = xposRectRight + squareSide + 30
+
+        # displaying the color selected
         if flagLeft == 1:
-            dispText(screen, "selected", (Scrwidth / 4  , yposRectLeft + 120), smallText, (255,255,255))
+            dispText(screen, "Color Selected", (Scrwidth / 4  , yposRectLeft + 120), smallText, player1Color)
         if flagRight == 2:
-            dispText(screen, "selected", (Scrwidth - Scrwidth/4, yposRectLeft + 120), smallText, (255,255,255))
+            dispText(screen, "Color selected", (Scrwidth - Scrwidth/4 - 20, yposRectLeft + 120), smallText, player2Color)
 
-        # difficulty button 'Hard'
-        if abs(mouse[0] - 200) < buttonRadius and abs(mouse[1] - 470) < buttonRadius:
-            buttonCircle(screen, colors[4][1], (200, 470), "Hard", largeText, (255, 255, 255),
-                         (Scrwidth / 2 -400 , Scrheight / 2 + 170))
-            if click[0] == 1:
-                return (2, player1Color, player2Color)
+        # To be displayed when colors not selected.
+        if player1Color == None:
+            if (colorFlag1 == False):
+                dispText(screen, "Please Select Color", (Scrwidth / 4, yposRectLeft + 120), smallText,
+                         (255, 255, 255))
+            else:
+                dispText(screen, "Color Not Selected!", (Scrwidth / 4, yposRectLeft + 120), smallText, (255, 100, 0))
 
-        else:
-            buttonCircle(screen, colors[4][0], (200, 470), "Hard", smallText, (255, 255, 255),
-                         (Scrwidth / 2 -400, Scrheight / 2 + 170))
+        if player2Color == None:
+            if (colorFlag2 == False):
+                dispText(screen, "Please Select Color", (Scrwidth - Scrwidth / 4 - 20, yposRectLeft + 120), smallText, (255, 255, 255))
+            else:
+                dispText(screen, "Color Not Selected!", (Scrwidth - Scrwidth / 4 - 20, yposRectLeft + 120), smallText, (255, 100, 0))
 
         # difficulty button 'Easy'
+        if abs(mouse[0] - 200) < buttonRadius and abs(mouse[1] - 470) < buttonRadius:
+            buttonCircle(screen, colors[0][0], (200, 470), "Easy", largeText, (255, 255, 255),
+                         (Scrwidth / 2 -400 , Scrheight / 2 + 170))
+            if click[0] == 1:
+                if player1Color == None or player2Color == None:
+                    if player1Color == None:
+                        colorFlag1 = True
+                    if player2Color == None:
+                        colorFlag2 = True
+                else:
+                    return (1, player1Color, player2Color)
+
+        else:
+            buttonCircle(screen, colors[0][0], (200, 470), "Easy", smallText, (255, 255, 255),
+                         (Scrwidth / 2 -400, Scrheight / 2 + 170))
+
+        # difficulty button 'Hard'
         if abs(mouse[0] - 600) < buttonRadius and abs(mouse[1] - 470) < buttonRadius:
-            buttonCircle(screen, colors[0][1], (600, 470), "Easy", largeText, (255, 255, 255),
+            buttonCircle(screen, colors[4][1], (600, 470), "Hard", largeText, (255, 255, 255),
                          (Scrwidth / 2 , Scrheight / 2 + 170))
             if click[0] == 1:
-                return (1, player1Color, player2Color)
+                if player1Color == None or player2Color == None:
+                    if player1Color == None:
+                        colorFlag1 = True
+                    if player2Color == None:
+                        colorFlag2 = True
+                else:
+                    return (2, player1Color, player2Color)
         
         else:
-            buttonCircle(screen, colors[0][0], (600, 470), "Easy", smallText, (255, 255, 255),
+            buttonCircle(screen, colors[4][1], (600, 470), "Hard", smallText, (255, 255, 255),
                          (Scrwidth / 2, Scrheight / 2 + 170))
 
         # quit button
