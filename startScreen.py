@@ -1,10 +1,7 @@
 import pygame
 import sys
+import os
 from globals import *
-
-
-flagLeft = 0
-flagRight = 0
 
 # funtion to render font
 def textObj(text, font, color):
@@ -31,6 +28,9 @@ def dispText(screen, text, center, fontAndSize, color):
 # function for creating a start screen
 def airHockeyStart(screen, clock, Scrwidth, Scrheight):
 
+    startScreenMusic = pygame.mixer.music.load(os.path.join(auxDirectory, 'StartScreenBack.mp3'))
+    pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(.1)
 
     # Variables set to none initially
     flagLeft = 0
@@ -76,7 +76,6 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
                 pygame.draw.rect(screen, colors[x][0], (xposRectLeft, yposRectLeft, squareSide, squareSide))
                 if click[0] == 1:
                     player1Color = colors[x][1]
-                    global flagLeft
                     flagLeft = 1
             else:
                 pygame.draw.rect(screen, colors[x][1], (xposRectLeft, yposRectLeft, squareSide, squareSide))
@@ -95,7 +94,6 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
                 pygame.draw.rect(screen, colors[x][0], (xposRectRight, yposRectRight, squareSide, squareSide))
                 if click[0] == 1 :
                     player2Color = colors[x][1]
-                    global flagRight
                     flagRight = 2
             else:
                 pygame.draw.rect(screen, colors[x][1], (xposRectRight, yposRectRight, squareSide, squareSide))
@@ -132,6 +130,7 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
                     if player2Color == None:
                         colorFlag2 = True
                 else:
+                    pygame.mixer.music.fadeout(100)
                     return (1, player1Color, player2Color)
 
         else:
@@ -149,6 +148,7 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
                     if player2Color == None:
                         colorFlag2 = True
                 else:
+                    pygame.mixer.music.fadeout(100)
                     return (2, player1Color, player2Color)
         
         else:
@@ -160,6 +160,7 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
             buttonCircle(screen, colors[1][1], (1000, 470), "Quit", largeText, (255, 255, 255),
                          (Scrwidth / 2 + 400, Scrheight / 2 + 170))
             if click[0] == 1:
+                pygame.mixer.music.fadeout(100)
                 return (0, 0, 0)   
         else:
             buttonCircle(screen, colors[1][0], (1000, 470), "Quit", smallText, (255, 255, 255),
