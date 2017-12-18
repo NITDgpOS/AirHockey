@@ -77,47 +77,63 @@ def end(option, speed):
     else:
         sys.exit()
 
-
 def showPauseScreen():
-    """ Shows the pause screen till the user un-pauses"""
+    """ 
+        Shows the pause screen till the user un-pauses
+        This function will return 2 is the game is to be restarted 
+        and 1 if the game is to be continued
+        and exit here itself exit is pressed
+    """
 
-    paused = True
-    printpausetext = True  # Print text related to pause
+    while True:
+        text_pause = smallfont.render("PAUSED", True, const.BLACK)
+        screen.blit(text_pause, [width / 2 - 44, 200])
 
-    while paused:
+        mouse = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
 
-        if printpausetext:
-            pygame.draw.circle(screen, (0, 255, 0), (width / 2, height - 30), 20, 0)
+        #RESET       
+        if mouse[0] > width / 4 and mouse[0] < width / 4 + 150 and mouse[1] > height - 200 and mouse[1] < height - 160:
+            pygame.draw.rect(screen, colors[4][0], (width / 4, height - 200, 150, 40))
+            if click[0] == 1:
+                return 2
+        else:
+            pygame.draw.rect(screen, colors[4][1], (width / 4, height - 200, 150, 40))
+        text_restart = smallfont.render("RESET", True, const.WHITE)
+        screen.blit(text_restart, [width / 4 + 30, height - 195])
 
-            text1 = smallfont.render("Go", True, const.WHITE)
-            screen.blit(text1, [width / 2 - 15, height - 42])
+        #CONTINUE
+        if mouse[0] > width / 2 - 70 and mouse[0] < width / 2 + 80 and mouse[1] > height - 200 and mouse[1] < height - 160:
+            pygame.draw.rect(screen, colors[0][0], (width / 2 - 70, height - 200, 150, 40))
+            if click[0] == 1:
+                return 1
+        else:
+            pygame.draw.rect(screen, colors[0][1], (width / 2 - 70, height - 200, 150, 40))
+        text_cont = smallfont.render("CONTINUE", True, const.WHITE)
+        screen.blit(text_cont, [width / 2 - 60, height - 195])
 
-            text_pause = smallfont.render("Paused", True, const.BLACK)
-            screen.blit(text_pause, [width / 2 - 44, height / 2 - 30])
-
-            text_cont = smallfont.render("Click Anywhere Or Press Space To Continue", True, const.BLACK)
-            screen.blit(text_cont, [width / 2 - 250, height / 2])
+        #EXIT
+        if mouse[0] > width / 2 + 150 and mouse[0] < width / 2 + 300 and mouse[1] > height - 200 and mouse[1] < height -160:
+            pygame.draw.rect(screen, colors[1][0], (width / 2 + 150, height - 200, 150, 40))
+            if click[0] == 1:
+                sys.exit()
+        else:
+            pygame.draw.rect(screen, colors[1][1], (width / 2 + 150, height - 200, 150, 40))
+        text_exit = smallfont.render("EXIT", True, const.WHITE)
+        screen.blit(text_exit, [width / 2 + 190, height -195])
 
         # Look for mouse press events.
         events = pygame.event.get()
         for event in events:
-            if event.type == pygame.MOUSEBUTTONUP:
-                pygame.draw.circle(screen, (255, 0, 0), (width / 2, height - 30), 20, 0)
-                text1 = smallfont.render("||", True, const.WHITE)
-                screen.blit(text1, [width / 2 - 7, height - 44])
-                paused = False
-
             # removing pause using space
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                    paused = False
+                    return 1
 
             if event.type == QUIT:
                 sys.exit()
-
-        printpausetext = False
+                
         pygame.display.flip()
         clock.tick(const.FPS)
-
 
 def hitsPauseArea(mouseXY):
     """ Returns True if the mouse is clicked within the pause area"""
@@ -195,8 +211,16 @@ def gameLoop(speed, player1Color, player2Color):
 
                 # check if the mouse is clicked within the pause area.
                 if hitsPauseArea(mouseXY):
-                    showPauseScreen()
-
+                    ch = showPauseScreen()
+                    #if the return value is 2 reset everything
+                    if ch == 2:
+                        score1 = 0
+                        score2 = 0
+                        rounds_p1 = 0
+                        rounds_p2 = 0
+                        round_no = 1
+                        resetGame(speed, 1)
+                        resetGame(speed, 2)
 
         keyPresses = pygame.key.get_pressed()
 
@@ -289,13 +313,10 @@ def gameLoop(speed, player1Color, player2Color):
 
 
 if __name__ == "__main__":
-
-
-    
+    init()
+    gameChoice, player1Color, player2Color = airHockeyStart(screen, clock, width, height)
     while True:
         init()
-        gameChoice, player1Color, player2Color = airHockeyStart(screen, clock, width, height)
-
         if gameChoice == 1:
             puck.speed = const.EASY
             gameLoop(const.EASY, player1Color, player2Color)
