@@ -20,7 +20,7 @@ puck = Puck(width / 2, height / 2)
 
 
 def init():
-    global paddleHit, goal_whistle, backgroundMusic, clock, screen, smallfont
+    global paddleHit, goal_whistle, clock, screen, smallfont
     pygame.mixer.pre_init(44100, -16, 2, 2048)
     pygame.mixer.init()
     pygame.init()
@@ -32,7 +32,6 @@ def init():
 
     paddleHit = pygame.mixer.Sound(os.path.join(auxDirectory, 'hit.wav'))
     goal_whistle = pygame.mixer.Sound(os.path.join(auxDirectory, 'goal.wav'))
-    backgroundMusic = pygame.mixer.Sound(os.path.join(auxDirectory, 'back.wav'))
 
     smallfont = pygame.font.SysFont("comicsans", 35)
 
@@ -75,7 +74,9 @@ def end(option, speed):
     else:
         sys.exit()
 
+
 def showPauseScreen():
+    global mute, music_paused
     """ 
         Shows the pause screen,
         This function will return,
@@ -130,9 +131,27 @@ def showPauseScreen():
 
             if event.type == QUIT:
                 sys.exit()
+
+        # checking if buttons clicked
+        if abs(mouse[0] - (width - 100 + 32)) < const.MUTE_BUTTON_RADIUS and abs(mouse[1] - (height / 2 - 250)) < const.MUTE_BUTTON_RADIUS and click[0] == 1:
+            mute = not mute
+
+        # mute and unmute audio code
+        if mute and (not music_paused):
+            pygame.mixer.music.pause()
+            music_paused = True
+        elif (not mute) and music_paused:
+            pygame.mixer.music.unpause()
+            music_paused = False
+
+        # displaying mute and unmute button
+        if mute:
+            screen.blit(mute_image, (width - 100, height / 2 - 250 - 32))
+        else:
+            screen.blit(unmute_image, (width - 100, height / 2 - 250 - 32))
                 
         pygame.display.flip()
-        clock.tick(const.FPS)
+        clock.tick(10)
 
 def hitsPauseArea(mouseXY):
     """ Returns True if the mouse is clicked within the pause area"""
@@ -185,11 +204,19 @@ def insideGoal(side):
 
 # Game Loop
 def gameLoop(speed, player1Color, player2Color):
-    global rounds_p1, rounds_p2, round_no
+    global rounds_p1, rounds_p2, round_no, music_paused
     rounds_p1, rounds_p2, round_no = 0, 0, 1
 
-    pygame.mixer.Sound.play(backgroundMusic, -1)
-    pygame.mixer.Sound.set_volume(backgroundMusic, 0.2)
+    pygame.mixer.music.load(os.path.join(auxDirectory, 'back.mp3'))  # background music
+    pygame.mixer.music.play()
+    pygame.mixer.music.set_volume(.2)
+
+    music_paused = False  # to check if music is playing or paused
+
+    # mute if start screen was mute
+    if mute and (not music_paused):
+        pygame.mixer.music.pause()
+        music_paused = True
 
     while True:
         global score1, score2
@@ -210,7 +237,7 @@ def gameLoop(speed, player1Color, player2Color):
 
                 # check if the mouse is clicked within the pause area.
                 if hitsPauseArea(mouseXY):
-                    ch = showPauseScreen()
+                    ch= showPauseScreen()
                     #if the return value is 2 reset everything
                     if ch == 2:
                         score1 = 0
@@ -290,10 +317,14 @@ def gameLoop(speed, player1Color, player2Color):
         # display endscreen or rounds
         if rounds_p1 == const.ROUNDLIMIT:  # Player one denotes left player
             if end(GameEnd(screen, clock, 1), speed):
+                if music_paused:
+                    pygame.mixer.music.unpause()
                 pygame.mixer.stop()
                 return
         elif rounds_p2 == const.ROUNDLIMIT:  # Player two denotes right player
             if end(GameEnd(screen, clock, 2), speed):
+                if music_paused:
+                    pygame.mixer.music.unpause()
                 pygame.mixer.stop()
                 return
 
@@ -312,9 +343,11 @@ def gameLoop(speed, player1Color, player2Color):
 
 
 if __name__ == "__main__":
+    global mute
+    mute = False  # to keep state of mute
     init()
-    gameChoice, player1Color, player2Color = airHockeyStart(screen, clock, width, height)
     while True:
+        gameChoice, player1Color, player2Color, mute = airHockeyStart(screen, clock, width, height, mute)
         init()
         if gameChoice == 1:
             puck.speed = const.EASY

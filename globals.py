@@ -1,4 +1,5 @@
 import constants as const
+import pygame
 import os
 
 auxDirectory = os.path.join(os.path.dirname(__file__), 'assets')
@@ -10,6 +11,10 @@ score1, score2 = 0, 0
 paddleHit = None
 goal_whistle = None
 backgroundMusic = None
+
+# image for mute and unmute
+mute_image = pygame.image.load(os.path.join(auxDirectory, 'mute.png'))
+unmute_image = pygame.image.load(os.path.join(auxDirectory, 'unmute.png'))
 
 # game globals.
 clock = None
