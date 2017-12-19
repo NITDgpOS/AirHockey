@@ -172,8 +172,15 @@ def resetGame(speed, player):
     puck.reset(speed, player)
     paddle1.reset(22, height / 2)
     paddle2.reset(width - 20, height / 2)
+    
 
+def resetScore():
+    global rounds_p1, rounds_p2, round_no, score1, score2
+    score1 = score2 = 0
+    rounds_p1 = rounds_p2 = 0
+    round_no = 1
 
+    
 def insideGoal(side):
     """ Returns true if puck is within goal boundary"""
     if side == 0:
@@ -198,7 +205,12 @@ def gameLoop(speed, player1Color, player2Color):
 
             # check for space bar
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                    showPauseScreen()
+                    choice = showPauseScreen()
+                    
+                    if choice == 2:
+                        resetScore()
+                        resetGame(speed, 1)
+                        resetGame(speed, 2)
 
             if event.type == QUIT:
                 pygame.quit()
@@ -210,14 +222,11 @@ def gameLoop(speed, player1Color, player2Color):
 
                 # check if the mouse is clicked within the pause area.
                 if hitsPauseArea(mouseXY):
-                    ch = showPauseScreen()
+                    choice = showPauseScreen()
+
                     #if the return value is 2 reset everything
-                    if ch == 2:
-                        score1 = 0
-                        score2 = 0
-                        rounds_p1 = 0
-                        rounds_p2 = 0
-                        round_no = 1
+                    if choice == 2:
+                        resetScore()
                         resetGame(speed, 1)
                         resetGame(speed, 2)
 
