@@ -77,10 +77,11 @@ def end(option, speed):
 
 def showPauseScreen():
     """ 
-        Shows the pause screen till the user un-pauses
-        This function will return 2 is the game is to be restarted 
-        and 1 if the game is to be continued
-        and exit here itself exit is pressed
+        Shows the pause screen,
+        This function will return,
+        2 if the game is to be restarted, 
+        1 if the game is to be continued
+        and exit here itself if exit is pressed
     """
 
     while True:
