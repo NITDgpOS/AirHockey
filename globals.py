@@ -15,6 +15,8 @@ backgroundMusic = None
 # image for mute and unmute
 mute_image = pygame.image.load(os.path.join(auxDirectory, 'mute.png'))
 unmute_image = pygame.image.load(os.path.join(auxDirectory, 'unmute.png'))
+play_image = pygame.image.load(os.path.join(auxDirectory, 'play.png'))
+pause_image = pygame.image.load(os.path.join(auxDirectory, 'pause.png'))
 
 # game globals.
 clock = None

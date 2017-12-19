@@ -48,3 +48,6 @@ MAXSPEED = 1500
 
 # mute button
 MUTE_BUTTON_RADIUS = 32
+
+# pause button
+PAUSE_BUTTON_RADIUS = 32

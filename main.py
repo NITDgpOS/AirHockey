@@ -88,6 +88,7 @@ def showPauseScreen():
     while True:
         text_pause = smallfont.render("PAUSED", True, const.BLACK)
         screen.blit(text_pause, [width / 2 - 44, 200])
+        screen.blit(play_image, (width / 2 - 32, height - 70))
 
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
@@ -129,10 +130,15 @@ def showPauseScreen():
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     return 1
 
+            # continue by pressing play button as well
+            if event.type == pygame.MOUSEBUTTONUP:
+                if hitsPauseArea(mouse):
+                    return 1
+
             if event.type == QUIT:
                 sys.exit()
 
-        # checking if buttons clicked
+        # checking if mute button clicked
         if abs(mouse[0] - (width - 100 + 32)) < const.MUTE_BUTTON_RADIUS and abs(mouse[1] - (height / 2 - 250)) < const.MUTE_BUTTON_RADIUS and click[0] == 1:
             mute = not mute
 
@@ -156,10 +162,7 @@ def showPauseScreen():
 def hitsPauseArea(mouseXY):
     """ Returns True if the mouse is clicked within the pause area"""
 
-    return mouseXY[1] < (height - 30 + 20) \
-        and mouseXY[1] > (height - 30 - 20) \
-        and mouseXY[0] < (width / 2 + 20) \
-        and mouseXY[0] > (width / 2 - 20) \
+    return (abs(mouseXY[0] - width / 2) < const.PAUSE_BUTTON_RADIUS) and (abs(mouseXY[1] - (height - 70 + 32)) < const.PAUSE_BUTTON_RADIUS)
 
 
 def renderPlayingArea():
@@ -179,12 +182,7 @@ def renderPlayingArea():
     pygame.draw.rect(screen, const.WHITE, (width / 2, 0, 3, height))
 
     # PAUSE
-    pygame.draw.circle(screen, const.LIGHTRED, (width / 2, height - 30), 20, 0)
-    text1 = smallfont.render("||", True, const.WHITE)
-    screen.blit(text1,[width/2-7,height-44])
-    screen.blit(text1, [width / 2 - 7, height - 44])
-
-    click = pygame.mouse.get_pressed()
+    screen.blit(pause_image, (width / 2 - 32, height - 70))
 
 
 def resetGame(speed, player):
