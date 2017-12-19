@@ -209,6 +209,8 @@ def gameLoop(speed, player1Color, player2Color):
                     
                     if choice == 2:
                         resetScore()
+                        resetGame(speed, 1)
+                        resetGame(speed, 2)
 
             if event.type == QUIT:
                 pygame.quit()
