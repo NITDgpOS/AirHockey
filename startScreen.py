@@ -3,6 +3,8 @@ import sys
 import os
 from globals import *
 
+x=squareSide+30
+positionGrid = [145,145+x,145+2*x,145+3*x+250,145+4*x+250, 145+5*x+250]
 # funtion to render font
 def textObj(text, font, color):
     textSurface = font.render(text, True, color)
@@ -24,6 +26,35 @@ def dispText(screen, text, center, fontAndSize, color):
     screen.blit(TextSurf, TextRect)
 
 
+class selBox:
+    def __init__(self):
+        self.playerId=1
+        self.gridPos=0
+        self.length=squareSide + 10
+        self.breadth=squareSide + 10
+
+    def moveLeft(self):
+        if self.gridPos>0:
+            self.gridPos-=1
+
+        if self.gridPos > 2:
+            self.playerId=2
+        else:
+            self.playerId=1
+
+    def moveRight(self):
+        if self.gridPos<5:
+            self.gridPos+=1
+
+        if self.gridPos > 2:
+            self.playerId=2
+        else:
+            self.playerId=1
+
+    def draw(self,screen,x,y):
+        pygame.draw.rect(screen, (255, 255, 255),(x,y,self.length,self.breadth))
+
+
 
 # function for creating a start screen
 def airHockeyStart(screen, clock, Scrwidth, Scrheight):
@@ -39,11 +70,49 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
     player2Color = None
     colorFlag1 = False
     colorFlag2 = False
+    sel=selBox()
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    #print("key q is pressed ")
+                    return (0, 0, 0)
+                elif event.key == pygame.K_a:
+                    #print("key a is pressed ")
+                    sel.moveLeft()
+                elif event.key == pygame.K_d:
+                    #print("key d is pressed ")
+                    sel.moveRight()
+                elif event.key == pygame.K_RETURN:
+                    #print("key RETURN is pressed ")
+                    if sel.playerId ==1:
+                        flagLeft=1
+                        player1Color=colors[(sel.gridPos%3)+1][1]
+                    else:
+                        flagRight=2
+                        player2Color=colors[(sel.gridPos%3)+1][1]
+                # elif event.key == pygame.K_e:
+                #     #print("key e is pressed ")
+                #     if player1Color == None or player2Color == None:
+                #         if player1Color == None:
+                #             colorFlag1 = True
+                #         if player2Color == None:
+                #             colorFlag2 = True
+                #     else:
+                #         return (1, player1Color, player2Color)
+                # elif event.key == pygame.K_h:
+                #     #print("key h is pressed ")
+                #     if player1Color == None or player2Color == None:
+                #         if player1Color == None:
+                #             colorFlag1 = True
+                #         if player2Color == None:
+                #             colorFlag2 = True
+                #     else:
+                #         return (2, player1Color, player2Color)
+
         screen.fill((60, 90, 100))
         largeText = pygame.font.Font('freesansbold.ttf', 50)
         smallText = pygame.font.Font('freesansbold.ttf', 30)
@@ -69,7 +138,8 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
 
         #white border line
         pygame.draw.rect(screen, (255,255,255),(xposRectLeft - 10, yposRectLeft -10, 320 , 100), 1)
-
+        # Draw selection box
+        sel.draw(screen, positionGrid[sel.gridPos], yposRectLeft - 5)
         #using only three color options 
         for x in range(1,4):
             if mouse[0] > xposRectLeft and mouse[0] < (xposRectLeft + squareSide) and mouse[1] > yposRectLeft and mouse[1] < (yposRectLeft +squareSide) :
