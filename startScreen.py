@@ -94,24 +94,24 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
                     else:
                         flagRight=2
                         player2Color=colors[(sel.gridPos%3)+1][1]
-                elif event.key == pygame.K_e:
-                    #print("key e is pressed ")
-                    if player1Color == None or player2Color == None:
-                        if player1Color == None:
-                            colorFlag1 = True
-                        if player2Color == None:
-                            colorFlag2 = True
-                    else:
-                        return (1, player1Color, player2Color)
-                elif event.key == pygame.K_h:
-                    print("key h is pressed ")
-                    if player1Color == None or player2Color == None:
-                        if player1Color == None:
-                            colorFlag1 = True
-                        if player2Color == None:
-                            colorFlag2 = True
-                    else:
-                        return (2, player1Color, player2Color)
+                # elif event.key == pygame.K_e:
+                #     #print("key e is pressed ")
+                #     if player1Color == None or player2Color == None:
+                #         if player1Color == None:
+                #             colorFlag1 = True
+                #         if player2Color == None:
+                #             colorFlag2 = True
+                #     else:
+                #         return (1, player1Color, player2Color)
+                # elif event.key == pygame.K_h:
+                #     #print("key h is pressed ")
+                #     if player1Color == None or player2Color == None:
+                #         if player1Color == None:
+                #             colorFlag1 = True
+                #         if player2Color == None:
+                #             colorFlag2 = True
+                #     else:
+                #         return (2, player1Color, player2Color)
 
         screen.fill((60, 90, 100))
         largeText = pygame.font.Font('freesansbold.ttf', 50)
