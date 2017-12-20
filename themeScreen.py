@@ -6,7 +6,11 @@ from globals import *
 selected_color = (224, 214, 141)
 selected_flag = 0
 
-def themeScreen(screen, clock, Scrwidth, Scrheight):
+def themeScreen(screen, clock, Scrwidth, Scrheight, musicPaused):
+    if musicPaused == False:
+        pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(.1)
+
 
     while True:
         for event in pygame.event.get():

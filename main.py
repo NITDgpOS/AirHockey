@@ -349,7 +349,7 @@ if __name__ == "__main__":
     init()
     while True:
         gameChoice, player1Color, player2Color, mute = airHockeyStart(screen, clock, width, height, mute)
-        backgroundColor = themeScreen(screen, clock, width, height)
+        backgroundColor = themeScreen(screen, clock, width, height, mute)
         init()
         if gameChoice == 1:
             puck.speed = const.EASY
