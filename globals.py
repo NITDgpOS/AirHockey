@@ -19,7 +19,6 @@ unmute_image = pygame.image.load(os.path.join(auxDirectory, 'unmute.png'))
 # game globals.
 clock = None
 screen = None
-screenColor = (224, 214, 141)
 
 # width and height of the screen.
 width, height = const.WIDTH, const.HEIGHT
