@@ -6,6 +6,7 @@ from pygame.locals import *
 from paddle import Paddle
 from puck import Puck
 from startScreen import airHockeyStart
+from themeScreen import themeScreen
 import constants as const
 from globals import *
 from endScreen import GameEnd
@@ -162,9 +163,9 @@ def hitsPauseArea(mouseXY):
         and mouseXY[0] > (width / 2 - 20) \
 
 
-def renderPlayingArea():
+def renderPlayingArea(backgroundColor):
     # Render Logic
-    screen.fill(screenColor)
+    screen.fill(backgroundColor)
     # center circle
     pygame.draw.circle(screen, const.WHITE, (width / 2, height / 2), 70, 5)
     # borders
@@ -203,7 +204,7 @@ def insideGoal(side):
 
 
 # Game Loop
-def gameLoop(speed, player1Color, player2Color):
+def gameLoop(speed, player1Color, player2Color, backgroundColor):
     global rounds_p1, rounds_p2, round_no, music_paused
     rounds_p1, rounds_p2, round_no = 0, 0, 1
 
@@ -309,7 +310,7 @@ def gameLoop(speed, player1Color, player2Color):
             score1, score2 = 0, 0
 
         # playing area should be drawn first
-        renderPlayingArea()
+        renderPlayingArea(backgroundColor)
 
         # show score
         score(score1, score2)
@@ -348,12 +349,13 @@ if __name__ == "__main__":
     init()
     while True:
         gameChoice, player1Color, player2Color, mute = airHockeyStart(screen, clock, width, height, mute)
+        backgroundColor = themeScreen(screen, clock, width, height, mute)
         init()
         if gameChoice == 1:
             puck.speed = const.EASY
-            gameLoop(const.EASY, player1Color, player2Color)
+            gameLoop(const.EASY, player1Color, player2Color, backgroundColor)
         elif gameChoice == 2:
             puck.speed = const.HARD
-            gameLoop(const.HARD, player1Color, player2Color)
+            gameLoop(const.HARD, player1Color, player2Color, backgroundColor)
         elif gameChoice == 0:
             sys.exit()
