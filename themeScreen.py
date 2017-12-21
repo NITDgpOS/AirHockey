@@ -2,28 +2,30 @@ import pygame
 import sys
 import os
 from globals import *
+from startScreen import dispText
 
-selected_color = (224, 214, 141)
-selected_flag = 0
+selected_color = theme_colors[0][0]
 
 def themeScreen(screen, clock, Scrwidth, Scrheight, musicPaused):
+
+    # initialised font
+    smallfont = pygame.font.SysFont("comicsans", 35)
+
     if musicPaused == False:
         pygame.mixer.music.play(-1)
         pygame.mixer.music.set_volume(.1)
 
 
     while True:
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-        screen.fill((60,90,100))
+        screen.fill((60, 90, 100))
 
         #using the global color which is initialized
-        global selected_color 
-        global selected_flag
+        global selected_color
 
-        theme_colors = [ [(255, 169, 119), (255, 161, 107)], [(230, 232, 104), (217, 219, 92)],
-                         [(125, 216, 201), (103, 178, 166)], [(164, 229, 121), (117, 168, 84)] ]
         
         #mouse data
         mouse = pygame.mouse.get_pos()
@@ -35,7 +37,6 @@ def themeScreen(screen, clock, Scrwidth, Scrheight, musicPaused):
             pygame.draw.rect(screen, theme_colors[0][0], (x1, y1, 300, 150), 0) #rect fill
             if click[0] == 1:
                 selected_color = theme_colors[0][0]
-                selected_flag = 1
         else:
             pygame.draw.rect(screen, theme_colors[0][1], (x1, y1, 300, 150), 0) #rect fill
         pygame.draw.rect(screen, const.WHITE, (x1, y1, 300, 150), 2) #rect border
@@ -50,7 +51,6 @@ def themeScreen(screen, clock, Scrwidth, Scrheight, musicPaused):
             pygame.draw.rect(screen, theme_colors[1][0], (x2, y2, 300, 150), 0) #rect fill
             if click[0] == 1:
                 selected_color = theme_colors[1][0]
-                selected_flag = 1
         else:      
             pygame.draw.rect(screen, theme_colors[1][1], (x2, y2, 300, 150), 0) #rect fill
         pygame.draw.rect(screen, const.WHITE, (x2, y2, 300, 150), 2) #rect border
@@ -65,7 +65,6 @@ def themeScreen(screen, clock, Scrwidth, Scrheight, musicPaused):
             pygame.draw.rect(screen, theme_colors[2][0], (x3, y3, 300, 150), 0) #rect fill
             if click[0] == 1:
                 selected_color = colors[2][0]
-                selected_flag = 1
         else:
             pygame.draw.rect(screen, theme_colors[2][1], (x3, y3, 300, 150), 0) #rect fill
         pygame.draw.rect(screen, const.WHITE, (x3, y3, 300, 150), 2) #rect border
@@ -80,7 +79,6 @@ def themeScreen(screen, clock, Scrwidth, Scrheight, musicPaused):
             pygame.draw.rect(screen, theme_colors[3][0], (x4, y4, 300, 150), 0) #rect fill
             if click[0] == 1:
                 selected_color = theme_colors[3][0]
-                selected_flag = 1
         else:
             pygame.draw.rect(screen, theme_colors[3][1], (x4, y4, 300, 150), 0) #rect fill
         pygame.draw.rect(screen, const.WHITE, (x4, y4, 300, 150), 2) #rect border
@@ -89,11 +87,8 @@ def themeScreen(screen, clock, Scrwidth, Scrheight, musicPaused):
         pygame.draw.rect(screen, const.WHITE, (x4, y4 + 30, 50, 95), 2) #left small rect
         pygame.draw.rect(screen, const.WHITE, (x4 + 300 - 50, y4 + 30, 50, 95), 2) #right small rect
 
-
-        #if theme is selected
-        if selected_flag == 1:
-            text_selected = smallfont.render("SELECTED", True, const.WHITE)
-            screen.blit(text_selected, [width / 2 - 60, 450])
+        # displaying the selected color
+        dispText(screen, "SELECTED COLOR", (width / 2, 450), smallfont, selected_color)
 
         #start
         x, y = width / 2 - 50, 500
@@ -103,7 +98,6 @@ def themeScreen(screen, clock, Scrwidth, Scrheight, musicPaused):
                 return selected_color
         else:
             pygame.draw.rect(screen, colors[0][0], (width / 2 - 50, 500, 90, 30), 0)
-        smallfont = pygame.font.SysFont("comicsans", 35)
         text_start = smallfont.render("START", True, const.BLACK)
         screen.blit(text_start, [width / 2 - 44, 500])
 

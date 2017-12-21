@@ -139,7 +139,6 @@ def showPauseScreen():
             if event.type == QUIT:
                 sys.exit()
 
-
         # checking if mute button clicked
 
         if abs(mouse[0] - (width - 100 + 32)) < const.MUTE_BUTTON_RADIUS and abs(mouse[1] - (height / 2 - 250)) < const.MUTE_BUTTON_RADIUS and click[0] == 1:
