@@ -6,6 +6,7 @@ from pygame.locals import *
 from paddle import Paddle
 from puck import Puck
 from startScreen import airHockeyStart
+from themeScreen import themeScreen
 import constants as const
 from globals import *
 from endScreen import GameEnd
@@ -88,6 +89,7 @@ def showPauseScreen():
     while True:
         text_pause = smallfont.render("PAUSED", True, const.BLACK)
         screen.blit(text_pause, [width / 2 - 44, 200])
+        screen.blit(play_image, (width / 2 - 32, height - 70))
 
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
@@ -129,10 +131,16 @@ def showPauseScreen():
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     return 1
 
+            # continue by pressing play button as well
+            if event.type == pygame.MOUSEBUTTONUP:
+                if hitsPauseArea(mouse):
+                    return 1
+
             if event.type == QUIT:
                 sys.exit()
 
-        # checking if buttons clicked
+        # checking if mute button clicked
+
         if abs(mouse[0] - (width - 100 + 32)) < const.MUTE_BUTTON_RADIUS and abs(mouse[1] - (height / 2 - 250)) < const.MUTE_BUTTON_RADIUS and click[0] == 1:
             mute = not mute
 
@@ -156,15 +164,12 @@ def showPauseScreen():
 def hitsPauseArea(mouseXY):
     """ Returns True if the mouse is clicked within the pause area"""
 
-    return mouseXY[1] < (height - 30 + 20) \
-        and mouseXY[1] > (height - 30 - 20) \
-        and mouseXY[0] < (width / 2 + 20) \
-        and mouseXY[0] > (width / 2 - 20) \
+    return (abs(mouseXY[0] - width / 2) < const.PAUSE_BUTTON_RADIUS) and (abs(mouseXY[1] - (height - 70 + 32)) < const.PAUSE_BUTTON_RADIUS)
 
 
-def renderPlayingArea():
+def renderPlayingArea(backgroundColor):
     # Render Logic
-    screen.fill(screenColor)
+    screen.fill(backgroundColor)
     # center circle
     pygame.draw.circle(screen, const.WHITE, (width / 2, height / 2), 70, 5)
     # borders
@@ -179,12 +184,7 @@ def renderPlayingArea():
     pygame.draw.rect(screen, const.WHITE, (width / 2, 0, 3, height))
 
     # PAUSE
-    pygame.draw.circle(screen, const.LIGHTRED, (width / 2, height - 30), 20, 0)
-    text1 = smallfont.render("||", True, const.WHITE)
-    screen.blit(text1,[width/2-7,height-44])
-    screen.blit(text1, [width / 2 - 7, height - 44])
-
-    click = pygame.mouse.get_pressed()
+    screen.blit(pause_image, (width / 2 - 32, height - 70))
 
 
 def resetGame(speed, player):
@@ -203,7 +203,7 @@ def insideGoal(side):
 
 
 # Game Loop
-def gameLoop(speed, player1Color, player2Color):
+def gameLoop(speed, player1Color, player2Color, backgroundColor):
     global rounds_p1, rounds_p2, round_no, music_paused
     rounds_p1, rounds_p2, round_no = 0, 0, 1
 
@@ -309,7 +309,7 @@ def gameLoop(speed, player1Color, player2Color):
             score1, score2 = 0, 0
 
         # playing area should be drawn first
-        renderPlayingArea()
+        renderPlayingArea(backgroundColor)
 
         # show score
         score(score1, score2)
@@ -348,12 +348,13 @@ if __name__ == "__main__":
     init()
     while True:
         gameChoice, player1Color, player2Color, mute = airHockeyStart(screen, clock, width, height, mute)
+        backgroundColor = themeScreen(screen, clock, width, height, mute)
         init()
         if gameChoice == 1:
             puck.speed = const.EASY
-            gameLoop(const.EASY, player1Color, player2Color)
+            gameLoop(const.EASY, player1Color, player2Color, backgroundColor)
         elif gameChoice == 2:
             puck.speed = const.HARD
-            gameLoop(const.HARD, player1Color, player2Color)
+            gameLoop(const.HARD, player1Color, player2Color, backgroundColor)
         elif gameChoice == 0:
             sys.exit()
