@@ -29,6 +29,7 @@ def dispText(screen, text, center, fontAndSize, color):
 
 
 def airHockeyStart(screen, clock, Scrwidth, Scrheight, mute):
+    
 
     pygame.mixer.music.load(os.path.join(auxDirectory, 'StartScreenBack.mp3'))
     pygame.mixer.music.play(-1)
@@ -41,12 +42,24 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight, mute):
     colorFlag1 = False
     colorFlag2 = False
 
-    music_paused = False  # to check if music is playing or paused
+    music_paused = False  # to check if music is playing or paused    
 
+    global fullscreentoggle
+    
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                pygame.quit()
                 sys.exit()
+
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_f:
+                if fullscreentoggle == True:
+                    screen = pygame.display.set_mode((width,height))
+                    fullscreentoggle = False
+                else:
+                    screen = pygame.display.set_mode((width,height) , pygame.FULLSCREEN)
+                    fullscreentoggle = True
+
         screen.fill((60, 90, 100))
         largeText = pygame.font.Font('freesansbold.ttf', 50)
         smallText = pygame.font.Font('freesansbold.ttf', 30)
@@ -148,10 +161,8 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight, mute):
             buttonCircle(screen, colors[1][1], (1000, 470), "Quit", largeText, (255, 255, 255),
                          (Scrwidth / 2 + 400, Scrheight / 2 + 170))
             if click[0] == 1:
-                if music_paused:
-                    pygame.mixer.music.unpause()
-                pygame.mixer.music.stop()
-                return (0, 0, 0, mute)
+                pygame.quit()
+                sys.exit()                
         else:
             buttonCircle(screen, colors[1][0], (1000, 470), "Quit", smallText, (255, 255, 255),
                          (Scrwidth / 2 + 400, Scrheight / 2 + 170))

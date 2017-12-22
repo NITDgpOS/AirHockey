@@ -25,7 +25,7 @@ def init():
     pygame.mixer.pre_init(44100, -16, 2, 2048)
     pygame.mixer.init()
     pygame.init()
-
+    
     gamelogo = pygame.image.load(os.path.join(auxDirectory, 'AHlogo.png'))
     pygame.display.set_icon(gamelogo)
     pygame.display.set_caption('Air Hockey')
@@ -118,6 +118,7 @@ def showPauseScreen():
         if mouse[0] > width / 2 + 150 and mouse[0] < width / 2 + 300 and mouse[1] > height - 200 and mouse[1] < height -160:
             pygame.draw.rect(screen, colors[1][0], (width / 2 + 150, height - 200, 150, 40))
             if click[0] == 1:
+                pygame.quit()
                 sys.exit()
         else:
             pygame.draw.rect(screen, colors[1][1], (width / 2 + 150, height - 200, 150, 40))
@@ -137,6 +138,7 @@ def showPauseScreen():
                     return 1
 
             if event.type == QUIT:
+                pygame.quit()
                 sys.exit()
 
         # checking if mute button clicked
@@ -203,7 +205,7 @@ def insideGoal(side):
 
 
 # Game Loop
-def gameLoop(speed, player1Color, player2Color, backgroundColor):
+def gameLoop(screen, speed, player1Color, player2Color, backgroundColor):
     global rounds_p1, rounds_p2, round_no, music_paused
     rounds_p1, rounds_p2, round_no = 0, 0, 1
 
@@ -226,11 +228,11 @@ def gameLoop(speed, player1Color, player2Color, backgroundColor):
             # check for space bar
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     showPauseScreen()
-
+                    
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
-
+                         
             # check mouse click events
             if event.type == pygame.MOUSEBUTTONUP:
                 mouseXY = pygame.mouse.get_pos()
@@ -316,13 +318,13 @@ def gameLoop(speed, player1Color, player2Color, backgroundColor):
 
         # display endscreen or rounds
         if rounds_p1 == const.ROUNDLIMIT:  # Player one denotes left player
-            if end(GameEnd(screen, clock, 1), speed):
+            if end(GameEnd(screen, clock, 1, backgroundColor), speed):
                 if music_paused:
                     pygame.mixer.music.unpause()
                 pygame.mixer.stop()
                 return
         elif rounds_p2 == const.ROUNDLIMIT:  # Player two denotes right player
-            if end(GameEnd(screen, clock, 2), speed):
+            if end(GameEnd(screen, clock, 2, backgroundColor), speed):
                 if music_paused:
                     pygame.mixer.music.unpause()
                 pygame.mixer.stop()
@@ -352,9 +354,9 @@ if __name__ == "__main__":
         init()
         if gameChoice == 1:
             puck.speed = const.EASY
-            gameLoop(const.EASY, player1Color, player2Color, backgroundColor)
+            gameLoop(screen, const.EASY, player1Color, player2Color, backgroundColor)
         elif gameChoice == 2:
             puck.speed = const.HARD
-            gameLoop(const.HARD, player1Color, player2Color, backgroundColor)
+            gameLoop(screen, const.HARD, player1Color, player2Color, backgroundColor)
         elif gameChoice == 0:
             sys.exit()

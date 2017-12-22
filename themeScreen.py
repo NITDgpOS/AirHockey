@@ -15,12 +15,23 @@ def themeScreen(screen, clock, Scrwidth, Scrheight, musicPaused):
         pygame.mixer.music.play(-1)
         pygame.mixer.music.set_volume(.1)
 
-
+    global fullscreentoggle
+    
     while True:
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                pygame.quit()
                 sys.exit()
+
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_f:
+                if fullscreentoggle == True:
+                    screen = pygame.display.set_mode((width,height))
+                    fullscreentoggle = False
+                else:
+                    screen = pygame.display.set_mode((width,height) , pygame.FULLSCREEN)
+                    fullscreentoggle = True
+
+                
         screen.fill((60, 90, 100))
 
         #using the global color which is initialized
