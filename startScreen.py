@@ -46,6 +46,7 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight, mute):
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                pygame.quit()
                 sys.exit()
         screen.fill((60, 90, 100))
         largeText = pygame.font.Font('freesansbold.ttf', 50)
@@ -148,10 +149,8 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight, mute):
             buttonCircle(screen, colors[1][1], (1000, 470), "Quit", largeText, (255, 255, 255),
                          (Scrwidth / 2 + 400, Scrheight / 2 + 170))
             if click[0] == 1:
-                if music_paused:
-                    pygame.mixer.music.unpause()
-                pygame.mixer.music.stop()
-                return (0, 0, 0, mute)
+                pygame.quit()
+                sys.exit()                
         else:
             buttonCircle(screen, colors[1][0], (1000, 470), "Quit", smallText, (255, 255, 255),
                          (Scrwidth / 2 + 400, Scrheight / 2 + 170))
