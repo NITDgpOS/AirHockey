@@ -23,6 +23,7 @@ pause_image = pygame.image.load(os.path.join(auxDirectory, 'pause.png'))
 # game globals.
 clock = None
 screen = None
+fullscreentoggle = False
 
 # width and height of the screen.
 width, height = const.WIDTH, const.HEIGHT
