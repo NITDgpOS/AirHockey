@@ -206,7 +206,7 @@ def insideGoal(side):
 
 # Game Loop
 def gameLoop(screen, speed, player1Color, player2Color, backgroundColor):
-    global rounds_p1, rounds_p2, round_no, music_paused, fullscreentoggle
+    global rounds_p1, rounds_p2, round_no, music_paused
     rounds_p1, rounds_p2, round_no = 0, 0, 1
 
     pygame.mixer.music.load(os.path.join(auxDirectory, 'back.mp3'))  # background music
@@ -232,16 +232,7 @@ def gameLoop(screen, speed, player1Color, player2Color, backgroundColor):
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
-
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_f:
-                if fullscreentoggle == True:
-                    screen = pygame.display.set_mode((width,height))
-                    fullscreentoggle = False
-                else:
-                    screen = pygame.display.set_mode((width,height) , pygame.FULLSCREEN)
-                    fullscreentoggle = True
-
-
+                         
             # check mouse click events
             if event.type == pygame.MOUSEBUTTONUP:
                 mouseXY = pygame.mouse.get_pos()
@@ -327,13 +318,13 @@ def gameLoop(screen, speed, player1Color, player2Color, backgroundColor):
 
         # display endscreen or rounds
         if rounds_p1 == const.ROUNDLIMIT:  # Player one denotes left player
-            if end(GameEnd(screen, clock, 1), speed):
+            if end(GameEnd(screen, clock, 1, backgroundColor), speed):
                 if music_paused:
                     pygame.mixer.music.unpause()
                 pygame.mixer.stop()
                 return
         elif rounds_p2 == const.ROUNDLIMIT:  # Player two denotes right player
-            if end(GameEnd(screen, clock, 2), speed):
+            if end(GameEnd(screen, clock, 2, backgroundColor), speed):
                 if music_paused:
                     pygame.mixer.music.unpause()
                 pygame.mixer.stop()
