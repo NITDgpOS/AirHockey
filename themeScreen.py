@@ -20,6 +20,7 @@ def themeScreen(screen, clock, Scrwidth, Scrheight, musicPaused):
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                pygame.quit()
                 sys.exit()
         screen.fill((60, 90, 100))
 
