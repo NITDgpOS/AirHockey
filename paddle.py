@@ -44,7 +44,7 @@ class Paddle():
 
     def draw(self, screen, color):
         position = (int(self.x), int(self.y))
-
+        
         pygame.draw.circle(screen, color, position, self.radius, 0)
         pygame.draw.circle(screen, (0, 0, 0), position, self.radius, 2)
         pygame.draw.circle(screen, (0, 0, 0), position, self.radius - 5, 2)
