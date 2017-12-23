@@ -10,6 +10,8 @@ import constants as const
 from globals import *
 from endScreen import GameEnd
 import time
+from powerup1 import Powerup1
+import random 
 
 # Globals, initialized in method `init()`
 
@@ -18,6 +20,9 @@ paddle1 = Paddle(const.PADDLE1X, const.PADDLE1Y)
 paddle2 = Paddle(const.PADDLE2X, const.PADDLE2Y)
 puck = Puck(width / 2, height / 2)
 
+powerup1= Powerup1()
+
+pygame.time.set_timer(USEREVENT + 1, 1000) # Used to correctly implement seconds
 
 def init():
     global paddleHit, goal_whistle, backgroundMusic, clock, screen, smallfont
@@ -129,6 +134,7 @@ def hitsPauseArea(mouseXY):
 
 
 def renderPlayingArea():
+    global flag,time2,goalwt1, goalwt2 , goalht1 , goalht2 , goaldp1 , goaldp2,seconds
     # Render Logic
     screen.fill(screenColor)
     # center circle
@@ -138,9 +144,42 @@ def renderPlayingArea():
     # D-box
     pygame.draw.rect(screen, const.WHITE, (0, height / 2 - 150, 150, 300), 5)
     pygame.draw.rect(screen, const.WHITE, (width - 150, height / 2 - 150, 150, 300), 5)
+    
+
+    #powerup conditions
+    if (powerup1.isActive()):
+        if flag==1:
+            powerup1.set_pos(randomXY())
+            flag=0
+        powerup1.draw(screen)
+    
+    if (powerup1.collidewithPaddle(paddle1)) and powerup1.isActive() :
+        goalwt2*=2
+        goalht2 = height / 2 - goalwt2/ 2
+        powerup1.kill()
+        time2=seconds
+
+        
+    
+    if(powerup1.collidewithPaddle(paddle2)) and powerup1.isActive():
+        goalwt1*=2
+        goalht1 = height / 2 - goalwt2/ 2
+        powerup1.kill()
+        time2=seconds
+
+    if seconds>time2+10:
+        flag=1
+        powerup1.Active = True
+        goalwt1 = goalwt2= const.GOALWIDTH1
+        goalht1  = goalht2 = const.GOALY2
+        goaldp1 = goaldp2 = const.GOALY1
+        #pygame.draw.rect(screen, const.BLACK, (0, const.GOALY1, 5, const.GOALWIDTH*2))
+        
+
     # goals
-    pygame.draw.rect(screen, const.BLACK, (0, const.GOALY1, 5, const.GOALWIDTH))
-    pygame.draw.rect(screen, const.BLACK, (width - 5, const.GOALY1, 5, const.GOALWIDTH))
+    
+    pygame.draw.rect(screen, const.BLACK, (0, goalht1, 5, goalwt1))
+    pygame.draw.rect(screen, const.BLACK, (width - 5, goalht2, 5, goalwt2))
     # Divider
     pygame.draw.rect(screen, const.WHITE, (width / 2, 0, 3, height))
 
@@ -153,6 +192,7 @@ def renderPlayingArea():
     click = pygame.mouse.get_pressed()
 
 
+
 def resetGame(speed, player):
     puck.reset(speed, player)
     paddle1.reset(22, height / 2)
@@ -160,26 +200,33 @@ def resetGame(speed, player):
 
 
 def insideGoal(side):
+    global goalht1,goaldp1,goalht2,goaldp2
+
+    
     """ Returns true if puck is within goal boundary"""
     if side == 0:
-        return puck.x - puck.radius <= 0 and puck.y >= const.GOALY1 and puck.y <= const.GOALY2
+        return puck.x - puck.radius <= 0 and puck.y >= goaldp1 and puck.y <= goalht1
 
     if side == 1:
-        return puck.x + puck.radius >= width and puck.y >= const.GOALY1 and puck.y <= const.GOALY2
+        return puck.x + puck.radius >= width and puck.y >= goaldp2 and puck.y <= goalht2
 
+def randomXY():
+    return [5+random.randint(0,WIDTH-10),20+random.randint(0,HEIGHT-40)]
 
 # Game Loop
 def gameLoop(speed, player1Color, player2Color):
+
     global rounds_p1, rounds_p2, round_no
     rounds_p1, rounds_p2, round_no = 0, 0, 1
 
     pygame.mixer.Sound.play(backgroundMusic, -1)
     pygame.mixer.Sound.set_volume(backgroundMusic, 0.2)
-
+    
     while True:
-        global score1, score2
-
-        for event in pygame.event.get():
+        global score1, score2 ,time2 , seconds , goalht1 , goalht2
+        print(str(goalht1))
+        print(str(goalht2))
+        for event in pygame.event.get()
 
             # check for space bar
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
@@ -188,6 +235,10 @@ def gameLoop(speed, player1Color, player2Color):
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
+
+            if event.type == USEREVENT + 1:
+                seconds+=1
+                time2+=1
 
             # check mouse click events
             if event.type == pygame.MOUSEBUTTONUP:
