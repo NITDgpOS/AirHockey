@@ -55,7 +55,7 @@ git checkout [name_of_your_branch]
 
 NOTE: The administrative permission is required to place the AHlogo.png file into the usr/share/icons directory.
 
-4. Open properties for run.desktop, toggle "Allow executing file as program" and click Play.
+3. Open properties for run.desktop, toggle "Allow executing file as program" and click Play.
 
 ## GamePlay Help
 
