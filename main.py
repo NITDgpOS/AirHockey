@@ -19,7 +19,6 @@ import random
 paddle1 = Paddle(const.PADDLE1X, const.PADDLE1Y)
 paddle2 = Paddle(const.PADDLE2X, const.PADDLE2Y)
 puck = Puck(width / 2, height / 2)
-
 powerup1= Powerup1()
 
 pygame.time.set_timer(USEREVENT + 1, 1000) # Used to correctly implement seconds
@@ -133,8 +132,11 @@ def hitsPauseArea(mouseXY):
         and mouseXY[0] > (width / 2 - 20) \
 
 
-def renderPlayingArea():
-    global flag,time2,goalwt1, goalwt2 , goalht1 , goalht2 , goaldp1 , goaldp2,seconds
+def renderPlayingArea( goalht1 , goalht2 , goaldp1 , goaldp2):
+    #global flag,time2,goalwt1, goalwt2 , goalht1 , goalht2 , goaldp1 , goaldp2,seconds
+    global flag,time2,seconds, goalwt1,goalwt2
+    #sys.stdout.write(str(goalht1) + "\n")
+    #sys.stdout.flush()
     # Render Logic
     screen.fill(screenColor)
     # center circle
@@ -156,6 +158,7 @@ def renderPlayingArea():
     if (powerup1.collidewithPaddle(paddle1)) and powerup1.isActive() :
         goalwt2*=2
         goalht2 = height / 2 - goalwt2/ 2
+        goaldp2 = height / 2 + goalwt2/ 2
         powerup1.kill()
         time2=seconds
 
@@ -163,17 +166,17 @@ def renderPlayingArea():
     
     if(powerup1.collidewithPaddle(paddle2)) and powerup1.isActive():
         goalwt1*=2
-        goalht1 = height / 2 - goalwt2/ 2
+        goalht1 = height / 2 - goalwt1/ 2
+        goaldp1 = height / 2 - goalwt1/ 2
         powerup1.kill()
         time2=seconds
 
-    if seconds>time2+10:
+    if seconds>=time2+10 :
         flag=1
         powerup1.Active = True
         goalwt1 = goalwt2= const.GOALWIDTH1
         goalht1  = goalht2 = const.GOALY2
         goaldp1 = goaldp2 = const.GOALY1
-        #pygame.draw.rect(screen, const.BLACK, (0, const.GOALY1, 5, const.GOALWIDTH*2))
         
 
     # goals
@@ -199,11 +202,12 @@ def resetGame(speed, player):
     paddle2.reset(width - 20, height / 2)
 
 
-def insideGoal(side):
-    global goalht1,goaldp1,goalht2,goaldp2
-
+def insideGoal(side, goalht1 , goalht2 , goaldp1 , goaldp2):
+    
+    
     
     """ Returns true if puck is within goal boundary"""
+    #print(goalht1)
     if side == 0:
         return puck.x - puck.radius <= 0 and puck.y >= goaldp1 and puck.y <= goalht1
 
@@ -211,7 +215,7 @@ def insideGoal(side):
         return puck.x + puck.radius >= width and puck.y >= goaldp2 and puck.y <= goalht2
 
 def randomXY():
-    return [5+random.randint(0,WIDTH-10),20+random.randint(0,HEIGHT-40)]
+    return [5+random.randint(0,width-10),20+random.randint(0,height-40)]
 
 # Game Loop
 def gameLoop(speed, player1Color, player2Color):
@@ -223,11 +227,10 @@ def gameLoop(speed, player1Color, player2Color):
     pygame.mixer.Sound.set_volume(backgroundMusic, 0.2)
     
     while True:
-        global score1, score2 ,time2 , seconds , goalht1 , goalht2
-        print(str(goalht1))
-        print(str(goalht2))
-        for event in pygame.event.get()
-
+        global score1, score2 ,time2 , seconds , goalht1 , goalht2 , goaldp1 , goaldp2
+        #print(str(goalht1))
+        #print(str(goalht2))
+        for event in pygame.event.get():
             # check for space bar
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     showPauseScreen()
@@ -236,7 +239,7 @@ def gameLoop(speed, player1Color, player2Color):
                 pygame.quit()
                 sys.exit()
 
-            if event.type == USEREVENT + 1:
+            if event.type == USEREVENT + 1: #timer for counting seconds
                 seconds+=1
                 time2+=1
 
@@ -279,13 +282,13 @@ def gameLoop(speed, player1Color, player2Color):
         puck.move(time_delta)
 
         # Hits the left goal!
-        if insideGoal(0):
+        if insideGoal(0, goalht1 , goalht2 , goaldp1 , goaldp2):
             pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
             score2 += 1
             resetGame(speed, 1)
 
         # Hits the right goal!
-        if insideGoal(1):
+        if insideGoal(1, goalht1 , goalht2 , goaldp1 , goaldp2):
             pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
             score1 += 1
             resetGame(speed, 2)
@@ -310,7 +313,7 @@ def gameLoop(speed, player1Color, player2Color):
             score1, score2 = 0, 0
 
         # playing area should be drawn first
-        renderPlayingArea()
+        renderPlayingArea( goalht1 , goalht2 , goaldp1 , goaldp2)
 
         # show score
         score(score1, score2)

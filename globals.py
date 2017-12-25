@@ -17,7 +17,7 @@ screenColor = (224, 214, 141)
 # width and height of the screen.
 width, height = const.WIDTH, const.HEIGHT
 
-#goalht = goal height goaldp = goal depth
+#goalht = goal heights , goaldp = goal depths , goalwt = goalwidths
 goalwt1, goalwt2 , goaldp1 , goalht1 , goaldp2 , goalht2 = const.GOALWIDTH1 ,const.GOALWIDTH2 , const.GOALY2 , const.GOALY1 , const.GOALY2 , const.GOALY1
 
 # button constants
@@ -33,4 +33,4 @@ colors = [ [(46, 120, 50),(66, 152, 60)] , [(200, 72, 72),(255, 92, 92)] ,
 #time constants
 seconds = 0
 time2 = 0
-flag = 0
+flag = 1
