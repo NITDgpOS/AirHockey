@@ -316,13 +316,13 @@ def gameLoop(speed, player1Color, player2Color, backgroundColor):
 
         # display endscreen or rounds
         if rounds_p1 == const.ROUNDLIMIT:  # Player one denotes left player
-            if end(GameEnd(screen, clock, 1), speed):
+            if end(GameEnd(screen, clock, 1, backgroundColor), speed):
                 if music_paused:
                     pygame.mixer.music.unpause()
                 pygame.mixer.stop()
                 return
         elif rounds_p2 == const.ROUNDLIMIT:  # Player two denotes right player
-            if end(GameEnd(screen, clock, 2), speed):
+            if end(GameEnd(screen, clock, 2, backgroundColor), speed):
                 if music_paused:
                     pygame.mixer.music.unpause()
                 pygame.mixer.stop()
