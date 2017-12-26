@@ -242,11 +242,11 @@ def resetGame(speed, player):
 def insideGoal(side):
     global goalht1, goalht2, goaldp1, goaldp2
     """ Returns true if puck is within goal boundary"""
-    print("goalht1="+str(goalht1))
+    #print("goalht1="+str(goalht1))
     #print("goalht2="+str(goalht2))
-    print("goaldp1="+str(goaldp1))
+    #print("goaldp1="+str(goaldp1))
     #print("goaldp2="+str(goaldp2))
-    print("puck.y="+str(puck.y))
+    #print("puck.y="+str(puck.y))
     
 
     if side == 0:
