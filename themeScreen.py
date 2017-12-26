@@ -50,7 +50,6 @@ def themeScreen(screen, clock, Scrwidth, Scrheight, musicPaused):
             pygame.draw.rect(screen, const.WHITE, (xy[0] + 300 - 50, xy[1] + 30, 50, 95), 2) #right small rect
             i = i+1
 
-        
         # displaying the selected color
         dispText(screen, "SELECTED COLOR", (width / 2, 450), smallfont, selected_color)
 
