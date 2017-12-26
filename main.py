@@ -5,7 +5,7 @@ import pygame
 from pygame.locals import *
 from paddle import Paddle
 from puck import Puck
-from startScreen import airHockeyStart
+from startScreen import airHockeyStart, dispText
 from themeScreen import themeScreen
 import constants as const
 from globals import *
@@ -25,7 +25,7 @@ powerup1= Powerup1()
 pygame.time.set_timer(USEREVENT + 1, 1000) # Used to correctly implement seconds
 
 def init():
-    global paddleHit, goal_whistle, clock, screen, smallfont
+    global paddleHit, goal_whistle, clock, screen, smallfont, roundfont
     pygame.mixer.pre_init(44100, -16, 2, 2048)
     pygame.mixer.init()
     pygame.init()
@@ -39,6 +39,7 @@ def init():
     goal_whistle = pygame.mixer.Sound(os.path.join(auxDirectory, 'goal.wav'))
 
     smallfont = pygame.font.SysFont("comicsans", 35)
+    roundfont = pygame.font.SysFont("comicsans", 45)
 
     clock = pygame.time.Clock()
 
@@ -52,10 +53,8 @@ def score(score1, score2):
 
 
 def rounds(rounds_p1, rounds_p2, round_no):
-    text = smallfont.render("Round "+str(round_no), True, const.BLACK)
-    screen.blit(text, [width / 2 - 40, 0])
-    text = smallfont.render(str(rounds_p1) + " : " + str(rounds_p2), True, const.BLACK)
-    screen.blit(text, [width / 2 - 16, 20])
+    dispText(screen, "Round "+str(round_no), (width/2, 20), roundfont, const.BLACK)
+    dispText(screen, str(rounds_p1) + " : " + str(rounds_p2), (width / 2, 50), roundfont, const.BLACK)
 
 
 def end(option, speed):
@@ -230,6 +229,12 @@ def renderPlayingArea(backgroundColor):
 
 
 
+def resetround(player):
+    puck.round_reset(player)
+    paddle1.reset(22, height / 2)
+    paddle2.reset(width - 20, height / 2)
+
+
 def resetGame(speed, player):
     puck.reset(speed, player)
     paddle1.reset(22, height / 2)
@@ -365,10 +370,13 @@ def gameLoop(speed, player1Color, player2Color, backgroundColor):
             round_no += 1
             rounds_p1 += 1
             score1, score2 = 0, 0
+            resetround(1)
+
         if score2 == const.SCORELIMIT:
             round_no += 1
             rounds_p2 += 1
             score1, score2 = 0, 0
+            resetround(2)
 
         # playing area should be drawn first
 
