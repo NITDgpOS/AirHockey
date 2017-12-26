@@ -11,6 +11,9 @@ This is a two player game. There are two paddles and a puck. The left-paddle (Pl
 >Gameplay
 ![Gameplay](/assets/Shot2.png)
 
+>PauseScreen
+![PauseScreen](/assets/Shot3.png)
+
 ## Prerequisite
 
 Python2 is the default language needed for playing this game,to check which version of Python you have, type the following in terminal:
@@ -52,7 +55,7 @@ git checkout [name_of_your_branch]
 
 NOTE: The administrative permission is required to place the AHlogo.png file into the usr/share/icons directory.
 
-4. Open properties for run.desktop, toggle "Allow executing file as program" and click Play.
+3. Open properties for run.desktop, toggle "Allow executing file as program" and click Play.
 
 ## GamePlay Help
 

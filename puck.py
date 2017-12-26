@@ -51,8 +51,6 @@ class Puck():
         Checks collision between circles using the distance formula:
         distance = sqrt(dx**2 + dy**2)
         """
-        while pygame.mixer.music.get_busy():
-            pygame.time.Clock().tick(10)
         dx = self.x - paddle.x
         dy = self.y - paddle.y
 
