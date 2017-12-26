@@ -1,10 +1,12 @@
 import pygame
 import sys
+import os
+import random
 from globals import *
+from constants import MUTE_BUTTON_RADIUS
 
-
-flagLeft = 0
-flagRight = 0
+x=squareSide+30
+positionGrid = [145,145+x,145+2*x,145+3*x+250,145+4*x+250, 145+5*x+250]
 
 # funtion to render font
 def textObj(text, font, color):
@@ -26,28 +28,112 @@ def dispText(screen, text, center, fontAndSize, color):
     TextRect.center = center
     screen.blit(TextSurf, TextRect)
 
+class selBox:
+    def __init__(self):
+        self.playerId=1
+        self.gridPos=0
+        self.length=squareSide + 10
+        self.breadth=squareSide + 10
 
+    def moveLeft(self):
+        if self.gridPos>0:
+            self.gridPos-=1
+
+        if self.gridPos > 2:
+            self.playerId=2
+        else:
+            self.playerId=1
+
+    def moveRight(self):
+        if self.gridPos<5:
+            self.gridPos+=1
+
+        if self.gridPos > 2:
+            self.playerId=2
+        else:
+            self.playerId=1
+
+    def draw(self,screen,x,y):
+        pygame.draw.rect(screen, (255, 255, 255),(x,y,self.length,self.breadth))
 
 # function for creating a start screen
-def airHockeyStart(screen, clock, Scrwidth, Scrheight):
+
+
+def airHockeyStart(screen, clock, Scrwidth, Scrheight, mute):
+
+    pygame.mixer.music.load(os.path.join(auxDirectory, 'StartScreenBack.mp3'))
+    pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(.1)
 
 
     # Variables set to none initially
-    flagLeft = 0
-    flagRight = 0
-    player1Color = None
-    player2Color = None
+    player1Color = colors[1][1]
+    player2Color = colors[1][1]
     colorFlag1 = False
     colorFlag2 = False
+    sel=selBox()
+
+    music_paused = False  # to check if music is playing or paused
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                pygame.quit()
                 sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    # print("key q is pressed ")
+                    pygame.quit()
+                    sys.exit()
+                elif event.key == pygame.K_a:
+                    # print("key a is pressed ")
+                    sel.moveLeft()
+                elif event.key == pygame.K_d:
+                    # print("key d is pressed ")
+                    sel.moveRight()
+                elif event.key == pygame.K_RETURN:
+                    # print("key RETURN is pressed ")
+                    if sel.playerId == 1:
+                        flagLeft = 1
+                        player1Color = colors[(sel.gridPos % 3) + 1][1]
+                    else:
+                        flagRight = 2
+                        player2Color = colors[(sel.gridPos % 3) + 1][1]
+                elif event.key == pygame.K_e:
+                    #print("key e is pressed ")
+                    if player1Color == None or player2Color == None:
+                        if player1Color == None:
+                            colorFlag1 = True
+                        if player2Color == None:
+                            colorFlag2 = True
+                    else:
+                        return (1, player1Color, player2Color,mute)
+                elif event.key == pygame.K_h:
+                    #print("key h is pressed ")
+                    if player1Color == None or player2Color == None:
+                        if player1Color == None:
+                            colorFlag1 = True
+                        if player2Color == None:
+                            colorFlag2 = True
+                    else:
+                        return (2, player1Color, player2Color,mute)
+
         screen.fill((60, 90, 100))
+        celebText = pygame.font.Font(os.path.join(auxDirectory,'Jelly Crazies.ttf'), 70)
         largeText = pygame.font.Font('freesansbold.ttf', 50)
         smallText = pygame.font.Font('freesansbold.ttf', 30)
-        dispText(screen, "AirHockey", (Scrwidth / 2, Scrheight / 2 -250), largeText, (255, 255, 255))
+        color_x = random.randint(0,4)
+        color_y = random.randint(0,1)
+        dispText(screen, "AIRHOCKEY", (Scrwidth / 2, 100), celebText, colors[color_x][color_y])
+
+        # mute and unmute audio code
+        if mute and (not music_paused):
+            pygame.mixer.music.pause()
+            music_paused = True
+        elif (not mute) and music_paused:
+            pygame.mixer.music.unpause()
+            music_paused = False
+
 
         # mouse data
         mouse = pygame.mouse.get_pos()
@@ -56,28 +142,30 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
         #choose colors for paddle
 
         xposRectLeft = 150 
-        yposRectLeft = Scrheight/2 - 90
+        yposRectLeft = Scrheight/2 - 70
 
         xposRectRight = Scrwidth - 150 - 320
-        yposRectRight = Scrheight/2 - 90
+        yposRectRight = Scrheight/2 - 70
 
-        dispText(screen, "Player 1", ( Scrwidth / 2 - 290, Scrheight / 2 - 120), smallText, (255,255,255))
-        dispText(screen, "Player 2", ( Scrwidth / 2 + 290, Scrheight / 2 - 120), smallText, (255,255,255))
-
+        dispText(screen, "Player 1", (Scrwidth / 2 - 290, Scrheight / 2 - 100), smallText, (255, 255, 255))
+        dispText(screen, "Player 2", (Scrwidth / 2 + 290, Scrheight / 2 - 100), smallText, (255, 255, 255))
         
         #Color picking pallete for player 1 (Left)
 
         #white border line
-        pygame.draw.rect(screen, (255,255,255),(xposRectLeft - 10, yposRectLeft -10, 320 , 100), 1)
+        pygame.draw.rect(screen, (255,255,255),(xposRectLeft - 10, yposRectLeft - 10, 320 , 100), 1)
+        # Draw selection box
+        sel.draw(screen, positionGrid[sel.gridPos], yposRectLeft - 5)
 
-        #using only three color options 
+        #using only three color options back
         for x in range(1,4):
             if mouse[0] > xposRectLeft and mouse[0] < (xposRectLeft + squareSide) and mouse[1] > yposRectLeft and mouse[1] < (yposRectLeft +squareSide) :
                 pygame.draw.rect(screen, colors[x][0], (xposRectLeft, yposRectLeft, squareSide, squareSide))
                 if click[0] == 1:
                     player1Color = colors[x][1]
-                    global flagLeft
-                    flagLeft = 1
+
+                    #updating sel.gridPos to draw after display update
+                    sel.gridPos = x-1
             else:
                 pygame.draw.rect(screen, colors[x][1], (xposRectLeft, yposRectLeft, squareSide, squareSide))
             xposRectLeft  = xposRectLeft + squareSide + 30
@@ -95,44 +183,28 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
                 pygame.draw.rect(screen, colors[x][0], (xposRectRight, yposRectRight, squareSide, squareSide))
                 if click[0] == 1 :
                     player2Color = colors[x][1]
-                    global flagRight
-                    flagRight = 2
+
+                    #updating sel.gridPos to draw after display update
+                    sel.gridPos = x-1 + 3
             else:
                 pygame.draw.rect(screen, colors[x][1], (xposRectRight, yposRectRight, squareSide, squareSide))
             xposRectRight = xposRectRight + squareSide + 30
 
         # displaying the color selected
-        if flagLeft == 1:
-            dispText(screen, "Color Selected", (Scrwidth / 4  , yposRectLeft + 120), smallText, player1Color)
-        if flagRight == 2:
-            dispText(screen, "Color selected", (Scrwidth - Scrwidth/4 - 20, yposRectLeft + 120), smallText, player2Color)
 
-        # To be displayed when colors not selected.
-        if player1Color == None:
-            if (colorFlag1 == False):
-                dispText(screen, "Please Select Color", (Scrwidth / 4, yposRectLeft + 120), smallText,
-                         (255, 255, 255))
-            else:
-                dispText(screen, "Color Not Selected!", (Scrwidth / 4, yposRectLeft + 120), smallText, (255, 100, 0))
+        dispText(screen, "Color Selected", (Scrwidth / 4, yposRectLeft + 120), smallText, player1Color)
+        dispText(screen, "Color selected", (Scrwidth - Scrwidth/4 - 20, yposRectLeft + 120), smallText, player2Color)
 
-        if player2Color == None:
-            if (colorFlag2 == False):
-                dispText(screen, "Please Select Color", (Scrwidth - Scrwidth / 4 - 20, yposRectLeft + 120), smallText, (255, 255, 255))
-            else:
-                dispText(screen, "Color Not Selected!", (Scrwidth - Scrwidth / 4 - 20, yposRectLeft + 120), smallText, (255, 100, 0))
 
         # difficulty button 'Easy'
         if abs(mouse[0] - 200) < buttonRadius and abs(mouse[1] - 470) < buttonRadius:
             buttonCircle(screen, colors[0][0], (200, 470), "Easy", largeText, (255, 255, 255),
-                         (Scrwidth / 2 -400 , Scrheight / 2 + 170))
+                         (Scrwidth / 2 - 400, Scrheight / 2 + 170))
             if click[0] == 1:
-                if player1Color == None or player2Color == None:
-                    if player1Color == None:
-                        colorFlag1 = True
-                    if player2Color == None:
-                        colorFlag2 = True
-                else:
-                    return (1, player1Color, player2Color)
+                if music_paused:
+                    pygame.mixer.music.unpause()
+                pygame.mixer.music.stop()
+                return (1, player1Color, player2Color, mute)
 
         else:
             buttonCircle(screen, colors[0][0], (200, 470), "Easy", smallText, (255, 255, 255),
@@ -143,13 +215,10 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
             buttonCircle(screen, colors[4][1], (600, 470), "Hard", largeText, (255, 255, 255),
                          (Scrwidth / 2 , Scrheight / 2 + 170))
             if click[0] == 1:
-                if player1Color == None or player2Color == None:
-                    if player1Color == None:
-                        colorFlag1 = True
-                    if player2Color == None:
-                        colorFlag2 = True
-                else:
-                    return (2, player1Color, player2Color)
+                if music_paused:
+                    pygame.mixer.music.unpause()
+                pygame.mixer.music.stop()
+                return (2 ,player1Color, player2Color, mute)
         
         else:
             buttonCircle(screen, colors[4][1], (600, 470), "Hard", smallText, (255, 255, 255),
@@ -160,10 +229,22 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight):
             buttonCircle(screen, colors[1][1], (1000, 470), "Quit", largeText, (255, 255, 255),
                          (Scrwidth / 2 + 400, Scrheight / 2 + 170))
             if click[0] == 1:
-                return (0, 0, 0)   
+                pygame.quit()
+                sys.exit()                
         else:
             buttonCircle(screen, colors[1][0], (1000, 470), "Quit", smallText, (255, 255, 255),
                          (Scrwidth / 2 + 400, Scrheight / 2 + 170))
+
+        # mute status toggle using mouse
+        if abs(mouse[0] - (width - 100 + 32)) < MUTE_BUTTON_RADIUS and abs(mouse[1] - (height / 2 - 250)) < MUTE_BUTTON_RADIUS and click[0] == 1:
+            mute = not mute
+
+
+        # displaying mute and unmute button
+        if mute:
+            screen.blit(mute_image, (width - 100, Scrheight / 2 -250 - 32))
+        else:
+            screen.blit(unmute_image, (width - 100, Scrheight / 2 -250 - 32))
 
         pygame.display.update()
         clock.tick(10)

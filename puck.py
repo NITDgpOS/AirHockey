@@ -51,8 +51,6 @@ class Puck():
         Checks collision between circles using the distance formula:
         distance = sqrt(dx**2 + dy**2)
         """
-        while pygame.mixer.music.get_busy():
-            pygame.time.Clock().tick(10)
         dx = self.x - paddle.x
         dy = self.y - paddle.y
 
@@ -94,11 +92,20 @@ class Puck():
         paddle.y += math.cos(temp_angle) * offset
         return True
 
+    def round_reset(self, player):
+        if player == 1:
+            self.x = 3*const.WIDTH/4
+        if player == 2:
+            self.x = const.WIDTH/4
+        self.y = const.HEIGHT/2
+        self.angle = 0
+        self.speed = 0
+
     def reset(self, speed, player):
         if player == 1:
-            self.angle = rand.uniform(-math.pi,0)
-        else:
-            self.angle = rand.uniform(0,math.pi)
+            self.angle = rand.uniform(-math.pi, 0)
+        elif player == 2:
+            self.angle = rand.uniform(0, math.pi)
         self.speed = speed
         self.x = const.WIDTH / 2
         self.y = const.HEIGHT / 2

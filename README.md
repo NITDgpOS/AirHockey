@@ -11,24 +11,14 @@ This is a two player game. There are two paddles and a puck. The left-paddle (Pl
 >Gameplay
 ![Gameplay](/assets/Shot2.png)
 
+>PauseScreen
+![PauseScreen](/assets/Shot3.png)
+
 ## Prerequisite
 
 Python2 is the default language needed for playing this game,to check which version of Python you have, type the following in terminal:
 ```
 python --version
-```
-## Installing Pygame
-
-```
-sudo apt-get install python-pip
-pip install --upgrade pip
-```
-```
-pip install pygame
-```
-If this does not work, then
-```
-sudo -H pip install pygame
 ```
 
 For more info, visit [Pygame download page](http://www.pygame.org/download.shtml)
@@ -48,11 +38,11 @@ or `python2 main.py` while you are in the AirHockey directory
 git branch [name_of_your_new_branch]
 git checkout [name_of_your_branch]
 ```
-2. Open the directory, open properties for "set_icon.desktop", toggle "Allow executing file as program" and launch it. This is only required for the first time launch.
+2. Open the directory, open properties for "Install_Dependencies.desktop", toggle "Allow executing file as program" and launch it. This is only required for the first time launch.
 
-NOTE: The administrative permission is required to place the AHlogo.png file into the usr/share/icons directory.
+NOTE: The administrative permission is required to place the AHlogo.png file into the usr/share/icons directory and install the pygame module.
 
-4. Open properties for run.desktop, toggle "Allow executing file as program" and click Play.
+3. Open properties for run.desktop, toggle "Allow executing file as program" and click Play.
 
 ## GamePlay Help
 
