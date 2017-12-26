@@ -239,21 +239,21 @@ def resetGame(speed, player):
 def insideGoal(side):
     global goalht1, goalht2, goaldp1, goaldp2
     """ Returns true if puck is within goal boundary"""
-    print("goalht1="+str(goalht1))
-    print("goaldp1="+str(goaldp1))
-    print("goalht2="+str(goalht2))
-    print("goaldp2="+str(goaldp2))
-    print("puck.y="+str(puck.y))
+    #print("goalht1="+str(goalht1))
+    #print("goaldp1="+str(goaldp1))
+    #print("goalht2="+str(goalht2))
+    #print("goaldp2="+str(goaldp2))
+    #print("puck.y="+str(puck.y))
     if side == 0:
         bool = puck.x - puck.radius <= 0 and puck.y >= goaldp1 and puck.y <= goalht1
         #print("dist="+str(puck.x - puck.radius))
-        print("bool="+str(bool))
+        #print("bool="+str(bool))
         return puck.x - puck.radius <= 0 and puck.y >= goalht1 and puck.y <= goaldp1
 
     if side == 1:
         bool1 = puck.x + puck.radius >= width and puck.y >= goalht2 and puck.y <= goaldp2
         #print("dist2="+str(puck.x + puck.radius))
-        print("bool1="+str(bool1))
+        #print("bool1="+str(bool1))
         return puck.x + puck.radius >= width  and puck.y >= goalht2 and puck.y <= goaldp2
 
 def randomXY():
