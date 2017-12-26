@@ -8,7 +8,6 @@ from globals import *
 def GameEnd(screen, clock, player, backgroundColor):
 
     first_time = True
-    auxDirectory = os.path.join(os.path.dirname(__file__), 'assets')
     celebText = pygame.font.Font(os.path.join(auxDirectory,'Jelly Crazies.ttf'), 70)
     largeText = pygame.font.Font('freesansbold.ttf', 45)
     smallText = pygame.font.Font('freesansbold.ttf', 30)

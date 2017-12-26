@@ -1,6 +1,7 @@
 import pygame
 import sys
 import os
+import random
 from globals import *
 from constants import MUTE_BUTTON_RADIUS
 
@@ -118,9 +119,12 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight, mute):
                         return (2, player1Color, player2Color,mute)
 
         screen.fill((60, 90, 100))
+        celebText = pygame.font.Font(os.path.join(auxDirectory,'Jelly Crazies.ttf'), 70)
         largeText = pygame.font.Font('freesansbold.ttf', 50)
         smallText = pygame.font.Font('freesansbold.ttf', 30)
-        dispText(screen, "AirHockey", (Scrwidth / 2, Scrheight / 2 -250), largeText, (255, 255, 255))
+        color_x = random.randint(0,4)
+        color_y = random.randint(0,1)
+        dispText(screen, "AIRHOCKEY", (Scrwidth / 2, 100), celebText, colors[color_x][color_y])
 
         # mute and unmute audio code
         if mute and (not music_paused):
@@ -138,19 +142,19 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight, mute):
         #choose colors for paddle
 
         xposRectLeft = 150 
-        yposRectLeft = Scrheight/2 - 90
+        yposRectLeft = Scrheight/2 - 70
 
         xposRectRight = Scrwidth - 150 - 320
-        yposRectRight = Scrheight/2 - 90
+        yposRectRight = Scrheight/2 - 70
 
-        dispText(screen, "Player 1", (Scrwidth / 2 - 290, Scrheight / 2 - 120), smallText, (255, 255, 255))
-        dispText(screen, "Player 2", (Scrwidth / 2 + 290, Scrheight / 2 - 120), smallText, (255, 255, 255))
+        dispText(screen, "Player 1", (Scrwidth / 2 - 290, Scrheight / 2 - 100), smallText, (255, 255, 255))
+        dispText(screen, "Player 2", (Scrwidth / 2 + 290, Scrheight / 2 - 100), smallText, (255, 255, 255))
 
         
         #Color picking pallete for player 1 (Left)
 
         #white border line
-        pygame.draw.rect(screen, (255,255,255),(xposRectLeft - 10, yposRectLeft -10, 320 , 100), 1)
+        pygame.draw.rect(screen, (255,255,255),(xposRectLeft - 10, yposRectLeft - 10, 320 , 100), 1)
         # Draw selection box
         sel.draw(screen, positionGrid[sel.gridPos], yposRectLeft - 5)
 
