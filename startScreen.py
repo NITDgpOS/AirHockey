@@ -160,6 +160,8 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight, mute):
                 pygame.draw.rect(screen, colors[x][0], (xposRectLeft, yposRectLeft, squareSide, squareSide))
                 if click[0] == 1:
                     player1Color = colors[x][1]
+                    #updating sel.gridPos to draw after display update
+                    sel.gridPos = x-1
             else:
                 pygame.draw.rect(screen, colors[x][1], (xposRectLeft, yposRectLeft, squareSide, squareSide))
             xposRectLeft  = xposRectLeft + squareSide + 30
@@ -177,6 +179,8 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight, mute):
                 pygame.draw.rect(screen, colors[x][0], (xposRectRight, yposRectRight, squareSide, squareSide))
                 if click[0] == 1 :
                     player2Color = colors[x][1]
+                    #updating sel.gridPos to draw after display update
+                    sel.gridPos = x-1 + 3
             else:
                 pygame.draw.rect(screen, colors[x][1], (xposRectRight, yposRectRight, squareSide, squareSide))
             xposRectRight = xposRectRight + squareSide + 30
