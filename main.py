@@ -215,13 +215,13 @@ def insideGoal(side):
     
 
     if side == 0:
-        bool = puck.x - puck.radius <= 0 and puck.y >= goaldp1 and puck.y <= goalht1
+        #bool = puck.x - puck.radius <= 0 and puck.y >= goaldp1 and puck.y <= goalht1
         #print("dist="+str(puck.x - puck.radius))
         #print("bool="+str(puck.y >= goalht1 and puck.y <= goaldp1))
         return puck.x - puck.radius <= 0 and puck.y >= goalht1 and puck.y <= goaldp1
 
     if side == 1:
-        bool = puck.x + puck.radius >= width and puck.y >= goalht2 and puck.y <= goaldp2
+        #bool = puck.x + puck.radius >= width and puck.y >= goalht2 and puck.y <= goaldp2
         #print("dist2="+str(puck.x + puck.radius))
         #print("bool="+str(bool))
         return puck.x + puck.radius >= width  and puck.y >= goalht2 and puck.y <= goaldp2
