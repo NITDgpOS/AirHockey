@@ -29,7 +29,7 @@ screen = None
 width, height = const.WIDTH, const.HEIGHT
 
 #goalht = goal heights , goaldp = goal depths , goalwt = goalwidths
-goalwt1, goalwt2 , goaldp1 , goalht1 , goaldp2 , goalht2 = const.GOALWIDTH1 ,const.GOALWIDTH2 , const.GOALY2 , const.GOALY1 , const.GOALY2 , const.GOALY1
+goalwt1, goalwt2 , goaldp1 , goalht1 , goaldp2 , goalht2 = const.GOALWIDTH ,const.GOALWIDTH , const.GOALY2 , const.GOALY1 , const.GOALY2 , const.GOALY1
 
 # button constants
 buttonRadius = 60

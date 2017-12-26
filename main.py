@@ -189,6 +189,7 @@ def renderPlayingArea(backgroundColor):
     #powerup conditions
     if (powerup1.isActive()):
         if flag==1:
+            time2=seconds
             powerup1.set_pos(randomXY())
             flag=0
         powerup1.draw(screen)
@@ -212,9 +213,9 @@ def renderPlayingArea(backgroundColor):
     if seconds>=time2+10 :
         flag=1
         powerup1.Active = True
-        goalwt1 = goalwt2= const.GOALWIDTH1
-        goalht1  = goalht2 = const.GOALY2
-        goaldp1 = goaldp2 = const.GOALY1
+        goalwt1 = goalwt2= const.GOALWIDTH
+        goalht1  = goalht2 = const.GOALY1
+        goaldp1 = goaldp2 = const.GOALY2
         
 
     # goals
@@ -235,20 +236,21 @@ def resetGame(speed, player):
     paddle2.reset(width - 20, height / 2)
 
 
-def insideGoal(side, goalht1 , goalht2 , goaldp1 , goaldp2):
+def insideGoal(side):
     
-    
+    global goalht1 , goalht2 , goaldp1 , goaldp2
     
     """ Returns true if puck is within goal boundary"""
-    #print(goalht1)
+    print(goalht1)
+
     if side == 0:
-        return puck.x - puck.radius <= 0 and puck.y >= goaldp1 and puck.y <= goalht1
+        return puck.x - puck.radius <= 0 and puck.y >= goalht1 and puck.y <= goaldp1
 
     if side == 1:
-        return puck.x + puck.radius >= width and puck.y >= goaldp2 and puck.y <= goalht2
+        return puck.x + puck.radius >= width and puck.y >= goalht2 and puck.y <= goaldp2
 
 def randomXY():
-    return [5+random.randint(0,width-10),20+random.randint(0,height-40)]
+    return [10+random.randint(0,width-20),30+random.randint(0,height-30)]
 
 # Game Loop
 
@@ -282,7 +284,7 @@ def gameLoop(speed, player1Color, player2Color, backgroundColor):
 
             if event.type == USEREVENT + 1: #timer for counting seconds
                 seconds+=1
-                time2+=1
+                
 
             # check mouse click events
             if event.type == pygame.MOUSEBUTTONUP:
@@ -331,13 +333,13 @@ def gameLoop(speed, player1Color, player2Color, backgroundColor):
         puck.move(time_delta)
 
         # Hits the left goal!
-        if insideGoal(0, goalht1 , goalht2 , goaldp1 , goaldp2):
+        if insideGoal(0):
             pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
             score2 += 1
             resetGame(speed, 1)
 
         # Hits the right goal!
-        if insideGoal(1, goalht1 , goalht2 , goaldp1 , goaldp2):
+        if insideGoal(1):
             pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
             score1 += 1
             resetGame(speed, 2)
