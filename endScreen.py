@@ -5,10 +5,9 @@ import os
 from startScreen import *
 from globals import *
 
-def GameEnd(screen, clock, player):
+def GameEnd(screen, clock, player, backgroundColor):
 
     first_time = True
-    auxDirectory = os.path.join(os.path.dirname(__file__), 'assets')
     celebText = pygame.font.Font(os.path.join(auxDirectory,'Jelly Crazies.ttf'), 70)
     largeText = pygame.font.Font('freesansbold.ttf', 45)
     smallText = pygame.font.Font('freesansbold.ttf', 30)
@@ -18,7 +17,7 @@ def GameEnd(screen, clock, player):
         # to smoothly shine winning message
         delay = 0
 
-        screen.fill(screenColor)
+        screen.fill(backgroundColor)
 
         # set flashing colors
         color_x = rand.randint(0,4)
@@ -38,9 +37,11 @@ def GameEnd(screen, clock, player):
                 return 2
             # Press esc or Q to quit
             elif event.type == pygame.KEYDOWN and (event.key == pygame.K_q or event.key == pygame.K_ESCAPE):
+                pygame.quit()
                 sys.exit()
 
             if event.type == pygame.QUIT:
+                pygame.quit()
                 sys.exit()
 
         # print which player won
@@ -77,6 +78,7 @@ def GameEnd(screen, clock, player):
             buttonCircle(screen, colors[1][1], (1000, 470), "Quit", largeText, (255, 255, 255),
                          (width / 2 + 400, height / 2 + 170))
             if mouse_press[0] == 1:
+                pygame.quit()        
                 return 3
         else:
             buttonCircle(screen, colors[1][0], (1000, 470), "Quit", smallText, (255, 255, 255),
@@ -86,4 +88,3 @@ def GameEnd(screen, clock, player):
         first_time = False
         pygame.display.update()
         clock.tick(10)
-
