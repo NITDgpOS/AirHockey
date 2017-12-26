@@ -8,7 +8,7 @@ from globals import *
 def GameEnd(screen, clock, player, backgroundColor):
 
     first_time = True
-    celebText = pygame.font.Font(os.path.join(auxDirectory,'Jelly Crazies.ttf'), 70)
+    celebText = pygame.font.Font(os.path.join(auxDirectory,'MR ROBOT.ttf'), 140)
     largeText = pygame.font.Font('freesansbold.ttf', 45)
     smallText = pygame.font.Font('freesansbold.ttf', 30)
 
