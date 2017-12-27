@@ -61,8 +61,6 @@ class selBox:
 
 def airHockeyStart(screen, clock, Scrwidth, Scrheight, mute):
 
-    global powerEnable
-
     pygame.mixer.music.load(os.path.join(auxDirectory, 'StartScreenBack.mp3'))
     pygame.mixer.music.play(-1)
     pygame.mixer.music.set_volume(.1)
@@ -206,7 +204,7 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight, mute):
                 if music_paused:
                     pygame.mixer.music.unpause()
                 pygame.mixer.music.stop()
-                return (1, player1Color, player2Color, mute , powerEnable)
+                return (1, player1Color, player2Color, mute)
 
         else:
             buttonCircle(screen, colors[0][0], (200, 470), "Easy", smallText, (255, 255, 255),
@@ -220,26 +218,11 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight, mute):
                 if music_paused:
                     pygame.mixer.music.unpause()
                 pygame.mixer.music.stop()
-                return (2 ,player1Color, player2Color, mute,powerEnable)
+                return (2 ,player1Color, player2Color, mute)
         
         else:
             buttonCircle(screen, colors[4][1], (600, 470), "Hard", smallText, (255, 255, 255),
                          (Scrwidth / 2, Scrheight / 2 + 170))
-
-        #Button to enable or disable powerups
-        if abs(mouse[0] - 800) < buttonRadius and abs(mouse[1] - 470) < buttonRadius:
-            buttonCircle(screen, colors[4][1], (800, 470), "Power ON", largeText, (255, 255, 255),
-                         (Scrwidth / 2+200 , Scrheight / 2 + 170))
-            if click[0] == 1:
-                if music_paused:
-                    pygame.mixer.music.unpause()
-                pygame.mixer.music.stop()
-                powerEnable = 1
-                return (2 ,player1Color, player2Color, mute,powerEnable)
-        
-        else:
-            buttonCircle(screen, colors[4][1], (800, 470), "Power OFF", smallText, (255, 255, 255),
-                         (Scrwidth / 2+200, Scrheight / 2 + 170))
 
         # quit button
         if abs(mouse[0] - 1000) < buttonRadius and abs(mouse[1] - 470) < buttonRadius:
