@@ -280,7 +280,7 @@ def insideGoal(side):
         return puck.x + puck.radius >= width  and puck.y >= goalht2 and puck.y <= goaldp2
 
 def randomXY():
-    return [5+random.randint(0, width-10), 20+random.randint(0, height-40)]
+    return [10+random.randint(0, width-20), 30+random.randint(0, height-60)]
 
 # Game Loop
 
