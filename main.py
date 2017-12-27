@@ -11,7 +11,7 @@ import constants as const
 from globals import *
 from endScreen import GameEnd
 import time
-from powerup1 import Powerup1
+from powerups import Powerup1
 import random 
 
 # Globals, initialized in method `init()`

@@ -231,15 +231,15 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight, mute):
         
         if abs(mouse[0] - 700) < buttonRadius and abs(mouse[1] - 470) < buttonRadius and click[0] == 1:
             if clickflag == 1:
-                buttonCircle(screen, colors[4][1], (700, 470), "Power OFF", smallerText, (255, 255, 255),
+                buttonCircle(screen, colors[4][1], (700, 470), "Power ON", smallerText, (255, 255, 255),
                          (Scrwidth / 2+100 , Scrheight / 2 + 170))
                 clickflag=0
-                powerEnable=0     
+                powerEnable=1    
             else:
-                buttonCircle(screen, colors[4][1], (700, 470), "Power ON", smallerText, (255, 255, 255),
+                buttonCircle(screen, colors[4][1], (700, 470), "Power OFF", smallerText, (255, 255, 255),
                          (Scrwidth / 2+100, Scrheight / 2 + 170))      
                 clickflag=1
-                powerEnable = 1
+                powerEnable = 0
         elif powerEnable == 1:
             buttonCircle(screen, colors[4][1], (700, 470), "Power ON", smallerText, (255, 255, 255),
                          (Scrwidth / 2+100 , Scrheight / 2 + 170))
