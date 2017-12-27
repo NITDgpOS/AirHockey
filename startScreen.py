@@ -61,7 +61,7 @@ class selBox:
 
 def airHockeyStart(screen, clock, Scrwidth, Scrheight, mute):
 
-    global powerEnable
+    global powerEnable , clickflag
 
     pygame.mixer.music.load(os.path.join(auxDirectory, 'StartScreenBack.mp3'))
     pygame.mixer.music.play(-1)
@@ -124,6 +124,7 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight, mute):
         celebText = pygame.font.Font(os.path.join(auxDirectory,'Jelly Crazies.ttf'), 70)
         largeText = pygame.font.Font('freesansbold.ttf', 50)
         smallText = pygame.font.Font('freesansbold.ttf', 30)
+        smallerText=pygame.font.Font('freesansbold.ttf', 20)
         color_x = random.randint(0,4)
         color_y = random.randint(0,1)
         dispText(screen, "AIRHOCKEY", (Scrwidth / 2, 100), celebText, colors[color_x][color_y])
@@ -213,9 +214,9 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight, mute):
                          (Scrwidth / 2 -400, Scrheight / 2 + 170))
 
         # difficulty button 'Hard'
-        if abs(mouse[0] - 600) < buttonRadius and abs(mouse[1] - 470) < buttonRadius:
-            buttonCircle(screen, colors[4][1], (600, 470), "Hard", largeText, (255, 255, 255),
-                         (Scrwidth / 2 , Scrheight / 2 + 170))
+        if abs(mouse[0] - 450) < buttonRadius and abs(mouse[1] - 470) < buttonRadius:
+            buttonCircle(screen, colors[4][1], (450, 470), "Hard", largeText, (255, 255, 255),
+                         (Scrwidth / 2 -150, Scrheight / 2 + 170))
             if click[0] == 1:
                 if music_paused:
                     pygame.mixer.music.unpause()
@@ -223,23 +224,30 @@ def airHockeyStart(screen, clock, Scrwidth, Scrheight, mute):
                 return (2 ,player1Color, player2Color, mute,powerEnable)
         
         else:
-            buttonCircle(screen, colors[4][1], (600, 470), "Hard", smallText, (255, 255, 255),
-                         (Scrwidth / 2, Scrheight / 2 + 170))
+            buttonCircle(screen, colors[4][1], (450, 470), "Hard", smallText, (255, 255, 255),
+                         (Scrwidth / 2-150, Scrheight / 2 + 170))
 
         #Button to enable or disable powerups
-        if abs(mouse[0] - 800) < buttonRadius and abs(mouse[1] - 470) < buttonRadius:
-            buttonCircle(screen, colors[4][1], (800, 470), "Power ON", largeText, (255, 255, 255),
-                         (Scrwidth / 2+200 , Scrheight / 2 + 170))
-            if click[0] == 1:
-                if music_paused:
-                    pygame.mixer.music.unpause()
-                pygame.mixer.music.stop()
-                powerEnable = 1
-                return (2 ,player1Color, player2Color, mute,powerEnable)
         
-        else:
-            buttonCircle(screen, colors[4][1], (800, 470), "Power OFF", smallText, (255, 255, 255),
-                         (Scrwidth / 2+200, Scrheight / 2 + 170))
+        if abs(mouse[0] - 700) < buttonRadius and abs(mouse[1] - 470) < buttonRadius and click[0] == 1:
+            if clickflag == 1:
+                buttonCircle(screen, colors[4][1], (700, 470), "Power OFF", smallerText, (255, 255, 255),
+                         (Scrwidth / 2+100 , Scrheight / 2 + 170))
+                clickflag=0
+                powerEnable=0     
+            else:
+                buttonCircle(screen, colors[4][1], (700, 470), "Power ON", smallerText, (255, 255, 255),
+                         (Scrwidth / 2+100, Scrheight / 2 + 170))      
+                clickflag=1
+                powerEnable = 1
+        elif powerEnable == 1:
+            buttonCircle(screen, colors[4][1], (700, 470), "Power ON", smallerText, (255, 255, 255),
+                         (Scrwidth / 2+100 , Scrheight / 2 + 170))
+
+        
+        elif powerEnable == 0:
+            buttonCircle(screen, colors[4][1], (700, 470), "Power OFF", smallerText, (255, 255, 255),
+                         (Scrwidth / 2+100, Scrheight / 2 + 170))
 
         # quit button
         if abs(mouse[0] - 1000) < buttonRadius and abs(mouse[1] - 470) < buttonRadius:

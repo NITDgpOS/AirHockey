@@ -211,7 +211,7 @@ def renderPlayingArea1(backgroundColor):
     if seconds>=time2+10 :
         flag=1
         powerup1.Active = True
-        goalwt1 = goalwt2= const.GOALWIDTH1
+        goalwt1 = goalwt2= const.GOALWIDTH
         goalht1  = goalht2 = const.GOALY1
         goaldp1 = goaldp2 = const.GOALY2
 
@@ -395,7 +395,7 @@ def gameLoop(speed, player1Color, player2Color, backgroundColor ,powerEnable):
             rounds_p2 += 1
             score1, score2 = 0, 0
             resetround(2)
-        print(str(powerEnable))
+        #print(str(powerEnable))
         # playing area should be drawn first
         if powerEnable == 0:
             renderPlayingArea(backgroundColor)
