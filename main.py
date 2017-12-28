@@ -11,6 +11,8 @@ import constants as const
 from globals import *
 from endScreen import GameEnd
 import time
+from powerups import Powerup1
+import random 
 
 # Globals, initialized in method `init()`
 
@@ -18,7 +20,9 @@ import time
 paddle1 = Paddle(const.PADDLE1X, const.PADDLE1Y)
 paddle2 = Paddle(const.PADDLE2X, const.PADDLE2Y)
 puck = Puck(width / 2, height / 2)
+powerup1= Powerup1()
 
+pygame.time.set_timer(USEREVENT + 1, 1000) # Used to correctly implement seconds
 
 def init():
     global paddleHit, goal_whistle, clock, screen, smallfont, roundfont
@@ -166,6 +170,61 @@ def hitsPauseArea(mouseXY):
     return (abs(mouseXY[0] - width / 2) < const.PAUSE_BUTTON_RADIUS) and (abs(mouseXY[1] - (height - 70 + 32)) < const.PAUSE_BUTTON_RADIUS)
 
 
+def renderPlayingArea1(backgroundColor):
+    global flag,time2,goalwt1, goalwt2 , goalht1 , goalht2 , goaldp1 , goaldp2,seconds
+
+    # Render Logic
+    screen.fill(backgroundColor)
+    # center circle
+    pygame.draw.circle(screen, const.WHITE, (width / 2, height / 2), 70, 5)
+    # borders
+    pygame.draw.rect(screen, const.WHITE, (0, 0, width, height), 5)
+    # D-box
+    pygame.draw.rect(screen, const.WHITE, (0, height / 2 - 150, 150, 300), 5)
+    pygame.draw.rect(screen, const.WHITE, (width - 150, height / 2 - 150, 150, 300), 5)
+    
+
+    #powerup conditions
+    if (powerup1.isActive()):
+        if flag==1:
+            time2=seconds
+            powerup1.set_pos(randomXY())
+            flag=0
+        powerup1.draw(screen)
+    
+    if (powerup1.collidewithPaddle(paddle1)) and powerup1.isActive() :
+        goalwt2*=2
+        goalht2 = height / 2 - goalwt2/ 2
+        goaldp2 = height / 2 + goalwt2/ 2
+        powerup1.kill()
+        time2=seconds
+
+        
+    
+    if(powerup1.collidewithPaddle(paddle2)) and powerup1.isActive():
+        goalwt1*=2
+        goalht1 = height / 2 - goalwt1/ 2
+        goaldp1 = height / 2 + goalwt1/ 2
+        powerup1.kill()
+        time2=seconds
+
+    if seconds>=time2+10 :
+        flag=1
+        powerup1.Active = True
+        goalwt1 = goalwt2= const.GOALWIDTH
+        goalht1  = goalht2 = const.GOALY1
+        goaldp1 = goaldp2 = const.GOALY2
+
+    # goals
+    
+    pygame.draw.rect(screen, const.BLACK, (0, goalht1, 5, goalwt1))
+    pygame.draw.rect(screen, const.BLACK, (width - 5, goalht2, 5, goalwt2))
+    # Divider
+    pygame.draw.rect(screen, const.WHITE, (width / 2, 0, 3, height))
+
+    # PAUSE
+    screen.blit(pause_image, (width / 2 - 32, height - 70))
+
 def renderPlayingArea(backgroundColor):
     # Render Logic
     screen.fill(backgroundColor)
@@ -185,11 +244,11 @@ def renderPlayingArea(backgroundColor):
     # PAUSE
     screen.blit(pause_image, (width / 2 - 32, height - 70))
 
-
 def resetround(player):
     puck.round_reset(player)
     paddle1.reset(22, height / 2)
     paddle2.reset(width - 20, height / 2)
+
 
 
 def resetGame(speed, player):
@@ -199,17 +258,34 @@ def resetGame(speed, player):
 
 
 def insideGoal(side):
+    global goalht1, goalht2, goaldp1, goaldp2
     """ Returns true if puck is within goal boundary"""
+    #print("goalht1="+str(goalht1))
+    #print("goalht2="+str(goalht2))
+    #print("goaldp1="+str(goaldp1))
+    #print("goaldp2="+str(goaldp2))
+    #print("puck.y="+str(puck.y))
+    
+
     if side == 0:
-        return puck.x - puck.radius <= 0 and puck.y >= const.GOALY1 and puck.y <= const.GOALY2
+        #bool = puck.x - puck.radius <= 0 and puck.y >= goaldp1 and puck.y <= goalht1
+        #print("dist="+str(puck.x - puck.radius))
+        #print("bool="+str(puck.y >= goalht1 and puck.y <= goaldp1))
+        return puck.x - puck.radius <= 0 and puck.y >= goalht1 and puck.y <= goaldp1
 
     if side == 1:
-        return puck.x + puck.radius >= width and puck.y >= const.GOALY1 and puck.y <= const.GOALY2
+        #bool = puck.x + puck.radius >= width and puck.y >= goalht2 and puck.y <= goaldp2
+        #print("dist2="+str(puck.x + puck.radius))
+        #print("bool="+str(bool))
+        return puck.x + puck.radius >= width  and puck.y >= goalht2 and puck.y <= goaldp2
 
+def randomXY():
+    return [10+random.randint(0, width-20), 30+random.randint(0, height-60)]
 
 # Game Loop
-def gameLoop(speed, player1Color, player2Color, backgroundColor):
-    global rounds_p1, rounds_p2, round_no, music_paused
+
+def gameLoop(speed, player1Color, player2Color, backgroundColor ,powerEnable):
+    global rounds_p1, rounds_p2, round_no, music_paused 
     rounds_p1, rounds_p2, round_no = 0, 0, 1
 
     pygame.mixer.music.load(os.path.join(auxDirectory, 'back.mp3'))  # background music
@@ -224,10 +300,10 @@ def gameLoop(speed, player1Color, player2Color, backgroundColor):
         music_paused = True
 
     while True:
-        global score1, score2
-
+        global score1, score2 ,time2 , seconds , goalht1 , goalht2 , goaldp1 , goaldp2
+        #print(str(goalht1))
+        #print(str(goalht2))
         for event in pygame.event.get():
-
             # check for space bar
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     showPauseScreen()
@@ -235,6 +311,10 @@ def gameLoop(speed, player1Color, player2Color, backgroundColor):
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
+
+            if event.type == USEREVENT + 1: #timer for counting seconds
+                seconds+=1
+                #time2+=1
 
             # check mouse click events
             if event.type == pygame.MOUSEBUTTONUP:
@@ -315,9 +395,12 @@ def gameLoop(speed, player1Color, player2Color, backgroundColor):
             rounds_p2 += 1
             score1, score2 = 0, 0
             resetround(2)
-
+        #print(str(powerEnable))
         # playing area should be drawn first
-        renderPlayingArea(backgroundColor)
+        if powerEnable == 0:
+            renderPlayingArea(backgroundColor)
+        else:
+            renderPlayingArea1(backgroundColor)
 
         # show score
         score(score1, score2)
@@ -355,14 +438,14 @@ if __name__ == "__main__":
     mute = False  # to keep state of mute
     init()
     while True:
-        gameChoice, player1Color, player2Color, mute = airHockeyStart(screen, clock, width, height, mute)
+        gameChoice, player1Color, player2Color, mute , powerEnable = airHockeyStart(screen, clock, width, height, mute)
         backgroundColor = themeScreen(screen, clock, width, height, mute)
         init()
         if gameChoice == 1:
             puck.speed = const.EASY
-            gameLoop(const.EASY, player1Color, player2Color, backgroundColor)
+            gameLoop(const.EASY, player1Color, player2Color, backgroundColor,powerEnable)
         elif gameChoice == 2:
             puck.speed = const.HARD
-            gameLoop(const.HARD, player1Color, player2Color, backgroundColor)
+            gameLoop(const.HARD, player1Color, player2Color, backgroundColor,powerEnable)
         elif gameChoice == 0:
             sys.exit()
