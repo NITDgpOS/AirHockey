@@ -213,7 +213,7 @@ def gameLoop(speed, player1Color, player2Color, backgroundColor):
     rounds_p1, rounds_p2, round_no = 0, 0, 1
 
     pygame.mixer.music.load(os.path.join(auxDirectory, 'back.mp3'))  # background music
-    pygame.mixer.music.play()
+    pygame.mixer.music.play(-1)
     pygame.mixer.music.set_volume(.2)
 
     music_paused = False  # to check if music is playing or paused
