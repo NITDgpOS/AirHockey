@@ -74,7 +74,7 @@ def show_info(screen, scr_width, clock):
 
         line = other_text.render("CONTROLS:-", True, const.WHITE)
         screen.blit(line, (130, 130))
-        line = other_text.render("PLAYER 1 :- W,A,S,D     PLAYER 2 :- Arrow key's", True, const.WHITE)
+        line = other_text.render("PLAYER 1 :- W,A,S,D     PLAYER 2 :- Arrow keys", True, const.WHITE)
         screen.blit(line, (290, 170))
         
         line = other_text.render("1. Choose each player's paddle color at the title screen.", True, const.WHITE)
@@ -121,8 +121,10 @@ def air_hockey_start(screen, clock, scr_width, scr_height, mute):
     pygame.mixer.music.set_volume(.1)
 
     # Variables set to none initially
-    player1_color = colors[1][1]  # Default colors of the
-    player2_color = colors[1][1]  # player paddles
+    p1_color_select = 1     # used to store present color's
+    p2_color_select = 2     # position in the matrix
+    player1_color = colors[p1_color_select][1]  # Default colors of the
+    player2_color = colors[p2_color_select][1]  # player paddles
     sel_p1 = SelBox(1, 0)        # Default boxes selected
     sel_p2 = SelBox(2, 3)        # for players's color
 
@@ -145,8 +147,12 @@ def air_hockey_start(screen, clock, scr_width, scr_height, mute):
                     
                 # player 1 controls: move highlight with a and d, select with s
                 elif event.key == pygame.K_a:
+                    if p1_color_select > 1:
+                        p1_color_select -= 1
                     sel_p1.move_left()
                 elif event.key == pygame.K_d:
+                    if p1_color_select < 3:
+                        p1_color_select += 1
                     sel_p1.move_right()
                 elif event.key == pygame.K_s:
 
@@ -154,8 +160,12 @@ def air_hockey_start(screen, clock, scr_width, scr_height, mute):
 
                 # player 2 controls: move highlight with left and right, select with down
                 elif event.key == pygame.K_LEFT:
+                    if p2_color_select > 1:
+                        p2_color_select -= 1
                     sel_p2.move_left()
                 elif event.key == pygame.K_RIGHT:
+                    if p2_color_select < 3:
+                        p2_color_select += 1
                     sel_p2.move_right()
                 elif event.key == pygame.K_DOWN:
                     player2_color = colors[(sel_p2.gridPos % 3) + 1][1]
@@ -207,13 +217,15 @@ def air_hockey_start(screen, clock, scr_width, scr_height, mute):
                     (mouse[1] > y_pos_rect_left) and (mouse[1] < (y_pos_rect_left + squareSide)):
                 pygame.draw.rect(screen, colors[x][0], (x_pos_rect_left, y_pos_rect_left, squareSide, squareSide))
                 if click[0] == 1:
-                    player1_color = colors[x][1]
+                    p1_color_select = x
 
                     # updating sel_p1.gridPos to draw after display update
                     sel_p1.gridPos = x-1
             else:
                 pygame.draw.rect(screen, colors[x][1], (x_pos_rect_left, y_pos_rect_left, squareSide, squareSide))
             x_pos_rect_left = x_pos_rect_left + squareSide + 30
+
+        player1_color = colors[p1_color_select][1]
 
         # color picking palette for player 2(Right)
 
@@ -226,13 +238,15 @@ def air_hockey_start(screen, clock, scr_width, scr_height, mute):
                     (mouse[1] > y_pos_rect_right) and (mouse[1] < (y_pos_rect_right + squareSide)):
                 pygame.draw.rect(screen, colors[x][0], (x_pos_rect_right, y_pos_rect_right, squareSide, squareSide))
                 if click[0] == 1:
-                    player2_color = colors[x][1]
+                    p2_color_select = x
 
                     # updating sel_p2.gridPos to draw after display update
                     sel_p2.gridPos = x-1 + 3
             else:
                 pygame.draw.rect(screen, colors[x][1], (x_pos_rect_right, y_pos_rect_right, squareSide, squareSide))
             x_pos_rect_right = x_pos_rect_right + squareSide + 30
+
+        player2_color = colors[p2_color_select][1]
 
         # displaying the color selected
 
