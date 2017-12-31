@@ -45,7 +45,8 @@ def game_end(screen, clock, background_color, player_name):
 
         # print which player won
         if delay == 0:
-            disp_text(screen, "{0} WINS".format(string.upper(player_name)), (width / 2, height / 2 - 150), celeb_text, colors[color_x][color_y])
+            disp_text(screen, "{0} WINS".format(string.upper(player_name)), (width / 2, height / 2 - 150),
+                      celeb_text, colors[color_x][color_y])
         # Drawing buttons for reset, menu and exit.
         # Reset button
         if abs(mouse_pos[0] - 200) < buttonRadius and abs(mouse_pos[1] - 470) < buttonRadius:

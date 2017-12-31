@@ -127,10 +127,11 @@ def air_hockey_start(screen, clock, scr_width, scr_height, mute):
     player2_color = colors[p2_color_select][1]  # player paddles
     sel_p1 = SelBox(1, 0)        # Default boxes selected
     sel_p2 = SelBox(2, 3)        # for players's color
+    player_1_key = False     # this is used to carry over mouse event if player 1 name box is clicked after player 2
 
     music_paused = False  # to check if music is playing or paused
 
-    #player names
+    # player names
     player_1_name = ""
     player_2_name = ""
 
@@ -316,32 +317,22 @@ def air_hockey_start(screen, clock, scr_width, scr_height, mute):
         else:
             screen.blit(unmute_image, (width - 100, 20))
 
-
-        # player 1
+        # player 1 and player 2 name box dimensions
         x1, y1 = 140, 170
         x2, y2 = scr_width / 2 + 120, 170
-        pygame.draw.rect(screen, const.WHITE, (x1, y1, 320, 50), 1)
         pygame.draw.rect(screen, const.WHITE, (x2, y2, 320, 50), 1)
 
-        if player_1_name is "":
-            player_1_text = small_text.render("Player 1 Name", True, const.WHITE)
-        else:
-            player_1_text = small_text.render(player_1_name, True, const.WHITE)
-        screen.blit(player_1_text, [x1 + 10, y1 + 10])
-
+        # box for player2's name
         if player_2_name is "":
             player_2_text = small_text.render("Player 2 Name", True, const.WHITE)
         else:
             player_2_text = small_text.render(player_2_name, True, const.WHITE)
         screen.blit(player_2_text, [x2 + 10, y2 + 10])
 
-
-
-        if mouse[0] >  x1 and mouse[0] < x1 + 320 and mouse[1] > y1 and mouse[1] < y1 + 50:
-            if click[0] == 1:
+        if ((mouse[0] > x1) and (mouse[0] < x1 + 320) and (mouse[1] > y1) and (mouse[1] < y1 + 50)) or player_1_key:
+            if click[0] == 1 or player_1_key:
                 ret = 0
                 blink = 0
-                blink_ch =""
                 while True:
                     
                     mouse = pygame.mouse.get_pos()
@@ -351,42 +342,51 @@ def air_hockey_start(screen, clock, scr_width, scr_height, mute):
                     color_y = random.randint(0, 1)
                     disp_text(screen, "AIRHOCKEY", (scr_width / 2, 100), celeb_text, colors[color_x][color_y])
 
-
-                    #blink
+                    # blink
                     if blink:
                         blink_ch = "|"
                         blink = 0
                     else:
                         blink_ch = ""
                         blink = 1
-                    if mouse[0] <  x1 or mouse[0] > x1 + 320 or mouse[1] < y1 or mouse[1] > y1 + 50:
+                    if mouse[0] < x1 or mouse[0] > x1 + 320 or mouse[1] < y1 or mouse[1] > y1 + 50:
                         if click[0] == 1:
                             ret = 1
+                            player_1_key = False
                     if ret:
                         break
                     for event in pygame.event.get():
                         if event.type == pygame.locals.QUIT:
                             sys.exit()
                         if event.type == pygame.locals.KEYDOWN:
-                            if event.unicode.isalpha() and not (len(player_1_name) > 6):
+                            if event.unicode.isalpha() and not (len(player_1_name) > 8):
                                 player_1_name = "{}{}".format(player_1_name, event.unicode)
                             elif event.key == pygame.locals.K_BACKSPACE:
                                 player_1_name = player_1_name[:-1]
                             elif event.key == pygame.locals.K_RETURN:
                                 ret = 1
+                                player_1_key = False
                     pygame.draw.rect(screen, const.WHITE, (x1, y1, 320, 50), 0)
                     if not (player_1_name is ""):
                         player_1_text = small_text.render("{0}{1}".format(player_1_name, blink_ch), True, const.BLACK)    
                         screen.blit(player_1_text, [150, 180])   
                     pygame.display.flip()
                     clock.tick(10)
-        
+
+        # box for player1's name
+        pygame.draw.rect(screen, (60, 90, 100), (x1, y1, 320, 50), 0)
+        pygame.draw.rect(screen, const.WHITE, (x1, y1, 320, 50), 1)
+        if player_1_name is "":
+            player_1_text = small_text.render("Player 1 Name", True, const.WHITE)
+        else:
+            player_1_text = small_text.render(player_1_name, True, const.WHITE)
+        screen.blit(player_1_text, [x1 + 10, y1 + 10])
+
         # player 2
-        if mouse[0] > x2 and mouse[0] < x2 + 320 and mouse[1] > y2 and mouse[1] < y2 + 50:
+        if (mouse[0] > x2) and (mouse[0] < x2 + 320) and (mouse[1] > y2) and (mouse[1] < y2 + 50):
             if click[0] == 1:
-                ret = 0 
+                ret = 0
                 blink = 0
-                blink_ch = 1 
                 while True:
                     mouse = pygame.mouse.get_pos()
                     click = pygame.mouse.get_pressed()
@@ -395,8 +395,7 @@ def air_hockey_start(screen, clock, scr_width, scr_height, mute):
                     color_y = random.randint(0, 1)
                     disp_text(screen, "AIRHOCKEY", (scr_width / 2, 100), celeb_text, colors[color_x][color_y])
 
-                    
-                    #blink
+                    # blink
                     if blink:
                         blink_ch = "|"
                         blink = 0
@@ -404,16 +403,19 @@ def air_hockey_start(screen, clock, scr_width, scr_height, mute):
                         blink_ch = ""
                         blink = 1
 
-                    if mouse[0] <  x2 or mouse[0] > x2 + 320 or mouse[1] < y2 or mouse[1] > y2 + 50:
+                    if (mouse[0] < x2) or (mouse[0] > x2 + 320) or (mouse[1] < y2) or (mouse[1] > y2 + 50):
                         if click[0] == 1:
                             ret = 1
+                        if (mouse[0] > x1) and (mouse[0] < x1 + 320) and (mouse[1] > y1) and (mouse[1] < y1 + 50):
+                            if click[0] == 1:
+                                player_1_key = True
                     if ret:
                         break
                     for event in pygame.event.get():
                         if event.type == pygame.locals.QUIT:
                             sys.exit()
                         if event.type == pygame.locals.KEYDOWN:
-                            if event.unicode.isalpha() and not (len(player_2_name) > 6):
+                            if event.unicode.isalpha() and not (len(player_2_name) > 8):
                                 player_2_name = "{0}{1}".format(player_2_name, event.unicode)
                             elif event.key == pygame.locals.K_BACKSPACE:
                                 player_2_name = player_2_name[:-1]
