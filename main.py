@@ -35,9 +35,9 @@ def init():
     clock = pygame.time.Clock()
 
 
-def score(score1, score2):
-    text1 = smallfont.render("Score 1: " + str(score1), True, const.BLACK)
-    text2 = smallfont.render("Score 2: " + str(score2), True, const.BLACK)
+def score(score1, score2, player_1_name, player_2_name):
+    text1 = smallfont.render("{0} : {1}".format(player_1_name, str(score1)), True, const.BLACK)
+    text2 = smallfont.render("{0} : {1}".format(player_2_name, str(score2)), True, const.BLACK)
 
     screen.blit(text1, [40, 0])
     screen.blit(text2, [width - 150, 0])
@@ -252,7 +252,7 @@ def inside_goal(side):
 
 
 # Game Loop
-def game_loop(speed, player1_color, player2_color, background_color):
+def game_loop(speed, player1_color, player2_color, background_color, player_1_name, player_2_name):
     global rounds_p1, rounds_p2, round_no, music_paused
     rounds_p1, rounds_p2, round_no = 0, 0, 1
 
@@ -386,17 +386,17 @@ def game_loop(speed, player1_color, player2_color, background_color):
         render_field(background_color)
 
         # show score
-        score(score1, score2)
+        score(score1, score2, player_1_name, player_2_name)
 
         # display endscreen or rounds
         if rounds_p1 == const.ROUND_LIMIT:  # Player one denotes left player
-            if end(game_end(screen, clock, 1, background_color), speed):
+            if end(game_end(screen, clock,background_color, player_1_name), speed):
                 if music_paused:
                     pygame.mixer.music.unpause()
                 pygame.mixer.stop()
                 return
         elif rounds_p2 == const.ROUND_LIMIT:  # Player two denotes right player
-            if end(game_end(screen, clock, 2, background_color), speed):
+            if end(game_end(screen, clock,background_color, player_2_name), speed):
                 if music_paused:
                     pygame.mixer.music.unpause()
                 pygame.mixer.stop()
@@ -420,14 +420,14 @@ if __name__ == "__main__":
     mute = False  # to keep state of mute
     init()
     while True:
-        gameChoice, player1_color, player2_color, mute = air_hockey_start(screen, clock, width, height, mute)
+        gameChoice, player1_color, player2_color, mute, player_1_name, player_2_name = air_hockey_start(screen, clock, width, height, mute)
         background_color = theme_screen(screen, clock, width, height, mute)
         init()
         if gameChoice == 1:
             puck.speed = const.EASY
-            game_loop(const.EASY, player1_color, player2_color, background_color)
+            game_loop(const.EASY, player1_color, player2_color, background_color, player_1_name, player_2_name)
         elif gameChoice == 2:
             puck.speed = const.HARD
-            game_loop(const.HARD, player1_color, player2_color, background_color)
+            game_loop(const.HARD, player1_color, player2_color, background_color, player_1_name, player_2_name)
         elif gameChoice == 0:
             sys.exit()
