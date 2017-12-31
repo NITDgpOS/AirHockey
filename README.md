@@ -1,5 +1,8 @@
 # Air Hockey
 
+[![Join the chat at https://gitter.im/AirHockey55/Lobby](https://badges.gitter.im/AirHockey55/Lobby.svg)](https://gitter.im/AirHockey55/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+![forthebadge](http://forthebadge.com/images/badges/made-with-python.svg "Made with Python")
+
 ## About Air Hockey
 This is a two player game. There are two paddles and a puck. The left-paddle (Player 1) can be moved using WASD keys and the right-paddle (Player 2)can be moved by the arrow keys. The puck hits the upper and lower boundaries and gets reflected and if it goes inside the goal, it is point for the other one.
 
