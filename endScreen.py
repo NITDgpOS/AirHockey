@@ -1,11 +1,12 @@
 import random as rand
+import string
 from startScreen import *
 from globals import *
 
 # game end screen function
 
 
-def game_end(screen, clock, player, background_color):
+def game_end(screen, clock, background_color, player_name):
 
     celeb_text = pygame.font.Font(os.path.join(auxDirectory, 'MR ROBOT.ttf'), 140)
     large_text = pygame.font.Font('freesansbold.ttf', 45)
@@ -43,11 +44,8 @@ def game_end(screen, clock, player, background_color):
                 sys.exit()
 
         # print which player won
-        if player == 1 and delay == 0:
-            disp_text(screen, "PLAYER 1 WINS", (width / 2, height / 2 - 150), celeb_text, colors[color_x][color_y])
-        elif player == 2 and delay == 0:
-            disp_text(screen, "PLAYER 2 WINS", (width / 2, height / 2 - 150), celeb_text, colors[color_x][color_y])
-
+        if delay == 0:
+            disp_text(screen, "{0} WINS".format(string.upper(player_name)), (width / 2, height / 2 - 150), celeb_text, colors[color_x][color_y])
         # Drawing buttons for reset, menu and exit.
         # Reset button
         if abs(mouse_pos[0] - 200) < buttonRadius and abs(mouse_pos[1] - 470) < buttonRadius:
