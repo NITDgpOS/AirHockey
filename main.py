@@ -389,13 +389,13 @@ def game_loop(speed, player1_color, player2_color, background_color, player_1_na
 
         # display endscreen or rounds
         if rounds_p1 == const.ROUND_LIMIT:  # Player one denotes left player
-            if end(game_end(screen, clock,background_color, player_1_name), speed):
+            if end(game_end(screen, clock, background_color, player_1_name), speed):
                 if music_paused:
                     pygame.mixer.music.unpause()
                 pygame.mixer.stop()
                 return
         elif rounds_p2 == const.ROUND_LIMIT:  # Player two denotes right player
-            if end(game_end(screen, clock,background_color, player_2_name), speed):
+            if end(game_end(screen, clock, background_color, player_2_name), speed):
                 if music_paused:
                     pygame.mixer.music.unpause()
                 pygame.mixer.stop()
@@ -419,7 +419,8 @@ if __name__ == "__main__":
     mute = False  # to keep state of mute
     init()
     while True:
-        gameChoice, player1_color, player2_color, mute, player_1_name, player_2_name = air_hockey_start(screen, clock, width, height, mute)
+        gameChoice, player1_color, player2_color, mute, player_1_name, player_2_name = air_hockey_start(
+            screen, clock, width, height, mute)
         background_color = theme_screen(screen, clock, width, height, mute)
         init()
         if gameChoice == 1:
