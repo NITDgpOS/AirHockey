@@ -267,7 +267,18 @@ def gameLoop(speed, player1Color, player2Color, backgroundColor):
 
             # check for space bar
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                    showPauseScreen()
+                ch = showPauseScreen()
+
+                # if the return value is 2 reset everything
+                if ch == 2:
+                    score1 = 0
+                    score2 = 0
+                    rounds_p1 = 0
+                    rounds_p2 = 0
+                    round_no = 1
+                    resetGame(speed, 1)
+                    resetGame(speed, 2)
+                    puck.angle = 0
 
             if event.type == QUIT:
                 pygame.quit()
@@ -279,7 +290,8 @@ def gameLoop(speed, player1Color, player2Color, backgroundColor):
 
                 # check if the mouse is clicked within the pause area.
                 if hitsPauseArea(mouseXY):
-                    ch= showPauseScreen()
+                    ch = showPauseScreen()
+
                     #if the return value is 2 reset everything
                     if ch == 2:
                         score1 = 0
@@ -289,6 +301,7 @@ def gameLoop(speed, player1Color, player2Color, backgroundColor):
                         round_no = 1
                         resetGame(speed, 1)
                         resetGame(speed, 2)
+                        puck.angle = 0
 
         keyPresses = pygame.key.get_pressed()
 
