@@ -76,37 +76,40 @@ def show_info(screen, scr_width, clock):
         screen.blit(line, (130, 130))
         line = other_text.render("PLAYER 1 :- W,A,S,D     PLAYER 2 :- Arrow keys", True, const.WHITE)
         screen.blit(line, (290, 170))
+
+        line = other_text.render("1. Click on player 1 or player 2 to enter name.", True, const.WHITE)
+        screen.blit(line, (100, 220))
         
-        line = other_text.render("1. Choose each player's paddle color at the title screen.", True, const.WHITE)
-        screen.blit(line, (100,  220))
+        line = other_text.render("2. Choose each player's paddle color at the title screen.", True, const.WHITE)
+        screen.blit(line, (100,  260))
 
-        line = other_text.render("2. To start playing, click on the difficulty level.", True, const.WHITE)
-        screen.blit(line, (100, 260))
-
-        line = other_text.render("3. Each game comprises of three rounds, and the player who wins ", True, const.WHITE)
+        line = other_text.render("3. To start playing, click on the difficulty level.", True, const.WHITE)
         screen.blit(line, (100, 300))
-        line = other_text.render("two (or more) rounds is the winner.", True, const.WHITE)
-        screen.blit(line, (130, 330))
 
-        line = other_text.render("4. During playtime, game can be paused anytime by pressing SpaceBar ", True,
+        line = other_text.render("4. Each game comprises of three rounds, and the player who wins ", True, const.WHITE)
+        screen.blit(line, (100, 350))
+        line = other_text.render("two (or more) rounds is the winner.", True, const.WHITE)
+        screen.blit(line, (130, 390))
+
+        line = other_text.render("5. During playtime, game can be paused anytime by pressing SpaceBar ", True,
                                  const.WHITE)
-        screen.blit(line, (100, 370))
+        screen.blit(line, (100, 440))
         line = other_text.render("or clicking the pause icon on the screen.", True, const.WHITE)
-        screen.blit(line, (130, 400))
+        screen.blit(line, (130, 480))
 
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
 
         # Back Button
-        if abs(mouse[0] - scr_width / 2 - 50) < 120 and abs(mouse[1] - 470) < 40:
-            pygame.draw.rect(screen, colors[2][1], (scr_width / 2 - 50, 440, 90, 30))
+        if abs(mouse[0] - scr_width / 2 - 50) < 120 and abs(mouse[1] - 550) < 40:
+            pygame.draw.rect(screen, colors[2][1], (scr_width / 2 - 50, 520, 90, 30))
             if click[0] == 1:
                 return
         else:
-            pygame.draw.rect(screen, colors[2][0], (scr_width / 2 - 50, 440, 90, 30))
+            pygame.draw.rect(screen, colors[2][0], (scr_width / 2 - 50, 520, 90, 30))
 
         back = other_text.render("BACK", True, const.BLACK)
-        screen.blit(back, (scr_width / 2 - 40, 445))
+        screen.blit(back, (scr_width / 2 - 40, 525))
         pygame.display.flip()
         clock.tick(10)
 

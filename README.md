@@ -17,6 +17,9 @@ This is a two player game. There are two paddles and a puck. The left-paddle (Pl
 >PauseScreen
 ![PauseScreen](/assets/Shot3.png)
 
+>EndScreen
+![EndScreen](/assets/Shot4.png)
+
 ## Prerequisite
 
 Python2 is the default language needed for playing this game,to check which version of Python you have, type the following in terminal:
@@ -49,13 +52,15 @@ NOTE: The administrative permission is required to place the AHlogo.png file int
 
 ## GamePlay Help
 
-1. Choose each player's paddle color at the title screen.
+1. Click on player 1 or player 2 to enter name.
 
-1. To start playing, click on the difficulty level.
+2. Choose each player's paddle color at the title screen.
 
-2. Each game comprises of three rounds, and the player who wins two (or more) rounds is the winner.
+3. To start playing, click on the difficulty level.
 
-3. During playtime, game can be paused anytime by pressing SpaceBar or clicking the pause icon on the screen.
+4. Each game comprises of three rounds, and the player who wins two (or more) rounds is the winner.
+
+5. During playtime, game can be paused anytime by pressing SpaceBar or clicking the pause icon on the screen.
 
 ## Enjoy The Game
 
