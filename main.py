@@ -74,6 +74,43 @@ def end(option, speed):
     else:
         sys.exit()
 
+def notifyRoundChange():
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == K_SPACE:
+                    return 
+        round_text = roundfont.render("ROUND {0} COMPLETE".format(round_no), True, colors[2][0])
+        screen.blit(round_text, [width / 2 - 150, height / 2 - 50])
+
+        score_text = roundfont.render("{0}  :  {1}".format(score1, score2), True, const.BLACK)
+        screen.blit(score_text, [width / 2 - 37, height / 2])
+
+        mouse= pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
+
+        #continue
+        x, y =  width / 2 - 65, height / 2 + 100 
+        if mouse[0] > x and mouse[0] < x + 150 and mouse[1] > y and mouse[1] < y + 40:
+            pygame.draw.rect(screen, colors[4][1], (x, y, 150, 40))
+            if click[0] == 1:
+                return
+        else:
+            pygame.draw.rect(screen, colors[4][0], (x, y, 150, 40))
+        cont_text = smallfont.render("CONTINUE", True, const.WHITE)
+        screen.blit(cont_text, [x + 10, y + 10])
+
+        text = smallfont.render("OR", True, const.BLACK)
+        screen.blit(text , [width / 2 - 18, height - 150])
+        text = smallfont.render("press space to continue", True, const.BLACK)
+        screen.blit(text, [width / 2 - 120, height - 110])
+
+        pygame.display.flip()
+        clock.tick(10)
+
+
 
 def showPauseScreen():
     global mute, music_paused
@@ -88,7 +125,7 @@ def showPauseScreen():
     while True:
         text_pause = smallfont.render("PAUSED", True, const.BLACK)
         screen.blit(text_pause, [width / 2 - 44, 200])
-        screen.blit(play_image, (width / 2 - 32, height - 70))
+        screen.blit(play_image, [width / 2 - 32, height - 70])
 
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
@@ -305,12 +342,16 @@ def gameLoop(speed, player1Color, player2Color, backgroundColor):
 
         # Update round points
         if score1 == const.SCORELIMIT:
+            if not rounds_p1 + 1 == const.ROUNDLIMIT:
+                notifyRoundChange()
             round_no += 1
             rounds_p1 += 1
             score1, score2 = 0, 0
             resetround(1)
 
         if score2 == const.SCORELIMIT:
+            if not rounds_p2 + 1 == const.ROUNDLIMIT:
+                notifyRoundChange()
             round_no += 1
             rounds_p2 += 1
             score1, score2 = 0, 0
