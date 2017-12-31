@@ -321,23 +321,25 @@ def gameLoop(speed, player1Color, player2Color, backgroundColor):
 
         # Hits the left goal!
         if insideGoal(0):
-            pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
+            if not music_paused:
+                pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
             score2 += 1
             resetGame(speed, 1)
 
         # Hits the right goal!
         if insideGoal(1):
-            pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
+            if not music_paused:
+                pygame.mixer.Sound.play(goal_whistle)  # Added sound for goal
             score1 += 1
             resetGame(speed, 2)
 
         # check puck collisions and update if necessary.
         puck.checkBoundary(width, height)
 
-        if puck.collidesWithPaddle(paddle1):
+        if puck.collidesWithPaddle(paddle1) and not music_paused:
             pygame.mixer.Sound.play(paddleHit)  # Added sound for paddle hit
 
-        if puck.collidesWithPaddle(paddle2):
+        if puck.collidesWithPaddle(paddle2) and not music_paused:
             pygame.mixer.Sound.play(paddleHit)
 
         # Update round points
