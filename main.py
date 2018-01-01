@@ -77,7 +77,7 @@ def notify_round_change():
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == K_SPACE:
-                    return 
+                    return
         round_text = roundfont.render("ROUND {0} COMPLETE".format(round_no), True, colors[2][0])
         screen.blit(round_text, [width / 2 - 150, height / 2 - 50])
 
@@ -112,10 +112,10 @@ def notify_round_change():
 
 def show_pause_screen():
     global mute, music_paused
-    """ 
+    """
         Shows the pause screen,
         This function will return,
-        2 if the game is to be restarted, 
+        2 if the game is to be restarted,
         1 if the game is to be continued
         and exit here itself if exit is pressed
     """
@@ -196,7 +196,7 @@ def show_pause_screen():
             screen.blit(mute_image, (width - 100, height / 2 - 250 - 32))
         else:
             screen.blit(unmute_image, (width - 100, height / 2 - 250 - 32))
-                
+
         pygame.display.flip()
         clock.tick(10)
 
@@ -320,7 +320,7 @@ def game_loop(speed, player1_color, player2_color, background_color, player_1_na
         s = key_presses[pygame.K_s]
         d = key_presses[pygame.K_d]
         a = key_presses[pygame.K_a]
-        
+
         # Process Player 2 Input
         up = key_presses[pygame.K_UP]
         down = key_presses[pygame.K_DOWN]
