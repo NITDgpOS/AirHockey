@@ -17,7 +17,8 @@ def text_obj(text, font, color):
 # function to render interactive button
 
 
-def button_circle(screen, butt_color, button_pos, text, text_size, text_color, text_pos):
+def button_circle(screen, butt_color, button_pos, text, text_size, text_color,
+                  text_pos):
     pygame.draw.circle(screen, butt_color, button_pos, buttonRadius)
     text_surf, text_rect = text_obj(text, text_size, text_color)
     text_rect.center = text_pos
@@ -53,7 +54,8 @@ class SelBox:
             self.gridPos += 1
 
     def draw(self, screen, x, y):
-        pygame.draw.rect(screen, (255, 255, 255), (x, y, self.length, self.breadth))
+        pygame.draw.rect(screen, (255, 255, 255),
+                         (x, y, self.length, self.breadth))
 
 
 # INFO
@@ -79,7 +81,7 @@ def show_info(screen, scr_width, clock):
 
         line = other_text.render("1. Click on player 1 or player 2 to enter name.", True, const.WHITE)
         screen.blit(line, (100, 220))
-        
+
         line = other_text.render("2. Choose each player's paddle color at the title screen.", True, const.WHITE)
         screen.blit(line, (100,  260))
 
@@ -125,7 +127,7 @@ def air_hockey_start(screen, clock, scr_width, scr_height, mute):
 
     # Variables set to none initially
     p1_color_select = 1     # used to store present color's
-    p2_color_select = 2     # position in the matrix
+    p2_color_select = 1    # position in the matrix
     player1_color = colors[p1_color_select][1]  # Default colors of the
     player2_color = colors[p2_color_select][1]  # player paddles
     sel_p1 = SelBox(1, 0)        # Default boxes selected
@@ -143,13 +145,13 @@ def air_hockey_start(screen, clock, scr_width, scr_height, mute):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-                
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
                     pygame.quit()
                     sys.exit()
-                    
-                # player 1 controls: move highlight with a and d, select with s
+
+                # player 1 controls: move highlight with a and d
                 elif event.key == pygame.K_a:
                     if p1_color_select > 1:
                         p1_color_select -= 1
@@ -158,11 +160,8 @@ def air_hockey_start(screen, clock, scr_width, scr_height, mute):
                     if p1_color_select < 3:
                         p1_color_select += 1
                     sel_p1.move_right()
-                elif event.key == pygame.K_s:
 
-                    player1_color = colors[(sel_p1.gridPos % 3) + 1][1]
-
-                # player 2 controls: move highlight with left and right, select with down
+                # player 2 controls: move highlight with left and right
                 elif event.key == pygame.K_LEFT:
                     if p2_color_select > 1:
                         p2_color_select -= 1
@@ -171,13 +170,21 @@ def air_hockey_start(screen, clock, scr_width, scr_height, mute):
                     if p2_color_select < 3:
                         p2_color_select += 1
                     sel_p2.move_right()
-                elif event.key == pygame.K_DOWN:
-                    player2_color = colors[(sel_p2.gridPos % 3) + 1][1]
 
+                # selecting easy mode with 'e' button
                 elif event.key == pygame.K_e:
-                    return 1, player1_color, player2_color, mute
+                    if player_1_name is "":
+                        player_1_name = "Player 1"
+                    if player_2_name is "":
+                        player_2_name = "Player 2"
+                    return 1, player1_color, player2_color, mute, player_1_name, player_2_name
+                # selecting hard mode with 'h' button
                 elif event.key == pygame.K_h:
-                    return 2, player1_color, player2_color, mute
+                    if player_1_name is "":
+                        player_1_name = "Player 1"
+                    if player_2_name is "":
+                        player_2_name = "Player 2"
+                    return 2, player1_color, player2_color, mute, player_1_name, player_2_name
 
         screen.fill((60, 90, 100))
         celeb_text = pygame.font.Font(os.path.join(auxDirectory, 'Jelly Crazies.ttf'), 70)
@@ -235,7 +242,7 @@ def air_hockey_start(screen, clock, scr_width, scr_height, mute):
 
         # white border Line
         pygame.draw.rect(screen, (255, 255, 255), (x_pos_rect_right-10, y_pos_rect_right-10, 320, 100), 1)
-        
+
         # using only three color options
         for x in range(1, 4):
             if (mouse[0] > x_pos_rect_right) and (mouse[0] < (x_pos_rect_right + squareSide)) and \
@@ -267,9 +274,10 @@ def air_hockey_start(screen, clock, scr_width, scr_height, mute):
                     pygame.mixer.music.unpause()
                 pygame.mixer.music.stop()
                 if player_1_name is "":
-                    return 1, player1_color, player2_color, mute, "Player 1", "Player 2"
-                else:
-                    return 1, player1_color, player2_color, mute, player_1_name, player_2_name
+                    player_1_name = "Player 1"
+                if player_2_name is "":
+                    player_2_name = "Player 2"
+                return 1, player1_color, player2_color, mute, player_1_name, player_2_name
 
         else:
             button_circle(screen, colors[0][0], (200, 470), "Easy", small_text, (255, 255, 255),
@@ -284,10 +292,11 @@ def air_hockey_start(screen, clock, scr_width, scr_height, mute):
                     pygame.mixer.music.unpause()
                 pygame.mixer.music.stop()
                 if player_1_name is "":
-                    return 2, player1_color, player2_color, mute, "Player 1", "Player 2"
-                else:
-                    return 2, player1_color, player2_color, mute, player_1_name, player_2_name
-        
+                    player_1_name = "Player 1"
+                if player_2_name is "":
+                    player_2_name = "Player 2"
+                return 2, player1_color, player2_color, mute, player_1_name, player_2_name
+
         else:
             button_circle(screen, colors[4][1], (600, 470), "Hard", small_text, (255, 255, 255),
                           (scr_width / 2, scr_height / 2 + 170))
@@ -298,7 +307,7 @@ def air_hockey_start(screen, clock, scr_width, scr_height, mute):
                           (scr_width / 2 + 400, scr_height / 2 + 170))
             if click[0] == 1:
                 pygame.quit()
-                sys.exit()                
+                sys.exit()
         else:
             button_circle(screen, colors[1][0], (1000, 470), "Quit", small_text, (255, 255, 255),
                           (scr_width / 2 + 400, scr_height / 2 + 170))
@@ -337,7 +346,7 @@ def air_hockey_start(screen, clock, scr_width, scr_height, mute):
                 ret = 0
                 blink = 0
                 while True:
-                    
+
                     mouse = pygame.mouse.get_pos()
                     click = pygame.mouse.get_pressed()
 
@@ -371,8 +380,8 @@ def air_hockey_start(screen, clock, scr_width, scr_height, mute):
                                 player_1_key = False
                     pygame.draw.rect(screen, const.WHITE, (x1, y1, 320, 50), 0)
                     if not (player_1_name is ""):
-                        player_1_text = small_text.render("{0}{1}".format(player_1_name, blink_ch), True, const.BLACK)    
-                        screen.blit(player_1_text, [150, 180])   
+                        player_1_text = small_text.render("{0}{1}".format(player_1_name, blink_ch), True, const.BLACK)
+                        screen.blit(player_1_text, [150, 180])
                     pygame.display.flip()
                     clock.tick(10)
 
@@ -423,11 +432,11 @@ def air_hockey_start(screen, clock, scr_width, scr_height, mute):
                             elif event.key == pygame.locals.K_BACKSPACE:
                                 player_2_name = player_2_name[:-1]
                             elif event.key == pygame.locals.K_RETURN:
-                                ret = 1  
+                                ret = 1
                     pygame.draw.rect(screen, const.WHITE, (x2, y2, 320, 50), 0)
                     if not (player_2_name is ""):
-                        player_2_text = small_text.render("{0}{1}".format(player_2_name, blink_ch), True, const.BLACK)    
-                        screen.blit(player_2_text, [scr_width / 2 + 130, 180])   
+                        player_2_text = small_text.render("{0}{1}".format(player_2_name, blink_ch), True, const.BLACK)
+                        screen.blit(player_2_text, [scr_width / 2 + 130, 180])
                     pygame.display.flip()
                     clock.tick(10)
 
