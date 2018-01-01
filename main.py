@@ -155,6 +155,7 @@ def show_pause_screen():
                 (mouse[1] < height - 160):
             pygame.draw.rect(screen, colors[1][0], (width / 2 + 150, height - 200, 150, 40))
             if click[0] == 1:
+                pygame.quit()
                 sys.exit()
         else:
             pygame.draw.rect(screen, colors[1][1], (width / 2 + 150, height - 200, 150, 40))
