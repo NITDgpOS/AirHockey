@@ -20,6 +20,9 @@ This is a two player game. There are two paddles and a puck. The left-paddle (Pl
 >EndScreen
 ![EndScreen](/assets/Shot4.png)
 
+
+P.S. The game has a branch `powerup_unstable` which contains powerups which appear randomly in the game and gives advantage to a player over the other.
+
 ## Prerequisite
 
 Python2 is the default language needed for playing this game,to check which version of Python you have, type the following in terminal:
@@ -62,5 +65,5 @@ NOTE: The administrative permission is required to place the AHlogo.png file int
 
 5. During playtime, game can be paused anytime by pressing SpaceBar or clicking the pause icon on the screen.
 
-## Enjoy The Game
 
+Enjoy The Game!
