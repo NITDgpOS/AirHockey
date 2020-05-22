@@ -28,6 +28,13 @@ P.S. The game has a branch `powerup_unstable` which contains powerups which appe
 Python2 is the default language needed for playing this game,to check which version of Python you have, type the following in terminal:
 ```
 python --version
+
+
+
+
+
+
+
 ```
 
 For more info, visit [Pygame download page](http://www.pygame.org/download.shtml)
