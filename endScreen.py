@@ -6,6 +6,8 @@ from globals import *
 # game end screen function
 
 
+
+
 def game_end(screen, clock, background_color, player_name):
 
     celeb_text = pygame.font.Font(os.path.join(auxDirectory, 'MR ROBOT.ttf'), 140)
