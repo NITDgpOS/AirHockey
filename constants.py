@@ -1,5 +1,5 @@
 """ All sizes in pixels and speeds in pixels per second """
-FPS = 60
+FPS = 120
 
 # Screen size
 HEIGHT = 600
